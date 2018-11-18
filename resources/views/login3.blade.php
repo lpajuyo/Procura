@@ -4,14 +4,13 @@
     <title>Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{'bootstrap/css/bootstrap.css' }}">
-    <link rel="stylesheet" type="text/css" href="{{'bootstrap/css/bootstrap.min.css' }}" >
-    <link rel="stylesheet" type="text/css" href="{{'public/css/login.css' }}">
-    <link rel="stylesheet" type="text/css" href="{{'public/css/fonts.css' }}">
-    <link rel="stylesheet" type="text/css" href="{{'public/fontawesome/css/fontawesome-all.css'}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/pd/css/bootstrap.min.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/fonts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/fontawesome/css/fontawesome-all.css') }}">
 
-    <script type="text/javascript" src="{{'public/js/jquery.min.js'}}"></script>
-    <script type="text/javascript" src="{{'bootstrap/js/bootstrap.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
 </head>
 
 <body>
@@ -20,7 +19,7 @@
 			<div class="col-lg-3 col-md-3 col-s-3"></div>
 			<div class="col-lg-6 col-md-6 col-s-6">
 				<form class="form-box3">
-					<img src="{{'public/images/logo.png'}}" class="tuplogo" alt="TUP LOGO"> <br><br>
+					<img src="{{ asset('/images/logo.png') }}" class="tuplogo" alt="TUP LOGO"> <br><br>
 					<span class="tup">TECHNOLOGICAL UNIVERSITY OF THE PHILIPPINES</span> <br><br><br>
 					<div class="form-group"> 
 						<!-- <label></label> -->
