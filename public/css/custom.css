@@ -1,0 +1,30 @@
+
+.user-account {
+  margin: 10px auto 5px auto;
+  text-align: center; }
+.user-account .user-photo {
+    margin: 0 auto;
+    border: 5px solid #dfdede; 
+   /* border-radius: 50%;
+    min-height: 50%;*/
+  }
+.user-account .user-name {
+    display: block;
+    margin-top: 12px;
+    color: inherit; }
+.user-account .user-name:hover, .user-account .user-name:focus {
+      text-decoration: none; }
+.user-name{
+  font-family: Montserrat;
+  font-size: 20px;
+}
+
+.sb-content ul li {
+	list-style-type: none;
+}	
+
+.sb-content ul li p{
+	font-size: 11px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
