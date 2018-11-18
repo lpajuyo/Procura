@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('bo_dashboard');
+    return view('user_dashboard');
 });
 
 Route::get('/user_BPhistory', function () {
