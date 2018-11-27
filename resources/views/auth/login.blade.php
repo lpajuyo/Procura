@@ -18,19 +18,34 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-s-3"></div>
 			<div class="col-lg-6 col-md-6 col-s-6">
-				<form class="form-box">
+				<form class="form-box" method="POST" action="{{ route('login') }}">
+                	@csrf
+
 					<img src="{{ asset('/images/logo.png') }}" class="tuplogo" alt="TUP LOGO"> <br><br>
 					<span class="tup">TECHNOLOGICAL UNIVERSITY OF THE PHILIPPINES</span> <br><br><br>
+					
 					<div class="form-group"> 
 						<!-- <label></label> -->
 						<span class="fa fa-user fa1"></span>
-						<input type="text" name="username" id="username" placeholder="username" class="L1-input"> 
+						<input type="text" name="username" id="username" placeholder="username" class="L1-input" value="{{ old('username') }}">
+						@if ($errors->has('username'))
+							<span class="text-danger" role="alert">
+								<strong>{{ $errors->first('username') }}</strong>
+							</span>
+                        @endif
 					</div>
+
 					<div class="form-group"> 
 						<!-- <label></label> -->
 						<span class="fa fa-lock fa1"></span>
 						<input type="password" name="password" id="password" placeholder="password" class="L1-input">
+						@if ($errors->has('password'))
+							<span class="text-danger" role="alert">
+								<strong>{{ $errors->first('password') }}</strong>
+							</span>
+						@endif
 					</div>
+
 					<button type="submit" class="btn btn-success btn-block">Login</button>
 				</form>
 			</div>

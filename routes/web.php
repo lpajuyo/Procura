@@ -12,8 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('user_dashboard');
+    return redirect('/login');
 });
+
+/*Route::get('/', function () {
+    return view('user_dashboard');
+});*/
 
 Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
@@ -38,3 +42,7 @@ Route::get('sector_budgetAlloc', function () {
 Route::get('sector_BPhistory', function () {
     return view('sector_BPhistory');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
