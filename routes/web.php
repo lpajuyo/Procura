@@ -15,9 +15,7 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-/*Route::get('/', function () {
-    return view('user_dashboard');
-});*/
+Route::resource('budget_years', 'BudgetYearsController');
 
 Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
