@@ -14,7 +14,9 @@ class BudgetYearsController extends Controller
      */
     public function index()
     {
-        //
+        $budgetYears = BudgetYear::all();
+        
+        return view("bo_budgetYear", compact('budgetYears'));
     }
 
     /**

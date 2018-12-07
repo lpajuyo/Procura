@@ -29,10 +29,6 @@ Route::get('bo_budgetAlloc', function () {
     return view('bo_budgetAlloc');
 });
 
-Route::get('bo_budgetYear', function () {
-    return view('bo_budgetYear');
-});
-
 Route::get('sector_budgetAlloc', function () {
     return view('sector_budgetAlloc');
 });
