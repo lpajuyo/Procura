@@ -27,7 +27,7 @@
 					            <th>Budget Year</th>
 					            <th>Fund 101 Amount</th>
 					            <th>Fund 164 Amount</th>
-					            <th >Status</th>
+					            <!-- <th >Status</th> -->
 					            <th class="text-center">Action</th>
 					        </tr>
 					    </thead>
@@ -38,7 +38,7 @@
 					        	<td>{{ $budgetYear->budget_year }}</td>
 					            <td>{{ $budgetYear->fund_101 }}</td>
 					            <td>{{ $budgetYear->fund_164 }}</td>
-					            <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td>
+					            <!-- <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td> -->
 					            <td class="td-actions text-center">
 					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-danger btn-simple btn-xs" data-toggle="modal" data-target="#editbudgetyear">
 					                    <i class="fa fa-edit"></i>
