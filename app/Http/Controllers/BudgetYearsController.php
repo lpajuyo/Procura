@@ -94,6 +94,8 @@ class BudgetYearsController extends Controller
      */
     public function destroy(BudgetYear $budgetYear)
     {
-        //
+        $budgetYear->delete();
+
+        return redirect('/budget_years');
     }
 }
