@@ -365,24 +365,38 @@
           </div>
 
           <div class="modal-body">
-               <form>
+               <form method="POST" action="{{ route('budget_years.store') }}">
+                @csrf
                   <div class="form-group">
                     <label for="Year">New Budget Year</label>
-                    <input type="text" class="form-control" id="Year">
+                    <input type="number" class="form-control" id="Year" name="budget_year" value="{{ old('budget_year') }}">
                   </div><br>
 
                   <div class="form-group">
-                    <label for="Amount">Amount</label>
-                    <input type="number" class="form-control" id="Amount">
+                    <label for="Amount">Fund 101 Amount</label>
+                    <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">
                   </div><br>
 
-                <div class="form-group">
+                  <div class="form-group">
+                    <label for="Amount">Fund 164 Amount</label>
+                    <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">
+                  </div><br>
+
+                <!-- <div class="form-group">
                   <label for="Status">Status:</label>
-                  <select class="form-control" id="Status">
-                    <option> Active </option>
-                    <option> Inactive</option>
+                  <select class="form-control" id="Status" name="is_active">
+                    <option value="1" {{ (old('is_active')=="1") ? "selected" : "" }}> Active </option>
+                    <option value="0" {{ (old('is_active')=="0") ? "selected" : "" }}> Inactive</option>
                   </select>
-                </div><br>
+                </div><br> -->
+              
+                @if ($errors->any())
+                  <div class="alert alert-danger" role="alert">
+                    @foreach ($errors->all() as $error)
+                      <p>{{ $error }}</p>
+                    @endforeach
+                  </div>
+                @endif
 
                 <button type="submit" class="btn btn-success btn-block">Save</button>
               </form>
@@ -399,6 +413,9 @@
       demo.initChartsPages();
     });
   </script>
+  @if ($errors->any())
+  <script>$('#addyear').modal('show')</script>
+  @endif
 
 </body>
 

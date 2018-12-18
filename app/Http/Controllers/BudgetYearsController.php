@@ -37,7 +37,17 @@ class BudgetYearsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        BudgetYear::create($request->validate([
+                "budget_year" => "required|digits:4|date_format:Y|unique:budget_years,budget_year",
+                "fund_101" => "required|numeric",
+                "fund_164" => "required|numeric",
+                //"is_active" => "required|boolean"
+            ])
+        );
+
+        //if set to "Active", set all other rows to "Inactive"
+
+        return redirect('/budget_years');
     }
 
     /**
