@@ -40,7 +40,7 @@
 					            <td>{{ $budgetYear->fund_164 }}</td>
 					            <!-- <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td> -->
 					            <td class="td-actions text-center">
-					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-danger btn-simple btn-xs" data-toggle="modal" data-target="#editbudgetyear">
+					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-danger btn-simple btn-xs btnEditBudgetYear" data-year-id="{{ $budgetYear->id }}">
 					                    <i class="fa fa-edit"></i>
 					                </button>
 					               <!--  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
