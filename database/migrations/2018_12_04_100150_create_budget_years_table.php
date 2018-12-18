@@ -18,7 +18,7 @@ class CreateBudgetYearsTable extends Migration
             $table->year('budget_year')->unique();
             $table->unsignedDecimal('fund_101', 11, 2);
             $table->unsignedDecimal('fund_164', 11, 2);
-            $table->boolean('is_active');
+            // $table->boolean('is_active');
             $table->timestamps();
         });
     }
