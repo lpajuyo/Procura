@@ -335,7 +335,7 @@
                 @method('PATCH')
                   <div class="form-group">
                     <label for="Year">Budget Year</label>
-                    <input type="number" class="form-control" id="Year" name="budget_year" disabled>
+                    <input type="number" class="form-control" id="Year" name="budget_year" value="{{ session('year') }}" readonly>
                   </div><br>
 
                   <div class="form-group">
@@ -356,9 +356,9 @@
                   </select>
                 </div><br> -->
               
-                @if ($errors->any())
+                @if ($errors->edit->any())
                   <div class="alert alert-danger" role="alert">
-                    @foreach ($errors->all() as $error)
+                    @foreach ($errors->edit->all() as $error)
                       <p>{{ $error }}</p>
                     @endforeach
                   </div>
@@ -409,9 +409,9 @@
                   </select>
                 </div><br> -->
               
-                @if ($errors->any())
+                @if ($errors->create->any())
                   <div class="alert alert-danger" role="alert">
-                    @foreach ($errors->all() as $error)
+                    @foreach ($errors->create->all() as $error)
                       <p>{{ $error }}</p>
                     @endforeach
                   </div>
@@ -433,8 +433,14 @@
     });
   </script>
 
-  @if ($errors->any())
+  @if ($errors->create->any())
   <script>$('#addyear').modal('show')</script>
+  @endif
+  @if ($errors->edit->any())
+  <script>
+    $("#editbudgetyear form").attr('action', "{{ url('/budget_years') . '/' . session('id') }}"); //form action="example.com/budget_years/{id}"
+    $('#editbudgetyear').modal('show')
+  </script>
   @endif
 
   <!-- Show edit budget year modal with appropriate input values -->
@@ -448,8 +454,7 @@
         dataType: "json"
       })
       .done(function(budgetYear){
-          console.log(budgetYear);
-
+          $("#editbudgetyear [role=alert]").remove();
           $("#editbudgetyear form").attr('action', url.replace("/edit", "")); //form action="example.com/budget_years/{id}"
           $("#editbudgetyear [name=budget_year]").val(budgetYear.budget_year);
           $("#editbudgetyear [name=fund_101]").val(budgetYear.fund_101);
