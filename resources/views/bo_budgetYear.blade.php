@@ -40,12 +40,17 @@
 					            <td>{{ $budgetYear->fund_164 }}</td>
 					            <!-- <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td> -->
 					            <td class="td-actions text-center">
-					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-danger btn-simple btn-xs" data-toggle="modal" data-target="#editbudgetyear">
+					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-danger btn-simple btn-xs btnEditBudgetYear" data-year-id="{{ $budgetYear->id }}">
 					                    <i class="fa fa-edit"></i>
 					                </button>
-					               <!--  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-					                    <i class="fa fa-times"></i>
-					                </button> -->
+									<button type="submit" form="{{ 'del-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+										<i class="fa fa-times"></i>
+									</button>
+
+									<form id="{{ 'del-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_years.destroy', ['budget_year' => $budgetYear->id]) }}">
+									@csrf
+									@method('DELETE')
+									</form>
 					            </td>
 					        </tr>
 							@endforeach

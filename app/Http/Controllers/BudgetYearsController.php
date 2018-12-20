@@ -69,7 +69,7 @@ class BudgetYearsController extends Controller
      */
     public function edit(BudgetYear $budgetYear)
     {
-        //
+        return $budgetYear;
     }
 
     /**
@@ -81,7 +81,9 @@ class BudgetYearsController extends Controller
      */
     public function update(Request $request, BudgetYear $budgetYear)
     {
-        //
+        $budgetYear->update(request(['fund_101', 'fund_164']));
+
+        return redirect('/budget_years');
     }
 
     /**
@@ -92,6 +94,8 @@ class BudgetYearsController extends Controller
      */
     public function destroy(BudgetYear $budgetYear)
     {
-        //
+        $budgetYear->delete();
+
+        return redirect('/budget_years');
     }
 }
