@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\BudgetYear;
 use Illuminate\Http\Request;
+use Validator;
+//use App\Http\Requests\StoreBudgetYear;
 
 class BudgetYearsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,15 +43,21 @@ class BudgetYearsController extends Controller
      */
     public function store(Request $request)
     {
-        BudgetYear::create($request->validate([
-                "budget_year" => "required|digits:4|date_format:Y|unique:budget_years,budget_year",
-                "fund_101" => "required|numeric",
-                "fund_164" => "required|numeric",
-                //"is_active" => "required|boolean"
-            ])
-        );
+        $validator = Validator::make($request->all(), [
+            "budget_year" => "bail|required|numeric|digits:4|min:".date('Y', strtotime("this year"))."|date_format:Y|unique:budget_years,budget_year",
+            "fund_101" => "required|numeric|min:0",
+            "fund_164" => "required|numeric|min:0",
+            //"is_active" => "required|boolean"
+        ]);
+
+        if($validator->fails()){
+            return redirect('/budget_years')->withErrors($validator, 'create')->withInput();
+        }
 
         //if set to "Active", set all other rows to "Inactive"
+
+        // BudgetYear::create($request->validated());
+        BudgetYear::create($validator->valid());
 
         return redirect('/budget_years');
     }
@@ -81,7 +93,21 @@ class BudgetYearsController extends Controller
      */
     public function update(Request $request, BudgetYear $budgetYear)
     {
-        $budgetYear->update(request(['fund_101', 'fund_164']));
+        $validator = Validator::make($request->all(), [
+            "fund_101" => "required|numeric|min:0",
+            "fund_164" => "required|numeric|min:0",
+            //"is_active" => "required|boolean"
+        ]);
+
+        if($validator->fails()){
+            return redirect('/budget_years')
+                            ->withErrors($validator, 'edit')
+                            ->withInput()
+                            ->with('id', $budgetYear->id)
+                            ->with('year', $budgetYear->budget_year);
+        }
+
+        $budgetYear->update($validator->valid());
 
         return redirect('/budget_years');
     }
