@@ -92,47 +92,92 @@
         </div>
 
 
-<!-- 
-<h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+  <!-- 
+  <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
+  <div class="row" style="padding-left: 35px; padding-right: 20px;">
 
-	<div class="col-lg-12 col-md-12">
-		<div class="card">
-			<div class="card-body" style="margin-top: 5px;">
-				<div>
-				<p style="position: absolute; font-size: 25px;"> Budget Allocated to Offices </p>
-				<button class="btn btn-default btn-sm" style="right: 30px; position: absolute !important;" data-toggle="modal"
-				data-target="#BA">
-				  <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
-				</button>
-				</div><br><br><br>
-				<div class="table-responsive" style="overflow: visible;"> 
-					<table class="table table-striped">
-						<thead>
-							<tr class=" text-primary">
-					            <th>Office</th>
-					            <th>Budget Allocated</th>
-					            <th>Remaining Budget</th>
-					            <th class="text-center">Budget Status</th>
-					        </tr>
-					    </thead>
+    <div class="col-lg-12 col-md-12">
+      <div class="card">
+        <div class="card-body" style="margin-top: 5px;">
+          <div>
+          <p style="position: absolute; font-size: 25px;"> Budget Allocated to Sectors </p>
+          <button class="btn btn-default btn-sm" style="right: 30px; position: absolute !important;" data-toggle="modal"
+          data-target="#BA">
+            <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
+          </button>
+          </div><br><br><br>
+          <div class="table-responsive" style="overflow: visible;"> 
+            <table class="table table-striped">
+              <thead>
+                <tr class=" text-primary">
+                  <th>Sector</th>
+                  <th>Fund 101</th>
+                  <th>Fund 164</th>
+                  <!-- <th class="text-center">Budget Status</th> -->
+                </tr>
+              </thead>
 
-					    <tbody>
-					        <tr>
-					        	<td>College of Science</td>
-					        	<td>15000000</td>
-					            <td >9000000</td>
-					            <td class="text-center" >Active</td>
-					        </tr>
+              <tbody>
+                @if($sectorBudgets->count())
+                  @foreach($sectorBudgets as $sectorBudget)
+                  <tr>
+                    <td>{{ $sectorBudget->sector->name }}</td>
+                    <td>{{ $sectorBudget->fund_101 }}</td>
+                    <td>{{ $sectorBudget->fund_164 }}</td>
+                    <!-- <td class="text-center" >Active</td> -->
+                  </tr>
+                  @endforeach
+                @endif
 
-					    </tbody>
+              </tbody>
 
-					</table>
+            </table>
 
-					</div>
-				</div>
-			</div>
-		</div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+  <div class="row" style="padding-left: 35px; padding-right: 20px;">
+
+    <div class="col-lg-12 col-md-12">
+      <div class="card">
+        <div class="card-body" style="margin-top: 5px;">
+          <div>
+          <p style="position: absolute; font-size: 25px;"> Budget Allocated to Offices </p>
+          <button class="btn btn-default btn-sm" style="right: 30px; position: absolute !important;" data-toggle="modal"
+          data-target="#BA">
+            <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
+          </button>
+          </div><br><br><br>
+          <div class="table-responsive" style="overflow: visible;"> 
+            <table class="table table-striped">
+              <thead>
+                <tr class=" text-primary">
+                  <th>Office</th>
+                  <th>Budget Allocated</th>
+                  <th>Remaining Budget</th>
+                  <th class="text-center">Budget Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>College of Science</td>
+                  <td>15000000</td>
+                  <td >9000000</td>
+                  <td class="text-center" >Active</td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
 	</div>
 
 </div>

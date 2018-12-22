@@ -14,7 +14,9 @@ class SectorBudgetsController extends Controller
      */
     public function index()
     {
-        //
+        $sectorBudgets = SectorBudget::all();
+
+        return view('bo_budgetAlloc', compact('sectorBudgets'));
     }
 
     /**

@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::resource('budget_years', 'BudgetYearsController');
 
+Route::resource('sector_budgets', 'SectorBudgetsController');
+
 Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
 });
@@ -25,9 +27,9 @@ Route::get('bo_budgetProposals', function () {
     return view('bo_budgetProposals');
 });
 
-Route::get('bo_budgetAlloc', function () {
-    return view('bo_budgetAlloc');
-});
+// Route::get('bo_budgetAlloc', function () {
+//     return view('bo_budgetAlloc');
+// });
 
 Route::get('sector_budgetAlloc', function () {
     return view('sector_budgetAlloc');

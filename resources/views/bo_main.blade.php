@@ -63,7 +63,7 @@
             <p>Budget Manager</p> </a>
             <ul class="collapse" id="collapseItem1">
               <li> <a href="/bo_budgetProposals"> <p> Budget Proposals</p> </a> </li>
-              <li> <a href="/bo_budgetAlloc"> <p> Budget Allocation</p> </a> </li>
+              <li> <a href="/sector_budgets"> <p> Budget Allocation</p> </a> </li>
               <li> <a href="/budget_years"> <p> Budget Year</p> </a> </li>
             </ul>
           </li>
