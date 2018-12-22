@@ -12,7 +12,11 @@ class Sector extends Model
         return $this->hasMany('App\SectorBudget');
     }
 
-    public function hasBudget($budget_year_id){
+    public function allocated($budget_year_id){
         return $this->budgets()->where('budget_year_id', $budget_year_id)->first();
+    }
+
+    public function unallocated($budget_year_id){
+        return !($this->allocated($budget_year_id));
     }
 }

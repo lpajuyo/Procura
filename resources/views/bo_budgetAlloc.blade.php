@@ -215,7 +215,7 @@
                 <label for="Status">Sector</label>
                 <select name="sector_id" class="form-control" id="Status">
                   @foreach($sectors as $sector)
-                  @if(!$sector->hasBudget($budgetYear->id))
+                  @if($sector->unallocated($budgetYear->id))
                   <option value="{{ $sector->id }}">{{ $sector->name }}</option>
                   @endif
                   @endforeach
