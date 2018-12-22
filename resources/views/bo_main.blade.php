@@ -218,106 +218,6 @@
       </div>
     </div>
 
-
-<!-- MODAL FOR BUDGET ALLOCATION -->
-<div id="BA" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      
-      <div class="modal-header" style="background-color: #f4f3ef;">
-        <p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;"> Budget Allocation</p>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <ul class="nav nav-pills nav-pills-info nav-pills-icons" role="tablist" style="right: 30px; position: absolute !important;">
-            <li class="nav-item">
-                <a class="nav-link active" href="#sector" role="tab" data-toggle="tab">
-                    <i class="nc-icon nc-app"></i>
-                    For Sector
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#dept" role="tab" data-toggle="tab">
-                    <i class="nc-icon nc-settings"></i>
-                    For Department
-                </a>
-            </li>
-        </ul> <br><br>
-
-
-        <div class="tab-content tab-space" style="position: relative;">
-          <div class="tab-pane active" id="sector">
-            <form>
-              <div class="form-group">
-                <label for="Status">SECTOR</label>
-                <select class="form-control" id="Status">
-                  <option> sample 1 </option>
-                  <option> sample 2</option>
-                  <option> sample 3 </option>
-                </select>
-              </div><br>
-             
-              <div class="form-group">
-                <label for="Amount">AMOUNT</label>
-                <input type="number" class="form-control" id="Amount">
-              </div><br>
-
-              <div class="form-group">
-                <label for="Status">STATUS</label>
-                <select class="form-control" id="Status">
-                  <option> Active </option>
-                  <option> Inactive </option>
-                </select>
-              </div><br>
-
-              <button type="submit" class="btn btn-success btn-block">Save</button>
-            </form>
-          </div>
-
-
-          <div class="tab-pane" id="dept">
-            <form>
-              <div class="form-group">
-                <label for="sectorstat">SECTOR</label>
-                <select class="form-control" id="sectorstat">
-                  <option> sample 1 </option>
-                  <option> sample 2</option>
-                  <option> sample 3 </option>
-                </select>
-              </div><br>
-
-              <div class="form-group">
-                <label for="deptstat">DEPARTMENT</label>
-                <select class="form-control" id="deptstat">
-                  <option> sample 1 </option>
-                  <option> sample 2</option>
-                  <option> sample 3 </option>
-                </select>
-              </div><br>
-               
-              <div class="form-group">
-                <label for="Amount">AMOUNT</label>
-                <input type="number" class="form-control" id="Amount">
-              </div><br>
-
-              <div class="form-group">
-                <label for="Status">STATUS</label>
-                <select class="form-control" id="Status">
-                  <option> Active </option>
-                  <option> Inactive </option>
-                </select>
-              </div><br>
-
-              <button type="submit" class="btn btn-success btn-block">Save</button>
-            </form>
-          </div>
-         </div>
-    </div>
-  </div>
-</div>
-</div>
-
 <!-- MODAL FOR EDIT BUDGET YEAR -->
   <div id="editbudgetyear" class="modal fade" role="dialog">
       <div class="modal-dialog modal-md">
@@ -464,6 +364,8 @@
       });
     });
   </script>
+
+  @yield('scripts')
 
 </body>
 

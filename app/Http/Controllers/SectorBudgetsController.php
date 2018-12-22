@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\SectorBudget;
+use App\BudgetYear;
+use App\Sector;
 use Illuminate\Http\Request;
+use Validator;
 
 class SectorBudgetsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +21,10 @@ class SectorBudgetsController extends Controller
     public function index()
     {
         $sectorBudgets = SectorBudget::all();
+        $budgetYear = BudgetYear::where('budget_year', 2018)->first();
+        $sectors = Sector::all();
 
-        return view('bo_budgetAlloc', compact('sectorBudgets'));
+        return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors'));
     }
 
     /**
@@ -37,7 +45,23 @@ class SectorBudgetsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $budgetYear = BudgetYear::find($request->budget_year_id);
+        $validator = Validator::make($request->all(), [
+            "fund_101" => "required|numeric|between:0," . $budgetYear->remainingFund101(),
+            "fund_164" => "required|numeric|between:0," . $budgetYear->remainingFund164(),
+            //"is_active" => "required|boolean"
+        ]);
+
+        if($validator->fails()){
+            return redirect('/sector_budgets')
+                            ->withErrors($validator)
+                            ->withInput();
+        }
+
+        SectorBudget::create($validator->valid());
+
+        return redirect('/sector_budgets');
+        // dd($validator->valid());
     }
 
     /**

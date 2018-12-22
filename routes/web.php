@@ -19,6 +19,9 @@ Route::resource('budget_years', 'BudgetYearsController');
 
 Route::resource('sector_budgets', 'SectorBudgetsController');
 
+// Route::get('sector_budgets', 'SectorBudgetsController@index');
+// Route::post('sector_budgets', 'SectorBudgetsController@store');
+
 Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
 });
