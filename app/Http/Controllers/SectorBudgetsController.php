@@ -20,8 +20,8 @@ class SectorBudgetsController extends Controller
      */
     public function index()
     {
-        $sectorBudgets = SectorBudget::all();
-        $budgetYear = BudgetYear::where('budget_year', 2018)->first();
+        $budgetYear = BudgetYear::where('budget_year', 2018)->firstOrFail();
+        $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
         $sectors = Sector::all();
 
         return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors'));

@@ -116,16 +116,14 @@
               </thead>
 
               <tbody>
-                @if($sectorBudgets->count())
-                  @foreach($sectorBudgets as $sectorBudget)
-                  <tr>
-                    <td>{{ $sectorBudget->sector->name }}</td>
-                    <td>{{ $sectorBudget->fund_101 }}</td>
-                    <td>{{ $sectorBudget->fund_164 }}</td>
-                    <!-- <td class="text-center" >Active</td> -->
-                  </tr>
-                  @endforeach
-                @endif
+                @foreach($sectors as $sector)
+                <tr>
+                  <td>{{ $sector->name }}</td>
+                  <td>{{ ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_101 : "Unallocated" }}</td>
+                  <td>{{ ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_164 : "Unallocated" }}</td>
+                  <!-- <td class="text-center" >Active</td> -->
+                </tr>
+                @endforeach
               </tbody>
 
             </table>
