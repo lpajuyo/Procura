@@ -8,10 +8,6 @@ class BudgetYear extends Model
 {
     protected $fillable = ['budget_year', 'fund_101', 'fund_164']; //, 'is_active'];
 
-    function __construct(){
-        bcscale(2);
-    }
-
     public function sectorBudgets(){
         return $this->hasMany('App\SectorBudget');
     }
