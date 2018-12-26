@@ -53,15 +53,14 @@ class SectorBudgetsController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect('/sector_budgets')
-                            ->withErrors($validator)
-                            ->withInput();
+            return back()
+                    ->withErrors($validator)
+                    ->withInput();
         }
 
         SectorBudget::create($validator->valid());
 
-        return redirect('/sector_budgets');
-        // dd($validator->valid());
+        return redirect('budget_allocation');
     }
 
     /**
