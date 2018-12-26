@@ -161,8 +161,8 @@
                 @foreach($departments as $dept)
                 <tr>
                   <td>{{ $dept->name }}</td>
-                  <td>15000000</td>
-                  <td >9000000</td>
+                  <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_101 : "Unallocated" }}</td>
+                  <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_164 : "Unallocated" }}</td>
                   <!-- <td class="text-center" >Active</td> -->
                 </tr>
                 @endforeach
