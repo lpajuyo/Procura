@@ -151,20 +151,21 @@
               <thead>
                 <tr class=" text-primary">
                   <th>Office</th>
-                  <th>Budget Allocated</th>
-                  <th>Remaining Budget</th>
-                  <th class="text-center">Budget Status</th>
+                  <th>Fund 101</th>
+                  <th>Fund 164</th>
+                  <!-- <th css="text-center">Budget Status</th> -->
                 </tr>
               </thead>
 
               <tbody>
+                @foreach($departments as $dept)
                 <tr>
-                  <td>College of Science</td>
+                  <td>{{ $dept->name }}</td>
                   <td>15000000</td>
                   <td >9000000</td>
-                  <td class="text-center" >Active</td>
+                  <!-- <td class="text-center" >Active</td> -->
                 </tr>
-
+                @endforeach
               </tbody>
 
             </table>

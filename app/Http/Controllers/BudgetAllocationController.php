@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\BudgetYear;
 use App\SectorBudget;
 use App\Sector;
+use App\Department;
+use App\DepartmentBudget;
 
 class BudgetAllocationController extends Controller
 {
@@ -19,8 +21,10 @@ class BudgetAllocationController extends Controller
     {
         $budgetYear = BudgetYear::where('budget_year', 2018)->firstOrFail();
         $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
+        $deptBudgets = DepartmentBudget::where('budget_year_id', $budgetYear->id)->get();
         $sectors = Sector::all();
+        $departments = Department::all();
 
-        return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors'));
+        return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors', 'departments', 'deptBudgets'));
     }
 }
