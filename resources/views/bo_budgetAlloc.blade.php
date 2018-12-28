@@ -250,34 +250,38 @@
             <form>
               <div class="form-group">
                 <label for="sectorstat">SECTOR</label>
-                <select class="form-control" id="sectorstat">
-                  <option> sample 1 </option>
-                  <option> sample 2</option>
-                  <option> sample 3 </option>
+                <select name="sector_id" class="form-control" id="sectorstat" onchange="popDepartments(this.value)">
+                @foreach($sectors as $sector)
+                @if($sector->allocated($budgetYear->id))
+                <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                @endif
+                @endforeach
                 </select>
               </div><br>
 
               <div class="form-group">
                 <label for="deptstat">DEPARTMENT</label>
-                <select class="form-control" id="deptstat">
-                  <option> sample 1 </option>
-                  <option> sample 2</option>
-                  <option> sample 3 </option>
+                <select name="department_id" class="form-control" id="deptstat"> <!-- options loaded thru popDepartments() -->
                 </select>
               </div><br>
                
-              <div class="form-group">
-                <label for="Amount">AMOUNT</label>
-                <input type="number" class="form-control" id="Amount">
+              <div class="form-group">   <!-- get sectorbudget remaining fund 101 thru sector id and budget year id -->
+                <label for="Amount">Fund 101 (Remaining: &#8369;<span id="sector-rem-101"></span>)</label>
+                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">     
               </div><br>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
+                <label for="Amount">Fund 164 (Remaining: &#8369;{{ number_format($budgetYear->remainingFund164(), 2) }})</label>
+                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">              
+              </div><br> -->
+
+              <!-- <div class="form-group">
                 <label for="Status">STATUS</label>
                 <select class="form-control" id="Status">
                   <option> Active </option>
                   <option> Inactive </option>
                 </select>
-              </div><br>
+              </div><br> -->
 
               <button type="submit" class="btn btn-success btn-block">Save</button>
             </form>
@@ -293,4 +297,28 @@
   @if ($errors->any())
   <script>$('#BA').modal('show')</script>
   @endif
+
+  <script>
+    $(document).ready(function(){
+      popDepartments($("#sectorstat").val());
+    });
+
+    function popDepartments(sector_id){ //populate department dropdown for add deparment budget form
+      $.ajax({
+        url: "{{ url('sectors') }}" + "/" + sector_id,
+        dataType: "json"
+      })
+      .done(function(sector){
+        console.log(sector);
+        $("#deptstat").empty();
+        $.each(sector.departments, function(index, dept){
+          $("#deptstat").append("<option value='" + dept.id + "'>" + dept.name + "</option>")
+        });
+      });
+    }
+
+    function popRemaining101(){
+      
+    }
+  </script>
 @endsection

@@ -19,6 +19,8 @@ class BudgetAllocationController extends Controller
      */
     public function __invoke(Request $request) //BudgetYear $budgetYear
     {
+        bcscale(2);
+
         $budgetYear = BudgetYear::where('budget_year', 2018)->firstOrFail();
         $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
         $deptBudgets = $budgetYear->departmentBudgets;

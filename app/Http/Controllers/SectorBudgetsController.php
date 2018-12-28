@@ -71,7 +71,7 @@ class SectorBudgetsController extends Controller
      */
     public function show(SectorBudget $sectorBudget)
     {
-        //
+        return $sectorBudget->toJson();
     }
 
     /**

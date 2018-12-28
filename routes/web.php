@@ -21,6 +21,8 @@ Route::get('budget_allocation', 'BudgetAllocationController');
 
 Route::resource('sector_budgets', 'SectorBudgetsController');
 
+Route::resource('sectors', 'SectorsController');
+
 // Route::get('sector_budgets', 'SectorBudgetsController@index');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 
