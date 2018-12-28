@@ -16,4 +16,26 @@ class SectorBudget extends Pivot
                     ->withPivot('fund_101', 'fund_164')
                     ->withTimestamps();
     }
+
+    public function remainingFund101(){
+        $allocatedDepts = $this->allocatedDepartments;
+
+        $allocated = 0;
+        foreach($allocatedDepts as $dept){
+            $allocated = bcadd($allocated, $dept->pivot->fund_101);
+        }
+
+        return bcsub($this->fund_101, $allocated);
+    }
+
+    public function remainingFund164(){
+        $allocatedDepts = $this->allocatedDepartments;
+
+        $allocated = 0;
+        foreach($allocatedDepts as $dept){
+            $allocated = bcadd($allocated, $dept->pivot->fund_164);
+        }
+
+        return bcsub($this->fund_101, $allocated);
+    }
 }
