@@ -16,6 +16,10 @@ class BudgetYear extends Model
                     ->withTimestamps();
     }
 
+    public function departmentBudgets(){
+        return $this->hasManyThrough('App\DepartmentBudget', 'App\SectorBudget', 'budget_year_id', 'sector_budget_id');
+    }
+
     public function remainingFund101(){
         $allocatedSectors = $this->sectors;
 
