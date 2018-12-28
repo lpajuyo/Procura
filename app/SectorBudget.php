@@ -2,13 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class SectorBudget extends Model
+class SectorBudget extends Pivot
 {
     protected $guarded = [];
 
-    public function sector(){
-        return $this->belongsTo('App\Sector');
-    }
+    protected $table = 'sector_budgets';
 }

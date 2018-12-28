@@ -8,27 +8,31 @@ class BudgetYear extends Model
 {
     protected $fillable = ['budget_year', 'fund_101', 'fund_164']; //, 'is_active'];
 
-    public function sectorBudgets(){
-        return $this->hasMany('App\SectorBudget');
+    public function sectors(){
+        return $this->belongsToMany('App\Sector', 'sector_budgets')
+                    ->using('App\SectorBudget')
+                    ->as('budget')
+                    ->withPivot('fund_101', 'fund_164')
+                    ->withTimestamps();
     }
 
     public function remainingFund101(){
-        $sectorBudgets = $this->sectorBudgets;
+        $allocatedSectors = $this->sectors;
 
         $allocated = 0;
-        foreach($sectorBudgets as $sectorBudget){
-            $allocated = bcadd($allocated, $sectorBudget->fund_101);
+        foreach($allocatedSectors as $sector){
+            $allocated = bcadd($allocated, $sector->budget->fund_101);
         }
 
         return bcsub($this->fund_101, $allocated);
     }
 
     public function remainingFund164(){
-        $sectorBudgets = $this->sectorBudgets;
-;
+        $allocatedSectors = $this->sectors;
+
         $allocated = 0;
-        foreach($sectorBudgets as $sectorBudget){
-            $allocated = bcadd($allocated, $sectorBudget->fund_164);
+        foreach($allocatedSectors as $sector){
+            $allocated = bcadd($allocated, $sector->budget->fund_164);
         }
 
         return bcsub($this->fund_164, $allocated);

@@ -46,7 +46,7 @@
                   <div class="col-9">
                     <div class="numbers">
                       <p class="card-category">Total Budget Allocated</p>
-                      <p class="card-title">$ 2,000
+                      <p class="card-title">$ //2,000
                         <p>
                     </div>
                   </div>
