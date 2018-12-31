@@ -247,7 +247,11 @@
 
 
           <div class="tab-pane" id="dept">
-            <form>
+            <form method="POST" action="/department_budgets">
+            @csrf
+
+            <input type="hidden" name="budget_year_id" value="{{ $budgetYear->id }}">
+
               <div class="form-group">
                 <label for="sectorstat">SECTOR</label>
                 <select name="sector_id" class="form-control" id="sectorstat">
@@ -284,6 +288,8 @@
                   <option> Inactive </option>
                 </select>
               </div><br> -->
+
+              @include('errors')
 
               <button type="submit" class="btn btn-success btn-block">Save</button>
             </form>

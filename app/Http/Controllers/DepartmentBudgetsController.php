@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DepartmentBudget;
+use App\BudgetYear;
 use Illuminate\Http\Request;
+use Validator;
 
 class DepartmentBudgetsController extends Controller
 {
@@ -35,7 +37,26 @@ class DepartmentBudgetsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $budgetYear = BudgetYear::find($request->budget_year_id);
+        $validator = Validator::make($request->all(), [
+            "fund_101" => "required|numeric|between:0," . $budgetYear->allocatedSectors->firstWhere('id', $request->sector_id)->budget->remaining_fund_101,
+            "fund_164" => "required|numeric|between:0," . $budgetYear->allocatedSectors->firstWhere('id', $request->sector_id)->budget->remaining_fund_164,
+            //"is_active" => "required|boolean"
+        ]);
+
+        if($validator->fails()){
+            return back()
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+        $validated = $validator->valid();
+        $budgetYear->allocatedSectors->firstWhere('id', $validated["sector_id"])->budget
+                    ->allocatedDepartments()
+                    ->attach($validated["department_id"], 
+                            ["fund_101" => $validated["fund_101"], "fund_164" => $validated["fund_164"]]);
+
+        return redirect('budget_allocation');
     }
 
     /**

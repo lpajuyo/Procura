@@ -20,6 +20,7 @@ Route::resource('budget_years', 'BudgetYearsController');
 Route::get('budget_allocation', 'BudgetAllocationController');
 
 Route::resource('sector_budgets', 'SectorBudgetsController');
+Route::resource('department_budgets', 'DepartmentBudgetsController');
 
 Route::resource('sectors', 'SectorsController');
 
