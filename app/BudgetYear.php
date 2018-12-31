@@ -8,7 +8,7 @@ class BudgetYear extends Model
 {
     protected $fillable = ['budget_year', 'fund_101', 'fund_164']; //, 'is_active'];
 
-    public function sectors(){
+    public function allocatedSectors(){
         return $this->belongsToMany('App\Sector', 'sector_budgets')
                     ->using('App\SectorBudget')
                     ->as('budget')
@@ -21,7 +21,7 @@ class BudgetYear extends Model
     }
 
     public function remainingFund101(){
-        $allocatedSectors = $this->sectors;
+        $allocatedSectors = $this->allocatedSectors;
 
         $allocated = 0;
         foreach($allocatedSectors as $sector){
@@ -32,7 +32,7 @@ class BudgetYear extends Model
     }
 
     public function remainingFund164(){
-        $allocatedSectors = $this->sectors;
+        $allocatedSectors = $this->allocatedSectors;
 
         $allocated = 0;
         foreach($allocatedSectors as $sector){

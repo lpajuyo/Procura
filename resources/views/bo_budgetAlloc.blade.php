@@ -253,7 +253,7 @@
                 <select name="sector_id" class="form-control" id="sectorstat">
                 @foreach($sectors as $sector)
                   @if($sector->allocated($budgetYear->id))
-                    @if($sector->departments->count() != $budgetYear->sectors->firstWhere('id', $sector->id)->budget->allocatedDepartments->count())
+                    @if($sector->departments->count() != $budgetYear->allocatedSectors->firstWhere('id', $sector->id)->budget->allocatedDepartments->count())
                     <option value="{{ $sector->id }}">{{ $sector->name }}</option>
                     @endif
                   @endif
@@ -333,7 +333,8 @@
         dataType: "json"
       })
       .done(function(budgetYear){
-        $.each(budgetYear.sectors, function(index, sector){
+        console.log(budgetYear);
+        $.each(budgetYear.allocated_sectors, function(index, sector){
           if(sector.id == sector_id){
             $("#sector-rem-101").html(sector.budget.remaining_fund_101);
             $("#sector-rem-164").html(sector.budget.remaining_fund_164);
