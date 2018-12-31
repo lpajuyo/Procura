@@ -10,6 +10,10 @@ class SectorBudget extends Pivot
 
     protected $table = 'sector_budgets';
 
+    protected $with = ['allocatedDepartments'];
+
+    protected $appends = ['remaining_fund_101', 'remaining_fund_164'];
+
     public function allocatedDepartments(){
         return $this->belongsToMany('App\Department', 'department_budgets', 'sector_budget_id')
                     ->using('App\DepartmentBudget')
@@ -17,7 +21,7 @@ class SectorBudget extends Pivot
                     ->withTimestamps();
     }
 
-    public function remainingFund101(){
+    public function getRemainingFund101Attribute(){
         $allocatedDepts = $this->allocatedDepartments;
 
         $allocated = 0;
@@ -28,7 +32,7 @@ class SectorBudget extends Pivot
         return bcsub($this->fund_101, $allocated);
     }
 
-    public function remainingFund164(){
+    public function getRemainingFund164Attribute(){
         $allocatedDepts = $this->allocatedDepartments;
 
         $allocated = 0;

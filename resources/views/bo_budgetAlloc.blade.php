@@ -250,11 +250,13 @@
             <form>
               <div class="form-group">
                 <label for="sectorstat">SECTOR</label>
-                <select name="sector_id" class="form-control" id="sectorstat" onchange="popDepartments(this.value)">
+                <select name="sector_id" class="form-control" id="sectorstat">
                 @foreach($sectors as $sector)
-                @if($sector->allocated($budgetYear->id))
-                <option value="{{ $sector->id }}">{{ $sector->name }}</option>
-                @endif
+                  @if($sector->allocated($budgetYear->id))
+                    @if($sector->departments->count() != $budgetYear->sectors->firstWhere('id', $sector->id)->budget->allocatedDepartments->count())
+                    <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                    @endif
+                  @endif
                 @endforeach
                 </select>
               </div><br>
@@ -270,10 +272,10 @@
                 <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">     
               </div><br>
 
-              <!-- <div class="form-group">
-                <label for="Amount">Fund 164 (Remaining: &#8369;{{ number_format($budgetYear->remainingFund164(), 2) }})</label>
+              <div class="form-group">
+                <label for="Amount">Fund 164 (Remaining: &#8369;<span id="sector-rem-164"></span>)</label>
                 <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">              
-              </div><br> -->
+              </div><br>
 
               <!-- <div class="form-group">
                 <label for="Status">STATUS</label>
@@ -298,27 +300,46 @@
   <script>$('#BA').modal('show')</script>
   @endif
 
+  <!-- scripts for add dept budget form -->
   <script>
     $(document).ready(function(){
       popDepartments($("#sectorstat").val());
+      popRemainingFunds($("#sectorstat").val());
+    });
+
+    $("#sectorstat").change(function(){
+      popDepartments($(this).val());
+      popRemainingFunds($(this).val());
     });
 
     function popDepartments(sector_id){ //populate department dropdown for add deparment budget form
-      $.ajax({
+      var allocatedDepts = [{{ $deptBudgets->implode('id', ',') }}];        
+      $.ajax({                            
         url: "{{ url('sectors') }}" + "/" + sector_id,
         dataType: "json"
       })
       .done(function(sector){
-        console.log(sector);
         $("#deptstat").empty();
         $.each(sector.departments, function(index, dept){
-          $("#deptstat").append("<option value='" + dept.id + "'>" + dept.name + "</option>")
+          if($.inArray(dept.id, allocatedDepts) == -1) //if dept.id not in allocatedDepts
+            $("#deptstat").append("<option value='" + dept.id + "'>" + dept.name + "</option>");
         });
       });
     }
 
-    function popRemaining101(){
-      
+    function popRemainingFunds(sector_id){
+      $.ajax({
+        url: "{{ route('budget_years.show', ['id' => $budgetYear->id ]) }}",
+        dataType: "json"
+      })
+      .done(function(budgetYear){
+        $.each(budgetYear.sectors, function(index, sector){
+          if(sector.id == sector_id){
+            $("#sector-rem-101").html(sector.budget.remaining_fund_101);
+            $("#sector-rem-164").html(sector.budget.remaining_fund_164);
+          }
+        });
+      });
     }
   </script>
 @endsection

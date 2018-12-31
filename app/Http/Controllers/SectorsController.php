@@ -46,7 +46,7 @@ class SectorsController extends Controller
      */
     public function show(Sector $sector)
     {
-         return $sector->load(['departments', 'yearsAllocated'])->toJson();
+         return $sector->load('departments')->toJson();
     }
 
     /**

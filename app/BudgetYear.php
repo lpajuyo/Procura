@@ -12,7 +12,7 @@ class BudgetYear extends Model
         return $this->belongsToMany('App\Sector', 'sector_budgets')
                     ->using('App\SectorBudget')
                     ->as('budget')
-                    ->withPivot('fund_101', 'fund_164')
+                    ->withPivot('id','fund_101', 'fund_164')
                     ->withTimestamps();
     }
 

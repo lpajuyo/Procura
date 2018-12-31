@@ -71,7 +71,7 @@ class BudgetYearsController extends Controller
      */
     public function show(BudgetYear $budgetYear)
     {
-        //
+        return $budgetYear->load('sectors')->toJson();
     }
 
     /**
