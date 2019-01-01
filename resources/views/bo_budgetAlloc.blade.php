@@ -119,15 +119,15 @@
                 @foreach($sectors as $sector)
                 <tr class="table-dark">
                   <td>{{ $sector->name }}</td>
-                  <td>{{ ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_101 : "Unallocated" }}</td>
-                  <td>{{ ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_164 : "Unallocated" }}</td>
+                  <td>{!! ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_101 : "<em>Unallocated</em>" !!}</td>
+                  <td>{!! ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_164 : "<em>Unallocated</em>" !!}</td>
                   <!-- <td class="text-center" >Active</td> -->
                 </tr>
                 @foreach($sector->departments as $dept)
                 <tr class="table-light">
                   <td>&#8640; {{ $dept->name }}</td>
-                  <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_101 : "Unallocated" }}</td>
-                  <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_164 : "Unallocated" }}</td>
+                  <td>{!! ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_101 : "<em>Unallocated</em>" !!}</td>
+                  <td>{!! ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_164 : "<em>Unallocated</em>" !!}</td>
                   <!-- <td class="text-center" >Active</td> -->
                 </tr>
                 @endforeach
