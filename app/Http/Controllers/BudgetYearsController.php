@@ -11,6 +11,7 @@ class BudgetYearsController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        bcscale(2);
     }
 
     /**
@@ -70,7 +71,7 @@ class BudgetYearsController extends Controller
      */
     public function show(BudgetYear $budgetYear)
     {
-        //
+        return $budgetYear->load('allocatedSectors')->toJson();
     }
 
     /**
