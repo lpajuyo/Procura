@@ -49,4 +49,8 @@ class BudgetYear extends Model
     public function total(){
         return bcadd($this->fund_101, $this->fund_164);
     }
+
+    public function allocated(){
+        return bcsub($this->total(), $this->remaining());
+    }
 }

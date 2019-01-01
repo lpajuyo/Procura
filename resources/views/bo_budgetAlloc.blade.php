@@ -1,6 +1,6 @@
 @extends('bo_main') 
 
-@section('title', 'Budget Year')
+@section('title', 'Budget Allocation')
 
 <!-- @section('brand', 'Budget Year') -->
 
@@ -46,8 +46,7 @@
                   <div class="col-9">
                     <div class="numbers">
                       <p class="card-category">Total Budget Allocated</p>
-                      <p class="card-title">$ //2,000
-                        <p>
+                      <p class="card-title">&#8369;{{ number_format($budgetYear->allocated(), 2) }}<p>
                     </div>
                   </div>
                 </div>
@@ -98,14 +97,15 @@
       <div class="card">
         <div class="card-body" style="margin-top: 5px;">
           <div>
-          <p style="position: absolute; font-size: 25px;"> Budget Allocated to Sectors </p>
+          <!-- <p style="position: absolute; font-size: 25px;"> Budget Allocated to Sectors </p> -->
+          <p style="position: absolute; font-size: 25px;"> Budget Allocation for {{ $budgetYear->budget_year }} </p>
           <button class="btn btn-default btn-sm" style="right: 30px; position: absolute !important;" data-toggle="modal"
           data-target="#BA">
             <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
           </button>
           </div><br><br><br>
           <div class="table-responsive" style="overflow: visible;"> 
-            <table class="table table-striped">
+            <table class="table">
               <thead>
                 <tr class=" text-primary">
                   <th>Sector</th>
@@ -117,12 +117,21 @@
 
               <tbody>
                 @foreach($sectors as $sector)
-                <tr>
+                <tr class="table-dark">
                   <td>{{ $sector->name }}</td>
                   <td>{{ ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_101 : "Unallocated" }}</td>
                   <td>{{ ($sectorBudgets->contains('sector_id', $sector->id)) ? $sectorBudgets->firstWhere('sector_id', $sector->id)->fund_164 : "Unallocated" }}</td>
                   <!-- <td class="text-center" >Active</td> -->
                 </tr>
+                @foreach($sector->departments as $dept)
+                <tr class="table-light">
+                  <td>&#8640; {{ $dept->name }}</td>
+                  <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_101 : "Unallocated" }}</td>
+                  <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_164 : "Unallocated" }}</td>
+                  <!-- <td class="text-center" >Active</td> -->
+                </tr>
+                @endforeach
+                <tr><td></td><td></td><td></td></tr>
                 @endforeach
               </tbody>
 
@@ -134,7 +143,7 @@
     </div>
 	</div>
 
-  <div class="row" style="padding-left: 35px; padding-right: 20px;">
+  <!-- <div class="row" style="padding-left: 35px; padding-right: 20px;">
 
     <div class="col-lg-12 col-md-12">
       <div class="card">
@@ -153,7 +162,7 @@
                   <th>Office</th>
                   <th>Fund 101</th>
                   <th>Fund 164</th>
-                  <!-- <th css="text-center">Budget Status</th> -->
+                  <!-- <th css="text-center">Budget Status</th> 
                 </tr>
               </thead>
 
@@ -163,7 +172,7 @@
                   <td>{{ $dept->name }}</td>
                   <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_101 : "Unallocated" }}</td>
                   <td>{{ ($deptBudgets->contains('department_id', $dept->id)) ? $deptBudgets->firstWhere('department_id', $dept->id)->fund_164 : "Unallocated" }}</td>
-                  <!-- <td class="text-center" >Active</td> -->
+                  <!-- <td class="text-center" >Active</td> 
                 </tr>
                 @endforeach
               </tbody>
@@ -174,7 +183,7 @@
         </div>
       </div>
     </div>
-	</div>
+	</div> -->
 
 </div>
 
