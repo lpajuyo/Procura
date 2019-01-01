@@ -46,7 +46,7 @@ class DepartmentBudgetsController extends Controller
 
         if($validator->fails()){
             return back()
-                    ->withErrors($validator)
+                    ->withErrors($validator, 'dept_budget')
                     ->withInput();
         }
 

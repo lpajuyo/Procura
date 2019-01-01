@@ -215,7 +215,7 @@
                 <select name="sector_id" class="form-control" id="Status">
                   @foreach($sectors as $sector)
                   @if($sector->unallocated($budgetYear->id))
-                  <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                  <option value="{{ $sector->id }}" {{ ($errors->sector_budget->any() && $sector->id == old('sector_id')) ? "selected" : "" }}>{{ $sector->name }}</option>
                   @endif
                   @endforeach
                 </select>
@@ -223,12 +223,12 @@
              
               <div class="form-group">
                 <label for="Amount">Fund 101 (Remaining: &#8369;{{ number_format($budgetYear->remainingFund101(), 2) }})</label>
-                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">     
+                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ ($errors->sector_budget->any()) ? old('fund_101') : '' }}">     
               </div><br>
 
               <div class="form-group">
                 <label for="Amount">Fund 164 (Remaining: &#8369;{{ number_format($budgetYear->remainingFund164(), 2) }})</label>
-                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">              
+                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ ($errors->sector_budget->any()) ? old('fund_1641') : '' }}">              
               </div><br>
 
               <!-- <div class="form-group">
@@ -239,7 +239,13 @@
                 </select>
               </div><br> -->
 
-              @include('errors')
+              @if ($errors->sector_budget->any())
+                  <div class="alert alert-danger" role="alert">
+                  @foreach ($errors->sector_budget->all() as $error)
+                      <p>{{ $error }}</p>
+                  @endforeach
+                  </div>
+              @endif
 
               <button type="submit" class="btn btn-success btn-block">Save</button>
             </form>
@@ -258,7 +264,7 @@
                 @foreach($sectors as $sector)
                   @if($sector->allocated($budgetYear->id))
                     @if($sector->departments->count() != $budgetYear->allocatedSectors->firstWhere('id', $sector->id)->budget->allocatedDepartments->count())
-                    <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                    <option value="{{ $sector->id }}" {{ ($errors->dept_budget->any() && $sector->id == old('sector_id')) ? "selected" : "" }}>{{ $sector->name }}</option>
                     @endif
                   @endif
                 @endforeach
@@ -273,12 +279,12 @@
                
               <div class="form-group">   <!-- get sectorbudget remaining fund 101 thru sector id and budget year id -->
                 <label for="Amount">Fund 101 (Remaining: &#8369;<span id="sector-rem-101"></span>)</label>
-                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">     
+                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ ($errors->dept_budget->any()) ? old('fund_101') : '' }}">     
               </div><br>
 
               <div class="form-group">
                 <label for="Amount">Fund 164 (Remaining: &#8369;<span id="sector-rem-164"></span>)</label>
-                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">              
+                <input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ ($errors->dept_budget->any()) ? old('fund_164') : '' }}">              
               </div><br>
 
               <!-- <div class="form-group">
@@ -289,7 +295,13 @@
                 </select>
               </div><br> -->
 
-              @include('errors')
+              @if ($errors->dept_budget->any())
+                  <div class="alert alert-danger" role="alert">
+                  @foreach ($errors->dept_budget->all() as $error)
+                      <p>{{ $error }}</p>
+                  @endforeach
+                  </div>
+              @endif
 
               <button type="submit" class="btn btn-success btn-block">Save</button>
             </form>
@@ -302,9 +314,19 @@
 @endsection
 
 @section('scripts')
-  @if ($errors->any())
-  <script>$('#BA').modal('show')</script>
+  @if ($errors->sector_budget->any())
+  <script>
+    $('#BA').modal('show')
+    $('a[href="#sector"').tab('show')
+  </script>
   @endif
+  @if ($errors->dept_budget->any())
+  <script>
+    $('#BA').modal('show')
+    $('a[href="#dept"').tab('show')
+  </script>
+  @endif
+  
 
   <!-- scripts for add dept budget form -->
   <script>
@@ -328,7 +350,12 @@
         $("#deptstat").empty();
         $.each(sector.departments, function(index, dept){
           if($.inArray(dept.id, allocatedDepts) == -1) //if dept.id not in allocatedDepts
-            $("#deptstat").append("<option value='" + dept.id + "'>" + dept.name + "</option>");
+            @if(old('department_id') != null)
+            if(dept.id == {{ old('department_id') }})
+              $("#deptstat").append("<option value='" + dept.id + "' selected>" + dept.name + "</option>");
+            else
+            @endif
+              $("#deptstat").append("<option value='" + dept.id + "'>" + dept.name + "</option>");
         });
       });
     }
