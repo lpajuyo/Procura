@@ -17,11 +17,21 @@ class BudgetAllocationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request) //BudgetYear $budgetYear
+    public function __invoke(BudgetYear $budgetYear = null) //Request $request
     {
         bcscale(2);
-
-        $budgetYear = BudgetYear::where('budget_year', 2018)->firstOrFail();
+        $currentYear = date('Y', strtotime('2020'));
+        
+        if($budgetYear==null) //if url does not have year, get current year. if current year is not found, get closest descending year
+            $budgetYear = BudgetYear::where('budget_year', '<=', $currentYear)
+                                        ->orderBy('budget_year', 'desc')
+                                        ->first();
+        if($budgetYear==null)//if budgetYear is still null, get closest ascending year. if not found, return 'page not found'
+        $budgetYear = BudgetYear::where('budget_year', '>', $currentYear)
+                                    ->orderBy('budget_year', 'asc')
+                                    ->firstorFail();                                
+            
+            
         $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
         $deptBudgets = $budgetYear->departmentBudgets;
         $sectors = Sector::all();

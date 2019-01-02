@@ -46,6 +46,11 @@
 									<button type="submit" form="{{ 'del-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
 										<i class="fa fa-times"></i>
 									</button>
+									<a href="{{ route('budget_alloc', ['budgetYear' => $budgetYear->id]) }}">
+									<button type="button" rel="tooltip" title="Proceed to Budget Allocation" class="btn btn-danger btn-simple btn-xs btnEditBudgetYear">
+					                    <i class="fa fa-edit"></i>
+					                </button>
+									</a>
 
 									<form id="{{ 'del-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_years.destroy', ['budget_year' => $budgetYear->id]) }}">
 									@csrf
