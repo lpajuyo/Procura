@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::resource('budget_years', 'BudgetYearsController');
 
-Route::get('budget_allocation', 'BudgetAllocationController');
+Route::get('budget_allocation/{budgetYear?}', 'BudgetAllocationController')->name('budget_alloc');
 
 Route::resource('sector_budgets', 'SectorBudgetsController');
 Route::resource('department_budgets', 'DepartmentBudgetsController');
