@@ -24,6 +24,8 @@ Route::resource('department_budgets', 'DepartmentBudgetsController');
 
 Route::resource('sectors', 'SectorsController');
 
+Route::resource('budget_proposals', 'BudgetProposalsController');
+
 // Route::get('sector_budgets', 'SectorBudgetsController@index');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 
