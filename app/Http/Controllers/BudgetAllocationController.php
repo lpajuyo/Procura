@@ -22,13 +22,13 @@ class BudgetAllocationController extends Controller
         bcscale(2);
         $currentYear = date('Y', strtotime('2020'));
         
-        if($budgetYear==null) //if url does not have year, get current year. if current year is not found, get closest descending year
-            $budgetYear = BudgetYear::where('budget_year', '<=', $currentYear)
-                                        ->orderBy('budget_year', 'desc')
+        if($budgetYear==null) //if url does not have year, get current year. if current year is not found, get closest ascending year
+            $budgetYear = BudgetYear::where('budget_year', '>=', $currentYear)
+                                        ->orderBy('budget_year', 'asc')
                                         ->first();
-        if($budgetYear==null)//if budgetYear is still null, get closest ascending year. if not found, return 'page not found'
-        $budgetYear = BudgetYear::where('budget_year', '>', $currentYear)
-                                    ->orderBy('budget_year', 'asc')
+        if($budgetYear==null)//if budgetYear is still null, get closest descending year. if not found, return 'page not found'
+        $budgetYear = BudgetYear::where('budget_year', '<', $currentYear)
+                                    ->orderBy('budget_year', 'desc')
                                     ->firstorFail();                                
             
             
