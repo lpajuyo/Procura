@@ -18,6 +18,8 @@
 					<table class="table table-striped">
 						<thead>
 							<tr class=" text-primary">
+					            <th>Year</th>
+					            <th>Submitter</th>
 					            <th>Proposal Name</th>
 					            <th>Amount</th>
 					            <th class="text-center">File Name</th>
@@ -26,10 +28,13 @@
 					    </thead>
 
 					    <tbody>
+							@foreach($budgetProposals as $proposal)
 					        <tr>
-					        	<td>Budget for 2019</td>
-					            <td>1.5M</td>
-					            <td class="text-center">Blahblahblah.docx</td>
+					        	<td>{{ $proposal->budgetYear->budget_year }}</td>
+					        	<td>{{ $proposal->submitter->name }}</td>
+					        	<td>{{ $proposal->proposal_name }}</td>
+					            <td>{{ $proposal->amount }}</td>
+					            <td class="text-center">{{ $proposal->proposal_file }}</td>
 					            <td class="td-actions text-center">
 					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-eye"></i>
@@ -43,7 +48,7 @@
 					                </button> -->
 					            </td>
 					        </tr>
-
+							@endforeach
 					    </tbody>
 
 					</table>

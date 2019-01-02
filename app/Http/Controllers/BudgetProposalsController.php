@@ -14,7 +14,9 @@ class BudgetProposalsController extends Controller
      */
     public function index()
     {
-        dd("lala");
+        $budgetProposals = BudgetProposal::all();
+
+        return view('bo_budgetProposals', compact('budgetProposals'));
     }
 
     /**
