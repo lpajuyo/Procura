@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BudgetProposal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BudgetProposalsController extends Controller
 {
@@ -48,7 +49,9 @@ class BudgetProposalsController extends Controller
      */
     public function show(BudgetProposal $budgetProposal)
     {
-        //
+        $file = $budgetProposal->proposal_file;
+
+        return Storage::download('/proposal_files/' . $file);
     }
 
     /**

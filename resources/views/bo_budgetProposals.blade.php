@@ -38,9 +38,11 @@
 					            <td>{{ $proposal->is_approved }}</td>
 					            <td class="text-center">{{ $proposal->proposal_file }}</td>
 					            <td class="td-actions text-center">
+									<a href="{{ route('budget_proposals.show', ['budget_proposal' => $proposal->id]) }}">
 					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-eye"></i>
 					                </button>
+									</a>
 					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
