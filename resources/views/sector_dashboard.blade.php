@@ -1,4 +1,4 @@
-@extends('sector_main') 
+@extends('bo_main') 
 
 @section('title', 'Dashboard')
 
