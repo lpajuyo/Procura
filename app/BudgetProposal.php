@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class BudgetProposal extends Model
 {
-    protected $fillable = ['is_approved'];
+    protected $fillable = ['for_year', 'proposal_name','amount', 'proposal_file','is_approved'];
 
-    public function budgetYear(){
-        return $this->belongsTo('App\BudgetYear');
-    }
+    protected $attributes = [
+        "is_approved" => null
+    ];
 
     public function submitter(){
         return $this->belongsTo('App\User', 'user_id');

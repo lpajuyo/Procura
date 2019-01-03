@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\BudgetProposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class BudgetProposalsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +44,26 @@ class BudgetProposalsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+
+        $validator = Validator::make($request->all(), [
+            "for_year" => "bail|required|numeric|digits:4|min:".date('Y', strtotime("this year"))."|date_format:Y",
+            "proposal_name" => "required|string",
+            "amount" => "required|numeric",
+            "proposal_file" => "required|mimes:pdf,docx,doc,zip|max:32000",
+        ]);
+
+        if($validator->fails()){
+            return back()
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+        $attributes = $validator->valid();
+        $attributes['proposal_file'] = $attributes['proposal_file']->store('proposal_files');
+        Auth::user()->addProposal($attributes);
+
+        return redirect('budget_proposals');
     }
 
     /**

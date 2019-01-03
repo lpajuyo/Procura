@@ -31,4 +31,12 @@ class User extends Authenticatable
     public function type(){
         return $this->belongsTo('App\UserType', 'user_type_id');
     }
+
+    public function budget_proposals(){
+        return $this->hasMany('App\BudgetProposal');
+    }
+
+    public function addProposal($attributes){
+        $this->budget_proposals()->create($attributes);
+    }
 }

@@ -14,6 +14,10 @@
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
 				<p style="position: absolute; font-size: 22px;"> Budget Proposal List </p><br><br><br>
+				<button class="btn btn-default btn-sm" style="right: 40px; top: 25px; position: absolute !important;" data-toggle="modal"
+				data-target="#makebp">
+					<i class="fa fa-plus"></i> &nbsp;New Budget Proposal
+				</button>
 				<div class="table-responsive" style="overflow: visible;"> 
 					<table class="table table-striped">
 						<thead>
@@ -38,6 +42,11 @@
 					            <td>{{ $proposal->is_approved }}</td>
 					            <td class="text-center">{{ $proposal->proposal_file }}</td>
 					            <td class="td-actions text-center">
+									<button type="button" rel="tooltip" title="View Details" class="btn btn-info btn-simple btn-xs"
+					                	data-toggle="modal" data-target="#viewBPdetails">
+					                    <i class="fa fa-eye"></i>
+					                </button>
+
 									<a href="{{ route('budget_proposals.show', ['budget_proposal' => $proposal->id]) }}">
 					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-eye"></i>
@@ -82,6 +91,74 @@
 @endsection
 
 @section('modals')
+<!-- MODAL FOR CREATE BUDGET PROPOSAL -->
+<div id="makebp" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #f4f3ef;">
+				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+				Create Budget Proposal</p>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<form enctype="multipart/form-data" method="POST" action="{{ route('budget_proposals.store') }}">
+				@csrf
+					<div class="form-group">
+					<label for="For Year">For Year</label>
+					<input type="number" class="form-control" id="Year" name="for_year" value="{{ old('for_year') }}">
+					</div>
+
+					<div class="form-group">
+					<label for="Proposal Name">Budget Proposal Name</label>
+					<input type="text" class="form-control" id="Proposal Name" name="proposal_name" value="{{ old('proposal_name') }}">
+					</div>
+					
+					<div class="form-group">
+					<label for="Amount">Amount</label>
+					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="amount" value="{{ old('amount') }}">
+					</div>
+
+					<div>
+					<label for="Proposal File">Budget Proposal File</label>
+					<input type="file" class="dropify" data-allowed-file-extensions="pdf docx" name="proposal_file">
+					</div><br>
+
+					@include('errors')
+
+					<button type="submit" class="btn btn-success btn-block">Submit</button>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- MODAL FOR VIEW BUDGET PROPOSAL DETAILS -->
+<div id="viewBPdetails" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #f4f3ef;">
+			<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+			Budget Proposal Details</p>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<p><strong>Proposal Name:</strong> <i>Budget for 2019</i> </p>
+				<p><strong>Amount:</strong>  <i>1.5M</i></p>
+				<p><strong>Date Submitted:</strong> <i>March 2018</i></p>
+				<p> <strong>Date Notified:</strong> <i>April 2018</i></p>
+				<p><strong>Status:</strong> <i>Approved</i> </p>
+				<p><strong>Comments or Remarks:</strong> </p>
+				<p style="margin-left: 15px;"> <i> Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor
+				Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor  </i></p>
+			</div>
+
+		</div>
+	</div>
+</div>
+
 <!-- MODAL FOR UPDATE BUDGET PROPOSAL STATUS -->
 <div id="updateBPstatus" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
@@ -115,4 +192,38 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+@if($errors->any())
+<script>
+	$(document).ready(function(){
+		$("#makebp").modal("show");
+	});
+</script>
+@endif
+
+<script>
+  $(function() {
+    $('.dropify').dropify();
+
+    var drEvent = $('#dropify-event').dropify();
+    drEvent.on('dropify.beforeClear', function(event, element) {
+      return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+    });
+
+    drEvent.on('dropify.afterClear', function(event, element) {
+      alert('File deleted');
+    });
+
+    $('.dropify-fr').dropify({
+      messages: {
+        default: 'Glissez-déposez un fichier ici ou cliquez',
+        replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+        remove: 'Supprimer',
+        error: 'Désolé, le fichier trop volumineux'
+      }
+    });
+  });
+</script>
 @endsection

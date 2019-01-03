@@ -16,7 +16,7 @@ class CreateBudgetProposalsTable extends Migration
         Schema::create('budget_proposals', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('budget_year_id');
+            $table->year('for_year');
             $table->string('proposal_name');
             $table->string('proposal_file');
             $table->unsignedDecimal('amount', 11, 2);
