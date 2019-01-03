@@ -187,6 +187,11 @@
 
 </div>
 
+
+</div>
+@endsection
+
+@section('modals')
 <!-- MODAL FOR BUDGET ALLOCATION -->
 <div id="BA" class="modal fade" role="dialog">
   <div class="modal-dialog modal-md">
@@ -318,7 +323,6 @@
          </div>
     </div>
   </div>
-</div>
 </div>
 @endsection
 
