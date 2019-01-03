@@ -44,46 +44,22 @@
       <div class="logo">
         <div class="user-account">
           <img src="{{ asset('/images/user.png') }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture"> 
-          <h6 class="user-name"> Hello <strong> Budget Officer! </strong> </h6>   
+          <h6 class="user-name"> Hello <strong> {{ Auth::user()->name }} </strong> </h6>   
         </div>
       </div>
 
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="active">
-            <a href="/">
+            <a href="/home">
               <i class="nc-icon nc-layout-11"></i>
               <p>Dashboard</p>
             </a>
           </li>
 
-          <li class="sb-content">
-            <a data-toggle="collapse" href="#collapseItem1" aria-expanded="false" aria-controls="collapseItem1">
-            <i class="nc-icon nc-money-coins"></i>
-            <p>Budget Manager</p> </a>
-            <ul class="collapse" id="collapseItem1">
-              <li> <a href="/bo_budgetProposals"> <p> Budget Proposals</p> </a> </li>
-              <li> <a href="/budget_allocation"> <p> Budget Allocation</p> </a> </li>
-              <li> <a href="/budget_years"> <p> Budget Year</p> </a> </li>
-            </ul>
-          </li>
-
-          <li class="sb-content">
-            <a data-toggle="collapse" href="#collapseItem2" aria-expanded="false" aria-controls="collapseItem2">
-            <i class="nc-icon nc-briefcase-24"></i> 
-            <p>PPMP</p> </a>
-            <ul class="collapse" id="collapseItem2">
-              <li> <a href="./map.html"> <p> Create PPMP</p> </a> </li>
-              <li> <a href="./map.html"> <p> View PPMP</p> </a> </li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="./notifications.html">
-              <i class="nc-icon nc-bag-16"></i>
-              <p>Purchase Request</p>
-            </a>
-          </li>
+          @includeWhen((Auth::user()->type->name == 'Budget Officer'), 'sidebars.budget_officer')
+          @includeWhen((Auth::user()->type->name == 'Sector Head'), 'sidebars.sector_head')
+          @includeWhen((Auth::user()->type->name == 'End User'), 'sidebars.dept_head')
 
           <li>
             <a href="{{ route('logout') }}" 
