@@ -73,3 +73,144 @@
 </div>
 
 @endsection
+
+@section('modals')
+<!-- MODAL FOR ADD BUDGET YEAR -->
+<div id="addyear" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			
+			<div class="modal-header" style="background-color: #f4f3ef;">
+			<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+			Add New Budget Year</p>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<form method="POST" action="{{ route('budget_years.store') }}">
+				@csrf
+					<div class="form-group">
+					<label for="Year">New Budget Year</label>
+					<input type="number" class="form-control" id="Year" name="budget_year" value="{{ old('budget_year') }}">
+					</div><br>
+
+					<div class="form-group">
+					<label for="Amount">Fund 101 Amount</label>
+					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">
+					</div><br>
+
+					<div class="form-group">
+					<label for="Amount">Fund 164 Amount</label>
+					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">
+					</div><br>
+
+				<!-- <div class="form-group">
+					<label for="Status">Status:</label>
+					<select class="form-control" id="Status" name="is_active">
+					<option value="1" {{ (old('is_active')=="1") ? "selected" : "" }}> Active </option>
+					<option value="0" {{ (old('is_active')=="0") ? "selected" : "" }}> Inactive</option>
+					</select>
+				</div><br> -->
+				
+					@if ($errors->create->any())
+					<div class="alert alert-danger" role="alert">
+					@foreach ($errors->create->all() as $error)
+						<p>{{ $error }}</p>
+					@endforeach
+					</div>
+					@endif
+
+				<button type="submit" class="btn btn-success btn-block">Save</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL FOR EDIT BUDGET YEAR -->
+<div id="editbudgetyear" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			
+			<div class="modal-header" style="background-color: #f4f3ef;">
+			<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+			Edit Budget Year</p>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<form method="POST">
+				@csrf
+				@method('PATCH')
+					<div class="form-group">
+					<label for="Year">Budget Year</label>
+					<input type="number" class="form-control" id="Year" name="budget_year" value="{{ session('year') }}" readonly>
+					</div><br>
+
+					<div class="form-group">
+					<label for="Amount">Fund 101 Amount</label>
+					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">
+					</div><br>
+
+					<div class="form-group">
+					<label for="Amount">Fund 164 Amount</label>
+					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">
+					</div><br>
+
+				<!-- <div class="form-group">
+					<label for="Status">Status:</label>
+					<select class="form-control" id="Status" name="is_active">
+					<option value="1" {{ (old('is_active')=="1") ? "selected" : "" }}> Active </option>
+					<option value="0" {{ (old('is_active')=="0") ? "selected" : "" }}> Inactive</option>
+					</select>
+				</div><br> -->
+				
+				@if ($errors->edit->any())
+					<div class="alert alert-danger" role="alert">
+					@foreach ($errors->edit->all() as $error)
+						<p>{{ $error }}</p>
+					@endforeach
+					</div>
+				@endif
+
+				<button type="submit" class="btn btn-success btn-block">Save</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+@endsection
+
+@section('scripts')
+@if ($errors->create->any())
+<script>$('#addyear').modal('show')</script>
+@endif
+@if ($errors->edit->any())
+<script>
+$("#editbudgetyear form").attr('action', "{{ url('/budget_years') . '/' . session('id') }}"); //form action="example.com/budget_years/{id}"
+$('#editbudgetyear').modal('show')
+</script>
+@endif
+
+<!-- Show edit budget year modal with appropriate input values -->
+<script>
+$('.btnEditBudgetYear').click(function(){
+	var id = $(this).attr('data-year-id');
+	var url = "{{ url()->current() }}" + "/" + id + "/edit"; //example.com/budget_years/{id}/edit
+	
+	$.ajax({
+	url: url, 
+	dataType: "json"
+	})
+	.done(function(budgetYear){
+		$("#editbudgetyear [role=alert]").remove();
+		$("#editbudgetyear form").attr('action', url.replace("/edit", "")); //form action="example.com/budget_years/{id}"
+		$("#editbudgetyear [name=budget_year]").val(budgetYear.budget_year);
+		$("#editbudgetyear [name=fund_101]").val(budgetYear.fund_101);
+		$("#editbudgetyear [name=fund_164]").val(budgetYear.fund_164);
+		
+		$('#editbudgetyear').modal();
+	});
+});
+</script>
+@endsection

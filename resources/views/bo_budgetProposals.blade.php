@@ -57,3 +57,39 @@
 </div>
 
 @endsection
+
+@section('modals')
+<!-- MODAL FOR UPDATE BUDGET PROPOSAL STATUS -->
+<div id="updateBPstatus" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #f4f3ef;">
+			<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+			Update Budget Proposal Status</p>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<form>
+			<div class="form-group">
+			<label for="Status">Update Status:</label>
+			<select class="form-control" id="Status">
+				<option> Approve </option>
+				<option> For Review </option>
+				<option> Reject </option>
+			</select>
+			</div><br>
+			
+			<div class="form-group">
+			<label for="remarks">Comments or Remarks:</label>
+			<textarea class="form-control" id="remarks" rows="10" style="max-height: 30vh;"></textarea>
+			</div><br>
+
+			<button type="submit" class="btn btn-success btn-block">Submit</button>
+		</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+@endsection
