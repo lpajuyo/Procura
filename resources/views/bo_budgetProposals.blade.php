@@ -22,6 +22,7 @@
 					            <th>Submitter</th>
 					            <th>Proposal Name</th>
 					            <th>Amount</th>
+					            <th>Status</th>
 					            <th class="text-center">File Name</th>
 					            <th class="text-center">Action</th>
 					        </tr>
@@ -34,18 +35,33 @@
 					        	<td>{{ $proposal->submitter->name }}</td>
 					        	<td>{{ $proposal->proposal_name }}</td>
 					            <td>{{ $proposal->amount }}</td>
+					            <td>{{ $proposal->is_approved }}</td>
 					            <td class="text-center">{{ $proposal->proposal_file }}</td>
 					            <td class="td-actions text-center">
 					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-eye"></i>
 					                </button>
-					                <button type="button" rel="tooltip" title="Update Status" class="btn btn-danger btn-simple btn-xs"
-					                data-toggle="modal" data-target="#updateBPstatus">
+					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
+					                <button type="submit" form="reject-{{ $proposal->id }}" rel="tooltip" title="Reject" class="btn btn-danger btn-simple btn-xs">
+					                    <i class="fa fa-edit"></i>
+					                </button>
+					                <!-- <button type="button" rel="tooltip" title="Update Status" class="btn btn-danger btn-simple btn-xs"
+					                data-toggle="modal" data-target="#updateBPstatus">
+					                    <i class="fa fa-edit"></i>
+					                </button> -->
 					               <!--  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
 					                    <i class="fa fa-times"></i>
 					                </button> -->
+
+									<form id="approve-{{ $proposal->id }}" method="POST" action="{{ route('approve_proposal', ['budgetProposal' => $proposal->id]) }}">
+									@csrf
+									</form>
+									<form id="reject-{{ $proposal->id }}" method="POST" action="{{ route('reject_proposal', ['budgetProposal' => $proposal->id]) }}">
+									@csrf
+									@method('DELETE')
+									</form>
 					            </td>
 					        </tr>
 							@endforeach
