@@ -4,7 +4,7 @@
             <p>Budget Proposal</p> </a>
             <ul class="collapse" id="collapseItem1">
               <li> <a href="" data-toggle="modal" data-target="#makebp"><p> Create Budget Proposal</p> </a> </li>
-              <li> <a href="/user_BPhistory"><p> Budget Proposal History</p> </a> </li>
+              <li> <a href="/budget_proposals"><p> Budget Proposal History</p> </a> </li>
             </ul>
           </li>
 
