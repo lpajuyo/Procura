@@ -159,7 +159,7 @@
 
 <!-- ALLLLLLLLLLL MODALSSSSSSSSSS -->
 
-@yield('modals');
+@yield('modals')
 
   <script>
     $(document).ready(function() {

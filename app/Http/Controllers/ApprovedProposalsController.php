@@ -15,7 +15,7 @@ class ApprovedProposalsController extends Controller
      */
     public function store(Request $request, BudgetProposal $budgetProposal)
     {
-        $this->authorize('approve', BudgetProposal::class);
+        $this->authorize('approve', $budgetProposal);
 
         $budgetProposal->approve($request->remarks);
 
@@ -30,7 +30,7 @@ class ApprovedProposalsController extends Controller
      */
     public function destroy(Request $request, BudgetProposal $budgetProposal)
     {
-        $this->authorize('approve', BudgetProposal::class);
+        $this->authorize('approve',$budgetProposal);
 
         $budgetProposal->reject($request->remarks);
 

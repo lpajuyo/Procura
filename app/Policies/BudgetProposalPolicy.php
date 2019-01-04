@@ -49,9 +49,9 @@ class BudgetProposalPolicy
      * @param  \App\BudgetProposal  $budgetProposal
      * @return mixed
      */
-    public function update(User $user, BudgetProposal $budgetProposal)
+    public function update(User $user)
     {
-        //
+        return $user->type->name == "Budget Officer";
     }
 
     /**
@@ -90,7 +90,7 @@ class BudgetProposalPolicy
         //
     }
 
-    public function approve(User $user){
-        return $user->type->name == "Budget Officer";
+    public function approve(User $user, BudgetProposal $budgetProposal){
+        return $user->type->name == "Budget Officer" && is_null($budgetProposal->is_approved);
     }
 }

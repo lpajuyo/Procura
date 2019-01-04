@@ -56,7 +56,7 @@
 									</a>
 									@endcan
 
-									@can('approve', App\BudgetProposal::class)
+									@can('approve', $proposal)
 					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="approve-btn btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
@@ -170,7 +170,7 @@
 </div>
 @endcan
 
-@can('approve', App\BudgetProposal::class)
+@can('update', App\BudgetProposal::class)
 <!-- MODAL FOR UPDATE BUDGET PROPOSAL STATUS -->
 <div id="updateBPstatus" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
@@ -277,7 +277,7 @@ $(".viewProposalbtn").click(function(){
 </script>
 @endcan
 
-@can('approve', App\BudgetProposal::class)
+@can('update', App\BudgetProposal::class)
 <script>
 	$(".approve-btn, .reject-btn").click(function(event){
 		event.preventDefault();
