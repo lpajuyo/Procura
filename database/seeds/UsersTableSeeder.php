@@ -14,8 +14,8 @@ class UsersTableSeeder extends Seeder
     {
         User::create([
             "user_type_id" => "1",
-            "username" => "enduser",
-            "name" => "End User",
+            "username" => "depthead",
+            "name" => "Department Head",
             "password" => Hash::make('1234'),
         ]);
         User::create([

@@ -59,7 +59,7 @@
 
           @includeWhen((Auth::user()->type->name == 'Budget Officer'), 'sidebars.budget_officer')
           @includeWhen((Auth::user()->type->name == 'Sector Head'), 'sidebars.sector_head')
-          @includeWhen((Auth::user()->type->name == 'End User'), 'sidebars.dept_head')
+          @includeWhen((Auth::user()->type->name == 'Department Head'), 'sidebars.dept_head')
 
           <li>
             <a href="{{ route('logout') }}" 

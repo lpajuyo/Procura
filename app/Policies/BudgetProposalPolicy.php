@@ -19,7 +19,7 @@ class BudgetProposalPolicy
      */
     public function view(User $user, BudgetProposal $budgetProposal)
     {
-        $allowedUserTypes = ['End User'];
+        $allowedUserTypes = ['Department Head'];
 
         if(in_array($user->type->name, $allowedUserTypes))
             return $user->id == $budgetProposal->user_id;
@@ -39,7 +39,7 @@ class BudgetProposalPolicy
      */
     public function create(User $user)
     {
-        return $user->type->name == "End User";
+        return $user->type->name == "Department Head";
     }
 
     /**
