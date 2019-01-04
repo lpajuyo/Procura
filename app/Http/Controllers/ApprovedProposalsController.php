@@ -15,6 +15,8 @@ class ApprovedProposalsController extends Controller
      */
     public function store(BudgetProposal $budgetProposal)
     {
+        $this->authorize('approve', BudgetProposal::class);
+
         $budgetProposal->approve();
 
         return redirect('/budget_proposals');
@@ -28,6 +30,8 @@ class ApprovedProposalsController extends Controller
      */
     public function destroy(BudgetProposal $budgetProposal)
     {
+        $this->authorize('approve', BudgetProposal::class);
+
         $budgetProposal->reject();
 
         return redirect('budget_proposals');

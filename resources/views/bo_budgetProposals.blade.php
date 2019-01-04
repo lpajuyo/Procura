@@ -14,10 +14,12 @@
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
 				<p style="position: absolute; font-size: 22px;"> Budget Proposal List </p><br><br><br>
+				@can('create', App\BudgetProposal::class)
 				<button class="btn btn-default btn-sm" style="right: 40px; top: 25px; position: absolute !important;" data-toggle="modal"
 				data-target="#makebp">
 					<i class="fa fa-plus"></i> &nbsp;New Budget Proposal
 				</button>
+				@endcan
 				<div class="table-responsive" style="overflow: visible;"> 
 					<table class="table table-striped">
 						<thead>
@@ -40,28 +42,27 @@
 					            <td>{{ $proposal->amount }}</td>
 					            <td>{{ $proposal->is_approved }}</td>
 					            <td class="td-actions text-center">
+									@can('view', $proposal)
 									<button type="button" rel="tooltip" title="View Details" class="viewProposalbtn btn btn-info btn-simple btn-xs" data-id="{{ $proposal->id }}">
 					                    <i class="fa fa-eye"></i>
 					                </button>
+									@endcan
 
+									@can('viewFile', App\BudgetProposal::class)
 									<a href="{{ route('budget_proposals.showFile', ['budget_proposal' => $proposal->id]) }}">
 					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-eye"></i>
 					                </button>
 									</a>
+									@endcan
+
+									@can('approve', App\BudgetProposal::class)
 					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
 					                <button type="submit" form="reject-{{ $proposal->id }}" rel="tooltip" title="Reject" class="btn btn-danger btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
-					                <!-- <button type="button" rel="tooltip" title="Update Status" class="btn btn-danger btn-simple btn-xs"
-					                data-toggle="modal" data-target="#updateBPstatus">
-					                    <i class="fa fa-edit"></i>
-					                </button> -->
-					               <!--  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-					                    <i class="fa fa-times"></i>
-					                </button> -->
 
 									<form id="approve-{{ $proposal->id }}" method="POST" action="{{ route('approve_proposal', ['budgetProposal' => $proposal->id]) }}">
 									@csrf
@@ -70,6 +71,16 @@
 									@csrf
 									@method('DELETE')
 									</form>
+									@endcan
+					                <!-- <button type="button" rel="tooltip" title="Update Status" class="btn btn-danger btn-simple btn-xs"
+					                data-toggle="modal" data-target="#updateBPstatus">
+					                    <i class="fa fa-edit"></i>
+					                </button> -->
+					               <!--  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+					                    <i class="fa fa-times"></i>
+					                </button> -->
+
+									
 					            </td>
 					        </tr>
 							@endforeach
@@ -88,6 +99,7 @@
 @endsection
 
 @section('modals')
+@can('create', App\BudgetProposal::class)
 <!-- MODAL FOR CREATE BUDGET PROPOSAL -->
 <div id="makebp" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
@@ -130,7 +142,9 @@
 		</div>
 	</div>
 </div>
+@endcan
 
+@can('view', $budgetProposals->first())
 <!-- MODAL FOR VIEW BUDGET PROPOSAL DETAILS -->
 <div id="viewBPdetails" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
@@ -154,6 +168,7 @@
 		</div>
 	</div>
 </div>
+@endcan
 
 <!-- MODAL FOR UPDATE BUDGET PROPOSAL STATUS -->
 <div id="updateBPstatus" class="modal fade" role="dialog">
@@ -199,6 +214,7 @@
 </script>
 @endif
 
+@can('view', $budgetProposals->first())
 <script>
 $(".viewProposalbtn").click(function(){
 	$.ajax({
@@ -226,9 +242,12 @@ $(".viewProposalbtn").click(function(){
 		$("[data-attr=remarks").html(budgetProposal.remarks)
 
 		$("#viewBPdetails").modal("show")
+	}).fail(function(jqXHR, textStatus, errorThrown){
+		alert(errorThrown);
 	});
 });
 </script>
+@endcan
 
 <script>
   $(function() {

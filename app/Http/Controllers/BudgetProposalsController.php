@@ -74,10 +74,14 @@ class BudgetProposalsController extends Controller
      */
     public function show(BudgetProposal $budgetProposal)
     {
+        $this->authorize('view', $budgetProposal);
+
         return $budgetProposal->toJson();
     }
 
     public function showFile(BudgetProposal $budgetProposal){
+        $this->authorize('viewFile', BudgetProposal::class);
+
         $file = $budgetProposal->proposal_file;
 
         return Storage::download($file, $budgetProposal->proposal_name . '.' . \File::extension($file));
