@@ -25,7 +25,9 @@
 						<thead>
 							<tr class=" text-primary">
 					            <th>Year</th>
+								@can('update', App\BudgetProposal::class)
 					            <th>Submitter</th>
+								@endcan
 					            <th>Proposal Name</th>
 					            <th>Amount</th>
 					            <th>Status</th>
@@ -37,10 +39,12 @@
 							@foreach($budgetProposals as $proposal)
 					        <tr>
 					        	<td>{{ $proposal->for_year }}</td>
+								@can('update', App\BudgetProposal::class)
 					        	<td>{{ $proposal->submitter->name }}</td>
+								@endcan
 					        	<td>{{ $proposal->proposal_name }}</td>
 					            <td>{{ $proposal->amount }}</td>
-					            <td>{{ $proposal->is_approved }}</td>
+					            <td>{{ (is_null($proposal->is_approved)) ? 'Pending' : (($proposal->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
 					            <td class="td-actions text-center">
 									@can('view', $proposal)
 									<button type="button" rel="tooltip" title="View Details" class="viewProposalbtn btn btn-info btn-simple btn-xs" data-id="{{ $proposal->id }}">

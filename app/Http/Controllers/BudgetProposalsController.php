@@ -21,7 +21,10 @@ class BudgetProposalsController extends Controller
      */
     public function index()
     {
-        $budgetProposals = BudgetProposal::all();
+        $budgetProposals = BudgetProposal::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                            ->orderBy('for_year')
+                                            ->latest('updated_at')
+                                            ->get();
 
         return view('bo_budgetProposals', compact('budgetProposals'));
     }
