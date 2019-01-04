@@ -40,8 +40,7 @@
 					            <td>{{ $proposal->amount }}</td>
 					            <td>{{ $proposal->is_approved }}</td>
 					            <td class="td-actions text-center">
-									<button type="button" rel="tooltip" title="View Details" class="btn btn-info btn-simple btn-xs"
-					                	data-toggle="modal" data-target="#viewBPdetails">
+									<button type="button" rel="tooltip" title="View Details" class="viewProposalbtn btn btn-info btn-simple btn-xs" data-id="{{ $proposal->id }}">
 					                    <i class="fa fa-eye"></i>
 					                </button>
 
@@ -143,16 +142,15 @@
 			</div>
 
 			<div class="modal-body">
-				<p><strong>Proposal Name:</strong> <i>Budget for 2019</i> </p>
-				<p><strong>Amount:</strong>  <i>1.5M</i></p>
-				<p><strong>Date Submitted:</strong> <i>March 2018</i></p>
-				<p> <strong>Date Notified:</strong> <i>April 2018</i></p>
-				<p><strong>Status:</strong> <i>Approved</i> </p>
+				<p><strong>For Year:</strong> <i data-attr="for_year"></i> </p>
+				<p><strong>Proposal Name:</strong> <i data-attr="proposal_name"></i> </p>
+				<p><strong>Amount:</strong>  <i data-attr="amount"></i></p>
+				<p><strong>Date Submitted:</strong> <i data-attr="date_submitted"></i></p>
+				<p> <strong>Date Notified:</strong> <i data-attr="date_notified"></i></p>
+				<p><strong>Status:</strong> <i data-attr="status"></i> </p>
 				<p><strong>Comments or Remarks:</strong> </p>
-				<p style="margin-left: 15px;"> <i> Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor
-				Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor Loren ipsum dolor  </i></p>
+				<p style="margin-left: 15px;"> <i data-attr="remarks"> </i></p>
 			</div>
-
 		</div>
 	</div>
 </div>
@@ -200,6 +198,37 @@
 	});
 </script>
 @endif
+
+<script>
+$(".viewProposalbtn").click(function(){
+	$.ajax({
+		url: "{{ url('budget_proposals') }}" + "/" + $(this).attr('data-id'),
+		dataType: "json"
+	}).done(function(budgetProposal){
+
+		$("[data-attr=for_year").html(budgetProposal.for_year)
+		$("[data-attr=proposal_name").html(budgetProposal.proposal_name)
+		$("[data-attr=amount").html(budgetProposal.amount)
+		$("[data-attr=date_submitted").html(budgetProposal.created_at)
+		
+		if(budgetProposal.is_approved == null){
+			$("[data-attr=date_notified").html("--")
+			$("[data-attr=status").html("Pending")
+		}
+		else if(budgetProposal.is_approved == 1){
+			$("[data-attr=status").html("Pending")
+			$("[data-attr=date_notified").html(budgetProposal.updated_at)
+		}
+		else if(budgetProposal.is_approved == 0){
+			$("[data-attr=status").html("Pending")
+			$("[data-attr=date_notified").html(budgetProposal.updated_at)
+		}
+		$("[data-attr=remarks").html(budgetProposal.remarks)
+
+		$("#viewBPdetails").modal("show")
+	});
+});
+</script>
 
 <script>
   $(function() {

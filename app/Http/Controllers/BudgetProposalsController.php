@@ -74,7 +74,7 @@ class BudgetProposalsController extends Controller
      */
     public function show(BudgetProposal $budgetProposal)
     {
-        
+        return $budgetProposal->toJson();
     }
 
     public function showFile(BudgetProposal $budgetProposal){
