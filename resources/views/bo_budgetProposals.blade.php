@@ -170,6 +170,7 @@
 </div>
 @endcan
 
+@can('approve', App\BudgetProposal::class)
 <!-- MODAL FOR UPDATE BUDGET PROPOSAL STATUS -->
 <div id="updateBPstatus" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
@@ -203,9 +204,11 @@
 		</div>
 	</div>
 </div>
+@endcan
 @endsection
 
 @section('scripts')
+@can('create', App\BudgetProposal::class)
 @if($errors->any())
 <script>
 	$(document).ready(function(){
@@ -213,6 +216,31 @@
 	});
 </script>
 @endif
+
+<script>
+  $(function() {
+    $('.dropify').dropify();
+
+    var drEvent = $('#dropify-event').dropify();
+    drEvent.on('dropify.beforeClear', function(event, element) {
+      return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+    });
+
+    drEvent.on('dropify.afterClear', function(event, element) {
+      alert('File deleted');
+    });
+
+    $('.dropify-fr').dropify({
+      messages: {
+        default: 'Glissez-déposez un fichier ici ou cliquez',
+        replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+        remove: 'Supprimer',
+        error: 'Désolé, le fichier trop volumineux'
+      }
+    });
+  });
+</script>
+@endcan
 
 @can('view', $budgetProposals->first())
 <script>
@@ -249,6 +277,7 @@ $(".viewProposalbtn").click(function(){
 </script>
 @endcan
 
+@can('approve', App\BudgetProposal::class)
 <script>
 	$(".approve-btn, .reject-btn").click(function(event){
 		event.preventDefault();
@@ -264,28 +293,5 @@ $(".viewProposalbtn").click(function(){
 		$("#updateBPstatus").modal("show")
 	});
 </script>
-
-<script>
-  $(function() {
-    $('.dropify').dropify();
-
-    var drEvent = $('#dropify-event').dropify();
-    drEvent.on('dropify.beforeClear', function(event, element) {
-      return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
-    });
-
-    drEvent.on('dropify.afterClear', function(event, element) {
-      alert('File deleted');
-    });
-
-    $('.dropify-fr').dropify({
-      messages: {
-        default: 'Glissez-déposez un fichier ici ou cliquez',
-        replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
-        remove: 'Supprimer',
-        error: 'Désolé, le fichier trop volumineux'
-      }
-    });
-  });
-</script>
+@endcan
 @endsection

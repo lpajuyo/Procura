@@ -44,7 +44,7 @@ class BudgetProposalsController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+        $this->authorize('create', BudgetProposal::class);
 
         $validator = Validator::make($request->all(), [
             "for_year" => "bail|required|numeric|digits:4|min:".date('Y', strtotime("this year"))."|date_format:Y",
