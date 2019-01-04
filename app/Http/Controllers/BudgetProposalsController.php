@@ -74,9 +74,13 @@ class BudgetProposalsController extends Controller
      */
     public function show(BudgetProposal $budgetProposal)
     {
+        
+    }
+
+    public function showFile(BudgetProposal $budgetProposal){
         $file = $budgetProposal->proposal_file;
 
-        return Storage::download('/proposal_files/' . $file);
+        return Storage::download($file, $budgetProposal->proposal_name . '.' . \File::extension($file));
     }
 
     /**

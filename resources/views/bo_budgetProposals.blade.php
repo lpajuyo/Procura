@@ -45,7 +45,7 @@
 					                    <i class="fa fa-eye"></i>
 					                </button>
 
-									<a href="{{ route('budget_proposals.show', ['budget_proposal' => $proposal->id]) }}">
+									<a href="{{ route('budget_proposals.showFile', ['budget_proposal' => $proposal->id]) }}">
 					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-eye"></i>
 					                </button>
