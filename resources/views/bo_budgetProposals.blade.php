@@ -232,11 +232,11 @@ $(".viewProposalbtn").click(function(){
 			$("[data-attr=status").html("Pending")
 		}
 		else if(budgetProposal.is_approved == 1){
-			$("[data-attr=status").html("Pending")
+			$("[data-attr=status").html("Approved")
 			$("[data-attr=date_notified").html(budgetProposal.updated_at)
 		}
 		else if(budgetProposal.is_approved == 0){
-			$("[data-attr=status").html("Pending")
+			$("[data-attr=status").html("Rejected")
 			$("[data-attr=date_notified").html(budgetProposal.updated_at)
 		}
 		$("[data-attr=remarks").html(budgetProposal.remarks)
