@@ -27,6 +27,7 @@
 					            <th>Year</th>
 								@can('update', App\BudgetProposal::class)
 					            <th>Submitter</th>
+								<th>Department</th>
 								@endcan
 					            <th>Proposal Name</th>
 					            <th>Amount</th>
@@ -41,6 +42,7 @@
 					        	<td>{{ $proposal->for_year }}</td>
 								@can('update', App\BudgetProposal::class)
 					        	<td>{{ $proposal->submitter->name }}</td>
+					        	<td>{{ $proposal->department->name }}</td>
 								@endcan
 					        	<td>{{ $proposal->proposal_name }}</td>
 					            <td>{{ $proposal->amount }}</td>

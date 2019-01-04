@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password',
+        'name', 'username', 'password', 'user_type_id', 'userable_id', 'userable_type'
     ];
 
     /**
@@ -32,11 +32,16 @@ class User extends Authenticatable
         return $this->belongsTo('App\UserType', 'user_type_id');
     }
 
+    public function userable(){
+        return $this->morphTo();
+    }
+
     public function budget_proposals(){
         return $this->hasMany('App\BudgetProposal');
     }
 
     public function addProposal($attributes){
+        $attributes['department_id'] = $this->userable->department_id;
         $this->budget_proposals()->create($attributes);
     }
 }
