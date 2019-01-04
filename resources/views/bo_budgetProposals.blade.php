@@ -27,7 +27,6 @@
 					            <th>Proposal Name</th>
 					            <th>Amount</th>
 					            <th>Status</th>
-					            <th class="text-center">File Name</th>
 					            <th class="text-center">Action</th>
 					        </tr>
 					    </thead>
@@ -35,12 +34,11 @@
 					    <tbody>
 							@foreach($budgetProposals as $proposal)
 					        <tr>
-					        	<td>{{ $proposal->budgetYear->budget_year }}</td>
+					        	<td>{{ $proposal->for_year }}</td>
 					        	<td>{{ $proposal->submitter->name }}</td>
 					        	<td>{{ $proposal->proposal_name }}</td>
 					            <td>{{ $proposal->amount }}</td>
 					            <td>{{ $proposal->is_approved }}</td>
-					            <td class="text-center">{{ $proposal->proposal_file }}</td>
 					            <td class="td-actions text-center">
 									<button type="button" rel="tooltip" title="View Details" class="btn btn-info btn-simple btn-xs"
 					                	data-toggle="modal" data-target="#viewBPdetails">
