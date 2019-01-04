@@ -57,10 +57,10 @@
 									@endcan
 
 									@can('approve', App\BudgetProposal::class)
-					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="btn btn-success btn-simple btn-xs">
+					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="approve-btn btn btn-success btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
-					                <button type="submit" form="reject-{{ $proposal->id }}" rel="tooltip" title="Reject" class="btn btn-danger btn-simple btn-xs">
+					                <button type="submit" form="reject-{{ $proposal->id }}" rel="tooltip" title="Reject" class="reject-btn btn btn-danger btn-simple btn-xs">
 					                    <i class="fa fa-edit"></i>
 					                </button>
 
@@ -183,17 +183,17 @@
 			<div class="modal-body">
 				<form>
 			<div class="form-group">
-			<label for="Status">Update Status:</label>
-			<select class="form-control" id="Status">
+			<label for="Status">Update Status: </label>
+			<!-- <select class="form-control" id="Status">
 				<option> Approve </option>
 				<option> For Review </option>
 				<option> Reject </option>
-			</select>
+			</select> -->
 			</div><br>
 			
 			<div class="form-group">
 			<label for="remarks">Comments or Remarks:</label>
-			<textarea class="form-control" id="remarks" rows="10" style="max-height: 30vh;"></textarea>
+			<textarea class="form-control" id="remarks" rows="10" style="max-height: 30vh;" name="remarks" value=""></textarea>
 			</div><br>
 
 			<button type="submit" class="btn btn-success btn-block">Submit</button>
@@ -248,6 +248,22 @@ $(".viewProposalbtn").click(function(){
 });
 </script>
 @endcan
+
+<script>
+	$(".approve-btn, .reject-btn").click(function(event){
+		event.preventDefault();
+		var action = $(this).attr('title');
+		var form = $(this).attr('form');
+		
+		$("#updateBPstatus [for=Status]").html(function(i, oldText){
+			return oldText + action;
+		});
+
+		$("#updateBPstatus textarea,button[type=submit]").attr('form', form);
+
+		$("#updateBPstatus").modal("show")
+	});
+</script>
 
 <script>
   $(function() {

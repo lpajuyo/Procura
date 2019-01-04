@@ -21,6 +21,7 @@ class CreateBudgetProposalsTable extends Migration
             $table->string('proposal_file');
             $table->unsignedDecimal('amount', 11, 2);
             $table->boolean('is_approved')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

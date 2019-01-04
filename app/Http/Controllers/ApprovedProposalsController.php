@@ -13,11 +13,11 @@ class ApprovedProposalsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BudgetProposal $budgetProposal)
+    public function store(Request $request, BudgetProposal $budgetProposal)
     {
         $this->authorize('approve', BudgetProposal::class);
 
-        $budgetProposal->approve();
+        $budgetProposal->approve($request->remarks);
 
         return redirect('/budget_proposals');
     }
@@ -28,11 +28,11 @@ class ApprovedProposalsController extends Controller
      * @param  \App\BudgetProposal  $budgetProposal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BudgetProposal $budgetProposal)
+    public function destroy(Request $request, BudgetProposal $budgetProposal)
     {
         $this->authorize('approve', BudgetProposal::class);
 
-        $budgetProposal->reject();
+        $budgetProposal->reject($request->remarks);
 
         return redirect('budget_proposals');
     }
