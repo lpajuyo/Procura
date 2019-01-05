@@ -24,6 +24,12 @@ Route::resource('department_budgets', 'DepartmentBudgetsController');
 
 Route::resource('sectors', 'SectorsController');
 
+Route::resource('budget_proposals', 'BudgetProposalsController');
+Route::get('budget_proposals/{budget_proposal}/file', 'BudgetProposalsController@showFile')->name('budget_proposals.showFile');
+
+Route::post('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@store')->name('approve_proposal');
+Route::delete('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@destroy')->name('reject_proposal');
+
 // Route::get('sector_budgets', 'SectorBudgetsController@index');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 

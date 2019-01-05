@@ -12,7 +12,7 @@ class UserTypesTableSeeder extends Seeder
      */
     public function run()
     {
-        UserType::create(["name" => "End User"]);
+        UserType::create(["name" => "Department Head"]);
         UserType::create(["name" => "Budget Officer"]);
         UserType::create(["name" => "Sector Head"]);
     }

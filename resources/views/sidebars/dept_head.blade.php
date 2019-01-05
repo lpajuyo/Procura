@@ -1,11 +1,7 @@
 <li class="sb-content">
-            <a data-toggle="collapse" href="#collapseItem1" aria-expanded="false" aria-controls="collapseItem1">
+            <a href="/budget_proposals">
             <i class="nc-icon nc-money-coins"></i>
-            <p>Budget Proposal</p> </a>
-            <ul class="collapse" id="collapseItem1">
-              <li> <a href="" data-toggle="modal" data-target="#makebp"><p> Create Budget Proposal</p> </a> </li>
-              <li> <a href="/user_BPhistory"><p> Budget Proposal History</p> </a> </li>
-            </ul>
+            <p>Budget Proposals</p> </a>
           </li>
 
           <li class="sb-content">
