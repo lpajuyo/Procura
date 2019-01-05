@@ -9,7 +9,7 @@
           </li>
 
           <li class="sb-content">
-            <a href="/sector_budgetAlloc">
+            <a href="/budget_allocation">
             <i class="nc-icon nc-money-coins"></i>
             <p>Budget Allocation</p> </a>
           </li>

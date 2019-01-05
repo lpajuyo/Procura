@@ -19,8 +19,13 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Total Budget</p>
+                      @if(Auth::user()->type->name == "Sector Head")
+                      <p class="card-category">Sector's Total Budget</p>
+                      <p class="card-title">&#8369;{{ number_format($sectorBudgets->first()->total(), 2) }}<p>
+                      @else
+                      <p class="card-category">Year's Total Budget</p>
                       <p class="card-title">&#8369;{{ number_format($budgetYear->total(), 2) }}<p>
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -45,8 +50,13 @@
                   </div>
                   <div class="col-9">
                     <div class="numbers">
+                      @if(Auth::user()->type->name == "Sector Head")
+                      <p class="card-category">Sector's Total Budget Allocated</p>
+                      <p class="card-title">&#8369;{{ number_format($sectorBudgets->first()->allocated(), 2) }}<p>
+                      @else
                       <p class="card-category">Total Budget Allocated</p>
                       <p class="card-title">&#8369;{{ number_format($budgetYear->allocated(), 2) }}<p>
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -71,8 +81,13 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
+                      @if(Auth::user()->type->name == "Sector Head")
+                      <p class="card-category">Sector's Remaining Budget</p>
+                      <p class="card-title">&#8369;{{ number_format($sectorBudgets->first()->remaining(), 2) }}<p>
+                      @else
                       <p class="card-category">Remaining Budget</p>
                       <p class="card-title">&#8369;{{ number_format($budgetYear->remaining(), 2) }}<p>
+                      @endif
                     </div>
                   </div>
                 </div>

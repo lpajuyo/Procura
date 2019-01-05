@@ -40,6 +40,18 @@ class SectorBudget extends Pivot
             $allocated = bcadd($allocated, $dept->pivot->fund_164);
         }
 
-        return bcsub($this->fund_101, $allocated);
+        return bcsub($this->fund_164, $allocated);
+    }
+
+    public function remaining(){
+        return bcadd($this->remaining_fund_101, $this->remaining_fund_164);
+    }
+
+    public function total(){
+        return bcadd($this->fund_101, $this->fund_164);
+    }
+
+    public function allocated(){
+        return bcsub($this->total(), $this->remaining());
     }
 }
