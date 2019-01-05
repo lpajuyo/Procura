@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\BudgetYear;
 use App\SectorBudget;
 use App\Sector;
@@ -11,6 +12,10 @@ use App\DepartmentBudget;
 
 class BudgetAllocationController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Handle the incoming request.
      *
@@ -31,11 +36,23 @@ class BudgetAllocationController extends Controller
                                     ->orderBy('budget_year', 'desc')
                                     ->firstorFail();                                
             
-            
-        $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
-        $deptBudgets = $budgetYear->departmentBudgets;
-        $sectors = Sector::all();
-        $departments = Department::all();
+        if(Auth::user()->type->name == "Sector Head"){
+            $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)
+                                            ->where('sector_id', Auth::user()->userable->sector_id)
+                                            ->get();
+            $deptBudgets = $budgetYear->departmentBudgets;
+            $sectors = Sector::where('id', Auth::user()->userable->sector_id)
+                                ->get();
+            $departments = Department::all(); //needed for commented view
+        }    
+        else{
+            $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
+            $deptBudgets = $budgetYear->departmentBudgets;
+            $sectors = Sector::all();
+            $departments = Department::all();
+        }
+
+       
 
         return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors', 'departments', 'deptBudgets'));
     }
