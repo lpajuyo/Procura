@@ -218,6 +218,7 @@
       </div>
 
       <div class="modal-body">
+        @can('create', App\SectorBudget::class)
         <ul class="nav nav-pills nav-pills-info nav-pills-icons" role="tablist" style="right: 30px; position: absolute !important;">
             <li class="nav-item">
                 <a class="nav-link active" href="#sector" role="tab" data-toggle="tab">
@@ -280,13 +281,13 @@
             </form>
           </div>
 
-
+          @endcan
           <div class="tab-pane" id="dept">
             <form method="POST" action="/department_budgets">
             @csrf
 
             <input type="hidden" name="budget_year_id" value="{{ $budgetYear->id }}">
-
+              @can('create', App\SectorBudget::class)
               <div class="form-group">
                 <label for="sectorstat">SECTOR</label>
                 <select name="sector_id" class="form-control" id="sectorstat">
@@ -299,6 +300,9 @@
                 @endforeach
                 </select>
               </div><br>
+              @elseif(Auth::user()->type->name == "Sector Head")
+              <input type="hidden" name="sector_id" id="sectorstat" value="{{ Auth::user()->userable->sector_id }}">
+              @endcan
 
               <div class="form-group">
                 <label for="deptstat">DEPARTMENT</label>
@@ -335,8 +339,8 @@
               <button type="submit" class="btn btn-success btn-block">Save</button>
             </form>
           </div>
-         </div>
-    </div>
+        </div>
+    </div> <!-- end of modal-content -->
   </div>
 </div>
 @endsection
