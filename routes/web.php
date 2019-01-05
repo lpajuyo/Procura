@@ -37,6 +37,14 @@ Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
 });
 
+Route::get('/user_viewppmp', function () {
+    return view('user_viewppmp');
+});
+
+Route::get('/user_createppmp', function () {
+    return view('user_createppmp');
+});
+
 Route::get('bo_budgetProposals', function () {
     return view('bo_budgetProposals');
 });
@@ -51,6 +59,10 @@ Route::get('sector_budgetAlloc', function () {
 
 Route::get('sector_BPhistory', function () {
     return view('sector_BPhistory');
+});
+
+Route::get('sector_ppmp', function () {
+    return view('sector_ppmp');
 });
 
 Auth::routes();

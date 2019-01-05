@@ -3,9 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="icon" type="image/png" href="{{ asset('/images/logo.png') }}">
   <title> @yield('title','Procura')</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -17,9 +16,14 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('/pd/css/bootstrap.min.css') }}" >
   <link rel="stylesheet" type="text/css" href="{{ asset('/pd/css/paper-dashboard.css') }}" >
   <link rel="stylesheet" type="text/css" href="{{ asset('/dropify/css/dropify.min.css') }}" >
-
+  <!-- DATA TABLE CSS Files -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/dataTables.bootstrap4.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/fixedHeader.bootstrap4.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/responsive.bootstrap4.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ asset('/css/sweetalert2.css') }}">
     <!--   Core JS Files   -->
   <script src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
+  <script src="{{ asset('/js/sweetalert2.js') }}"></script>
   <script src="{{ asset('/pd/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
   <!-- <script src="{{'public/js/plugins/perfect-scrollbar.jquery.min.js'}}"></script> -->
@@ -33,6 +37,11 @@
   <script src="{{ asset('/dropify/js/dropify.min.js') }}"></script>
   <script src="{{ asset('/pd/js/paper-dashboard.js') }}" type="text/javascript"></script>
   <script src="{{ asset('/pd/demo/demo.js') }}"></script>
+  <!-- DATA TABLE JS Files -->
+  <script src="{{ asset('/datatables/jquery.dataTables.js') }}"> </script>
+  <script src="{{ asset('/datatables/dataTables.bootstrap4.js') }}"> </script>
+  <script src="{{ asset('/datatables/dataTables.fixedHeader.js') }}"> </script>
+  <script src="{{ asset('/datatables/dataTables.responsive.js') }}"> </script>
 </head>
 
 <body class="">

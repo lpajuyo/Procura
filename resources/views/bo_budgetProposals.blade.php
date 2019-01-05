@@ -15,10 +15,11 @@
 			<div class="card-body" style="margin-top: 10px;">
 				<p style="position: absolute; font-size: 22px;"> Budget Proposal List </p><br><br><br>
 				@can('create', App\BudgetProposal::class)
-				<button class="btn btn-default btn-sm" style="right: 40px; top: 25px; position: absolute !important;" data-toggle="modal"
+				<!-- <button class="btn btn-default btn-sm" style="right: 40px; top: 25px; position: absolute !important;" data-toggle="modal"
 				data-target="#makebp">
 					<i class="fa fa-plus"></i> &nbsp;New Budget Proposal
-				</button>
+				</button> -->
+				<a href="" data-toggle="modal" data-target="#makebp" id="create3"><span class="fas fa-plus fa-xs"></span> </a>
 				@endcan
 				<div class="table-responsive" style="overflow: visible;"> 
 					<table class="table table-striped">
