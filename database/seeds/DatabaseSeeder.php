@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             SectorsTableSeeder::class,
             DepartmentsTableSeeder::class,
             DepartmentHeadsTableSeeder::class,
+            SectorHeadsTableSeeder::class,
         ]);
     }
 }
