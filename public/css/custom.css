@@ -28,3 +28,225 @@
 	padding: 0 !important;
 	margin: 0 !important;
 }
+
+
+#create{
+ /* position: fixed;*/
+    position: absolute;
+    /*bottom: 30px;*/
+    right: 40px;
+    top: 26px;
+    /*z-index: 9999;*/
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    text-align: center;
+    line-height: 35px;
+    background: #FFFFFF;
+    color: #444;
+    /*box-shadow: 1px 1px 1px #000000;*/
+    cursor: pointer;
+    border: 1px solid #D5D8DC;
+    /*border:0;*/
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+#create span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#create span:after {
+  content: 'create ppmp';
+  font-family: Montserrat Thin;
+  font-weight: bolder;
+  font-size: 14px;
+  width: 100px;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.3s;
+}
+
+#create:hover span {
+  padding-right: 100px;
+  padding-left: 0px;
+  border-radius: 90% !important;
+}
+
+#create:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#create:hover{
+  width: 200px;
+  height: 40px;
+  border-radius: 35px;
+}
+
+.pill{
+  background: transparent;
+  border: .5px solid #D5D8DC;
+  color: #808B96;
+  font-size: 18px;
+  margin-left: 10px;
+  padding: 12px 20px 12px 20px;
+}
+
+.pill:hover{
+  color: #808B96;
+  border: .5px solid #000;
+}
+
+.active2 {
+  background: #808B96;
+  border: .5px solid #D5D8DC;
+  color: white !important;
+}
+
+.pill2{
+  background: transparent;
+  border: .5px solid #D5D8DC;
+  color: #808B96;
+  font-size: 22px;
+  margin-left: 10px;
+  padding: 15px 25px 15px 25px;
+}
+
+.pill2:hover{
+  background-color: #808B96;
+  color: #FFFFFF;
+}
+
+.detsbody{
+  min-width: 1000px;
+}
+
+#create2{
+ /* position: fixed;*/
+    position: absolute;
+    /*bottom: 30px;*/
+    right: 40px;
+    top: 26px;
+    /*z-index: 9999;*/
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    text-align: center;
+    line-height: 35px;
+    background: #FFFFFF;
+    color: #444;
+    /*box-shadow: 1px 1px 1px #000000;*/
+    cursor: pointer;
+    border: 1px solid #D5D8DC;
+    /*border:0;*/
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+#create2 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#create2 span:after {
+  content: 'add an item';
+  font-family: Montserrat Thin;
+  font-weight: bolder;
+  font-size: 14px;
+  width: 100px;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.3s;
+}
+
+#create2:hover span {
+  padding-right: 100px;
+  padding-left: 0px;
+  border-radius: 90% !important;
+}
+
+#create2:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#create2:hover{
+  width: 200px;
+  height: 40px;
+  border-radius: 35px;
+}
+
+#create3{
+ /* position: fixed;*/
+    position: absolute;
+    /*bottom: 30px;*/
+    right: 45px;
+    top: 26px;
+    /*z-index: 9999;*/
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    text-align: center;
+    line-height: 34px;
+    background: #FFFFFF;
+    color: #444;
+    /*box-shadow: 1px 1px 1px #000000;*/
+    cursor: pointer;
+    border: 1px solid #D5D8DC;
+    /*border:0;*/
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+#create3 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#create3 span:after {
+  content: 'new budget proposal';
+  font-family: Montserrat Thin;
+  font-weight: bolder;
+  font-size: 12px;
+  width: 100px;
+  position: absolute;
+  opacity: 0;
+  top: -3px;
+  right: -20px;
+  transition: 0.3s;
+}
+
+#create3:hover span {
+  padding-right: 100px;
+  padding-left: 0px;
+  border-radius: 90% !important;
+}
+
+#create3:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#create3:hover{
+  width: 200px;
+  height: 40px;
+  border-radius: 35px;
+}
