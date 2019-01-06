@@ -31,6 +31,7 @@ Route::post('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@
 Route::delete('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@destroy')->name('reject_proposal');
 
 Route::resource('projects', 'ProjectsController');
+Route::resource('projects/{project}/items', 'ProjectItemsController');
 // Route::get('sector_budgets', 'SectorBudgetsController@index');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 

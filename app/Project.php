@@ -11,4 +11,14 @@ class Project extends Model
     public function items(){
         return $this->hasMany('App\ProjectItem');
     }
+
+    public function year(){
+        return $this->belongsTo('App\BudgetYear', 'budget_year_id');
+    }
+
+    public function addItem($attributes){
+        // dd($attributes);
+        $project_item = $this->items()->create($attributes);
+        $project_item->addSchedules($attributes['schedules']);
+    }
 }

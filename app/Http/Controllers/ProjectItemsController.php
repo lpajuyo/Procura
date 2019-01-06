@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ProjectItem;
+use App\Project;
 use Illuminate\Http\Request;
 
-class ProjectItemController extends Controller
+class ProjectItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,9 +23,9 @@ class ProjectItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
-        //
+        return view('add_project_item', compact('project'));
     }
 
     /**
@@ -33,9 +34,11 @@ class ProjectItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        // dd($request->all());
+        $attributes = $request->all();
+        $project->addItem($attributes);
     }
 
     /**

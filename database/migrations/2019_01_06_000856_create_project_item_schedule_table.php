@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectItemSchedulesTable extends Migration
+class CreateProjectItemScheduleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateProjectItemSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_item_schedules', function (Blueprint $table) {
+        Schema::create('project_item_schedule', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('project_item_id');
-            $table->string('month', 2);
+            $table->unsignedInteger('schedule_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateProjectItemSchedulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_item_schedules');
+        Schema::dropIfExists('project_item_schedule');
     }
 }
