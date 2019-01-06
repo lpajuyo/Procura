@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\BudgetYear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectsController extends Controller
 {
@@ -28,7 +30,9 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        return view("user_createppmp");
+        $budgetYears = BudgetYear::all();
+
+        return view("create_project", compact('budgetYears'));
     }
 
     /**
@@ -39,7 +43,14 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $user = Auth::user();
+        $budgetYear = BudgetYear::find($request->budget_year_id);
+        $attributes = $request->all();
+        $attributes['user_id'] = $user->id;
+        $attributes['department_budget_id'] = $budgetYear->departmentBudgets->firstWhere('department_id', 1)->id;
+        // dd($attributes);
+        Project::create($attributes);
     }
 
     /**

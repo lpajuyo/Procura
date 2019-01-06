@@ -1,6 +1,6 @@
 @extends('bo_main') 
 
-@section('title', 'View PPMP')
+@section('title', 'Create PPMP')
 
 @section('brand', 'PPMP')
 
@@ -16,19 +16,32 @@
 				<p style="font-size: 23px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> CREATE PPMP 
 					<i class="fas fa-box" style="margin-left: 10px; "></i><br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
-					<a href="" data-toggle="modal" data-target="#additem" id="create2"><span class="fas fa-plus fa-xs"></span> </a>
+					<!-- <a href="" data-toggle="modal" data-target="#additem" id="create2"><span class="fas fa-plus fa-xs"></span> </a> -->
 				</p><br>
 				
 				<div class="row">
 					<div class="col-lg-12">
-						<form>
+						<form method="POST" id="add-ppmp-form" action="{{ route('projects.store') }}">
+						@csrf
+							<div class="row" style="padding:0px 30px 5px 30px;">
+			                    <div class="col-lg-3">
+			                      <div class="form-group">
+			                        <label for="For Year">For Year:</label>
+			                        <select name="budget_year_id" class="form-control" id="For Year">
+										@foreach($budgetYears as $year)
+								      		<option value="{{ $year->id }}">{{ $year->budget_year }}</option>
+										@endforeach
+								    </select>
+			                      </div>
+			                    </div>
+							</div>
 							<div class="form-group" style="padding:0px 30px 5px 30px;">
 								<label for="Product Type">Project Title:</label>
-                    			<input value="" type="text" class="form-control" id="Type">
+                    			<input name="title" value="{{ old('title') }}" type="text" class="form-control" id="Type">
 							</div>
 
 							<div class="row" style="padding:0px 30px 5px 30px;">
-			                    <div class="col-lg-6">
+			                    <!-- <div class="col-lg-6">
 			                      <div class="form-group">
 			                        <label for="Product Type">Product Type:</label>
 			                        <select class="form-control" id="Product Type">
@@ -37,27 +50,40 @@
 								      <option>3</option>
 								    </select>
 			                      </div>
-			                    </div>
-			                    <div class="col-lg-6">
+			                    </div> -->
+								<div class="col-lg-3">
+									<div class="form-group">
+										<label for="Code">Code:</label>
+										<input type="text" class="form-control" id="Code">
+									</div>
+								</div>
+			                    <div class="col-lg-9">
 			                      <div class="form-group">
 			                        <label for="Description">Product Description:</label>
-			                        <select class="form-control" id="Description">
+									<input value="" type="text" class="form-control" id="Description">
+			                        <!-- <select class="form-control" id="Description">
 								      <option>1</option>
 								      <option>2</option>
 								      <option>3</option>
-								    </select>
+								    </select> -->
 			                      </div>
 			                    </div>
 			                  </div>
 
 			                 <div class="row" style="padding:0px 30px 5px 30px;">
-			                    <div class="col-lg-4">
+			                    <div class="col-lg-2">
 			                      <div class="form-group">
 			                        <label for="Quantity">Quantity:</label>
 			                        <input value="" type="number" class="form-control" id="Qty">
 			                      </div>
 			                    </div>
-			                    <div class="col-lg-4">
+								<div class="col-lg-3">
+			                      <div class="form-group">
+			                        <label for="Quantity">Unit of Measurement:</label>
+			                        <input value="" type="text" class="form-control" id="Uom">
+			                      </div>
+			                    </div>
+			                    <div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="Unit Price">Unit Price:</label>
 			                        <input value="" type="number" class="form-control" id="UPrice">
@@ -70,6 +96,14 @@
 			                      </div>
 			                    </div>
 			                  </div>
+							  <div class="row" style="padding:0px 30px 5px 30px;">
+							 	<div class="col-lg-6">
+									<div class="form-group">
+										<label for="Mode of Procurement">Mode of Procurement:</label>
+										<input type="text" class="form-control" id="Proc-Mode">
+									</div>
+								</div>
+							  </div>
 
 
 							<div class="form-group">
@@ -200,9 +234,11 @@
 									</div>
 								</div>
 							</div>
+						
 
 						<div style="padding: 10px 0px 20px 300px; width: 60%;" class="text-center">
-							<button type="submit "class="btn btn-success btn-block makeppmp">Create PPMP</button>
+							<button type="button" onClick="addInputItem()" class="btn btn-primary btn-block makeppmp">Add Item</button>
+							<button type="submit" class="btn btn-success btn-block makeppmp">Create PPMP</button>
 						</div>
 
 						</form>
@@ -267,7 +303,14 @@
 
 
 @section('scripts')
-<script type="text/javascript">
+<script>
+	var n = 0;
+	function addInputItem(){
+		alert(n);
+		n++;
+	}
+</script>
+<!-- <script type="text/javascript">
 $('button.makeppmp').click(function(e) {
 	e.preventDefault();
 	swal({
@@ -280,5 +323,5 @@ $('button.makeppmp').click(function(e) {
 	});
 	// swal("SUCCESS", "Your ppmp was successfully created", "success");
 });
-</script>
+</script> -->
 @endsection
