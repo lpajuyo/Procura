@@ -30,6 +30,7 @@ Route::get('budget_proposals/{budget_proposal}/file', 'BudgetProposalsController
 Route::post('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@store')->name('approve_proposal');
 Route::delete('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@destroy')->name('reject_proposal');
 
+Route::resource('projects', 'ProjectsController');
 // Route::get('sector_budgets', 'SectorBudgetsController@index');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 

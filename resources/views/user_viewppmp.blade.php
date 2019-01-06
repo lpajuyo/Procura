@@ -16,7 +16,7 @@
 				<p style="font-size: 23px;"> LIST OF PPMP 
 					<i class="fas fa-list-ul" style="margin-left: 10px; "></i><br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
-					<a href="/user_createppmp" id="create"><span class="fa fa-pencil-alt fa-xs"></span> </a>
+					<a href="{{ route('projects.create') }}" id="create"><span class="fa fa-pencil-alt fa-xs"></span> </a>
 				</p><br>
 				
 				<table id="example" class="table table-striped table-bordered dataTable" style="width:100%">
