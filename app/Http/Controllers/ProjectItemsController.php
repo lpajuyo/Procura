@@ -39,6 +39,8 @@ class ProjectItemsController extends Controller
         // dd($request->all());
         $attributes = $request->all();
         $project->addItem($attributes);
+
+        return back();
     }
 
     /**

@@ -50,7 +50,9 @@ class ProjectsController extends Controller
         $attributes['user_id'] = $user->id;
         $attributes['department_budget_id'] = $budgetYear->departmentBudgets->firstWhere('department_id', 1)->id;
         // dd($attributes);
-        Project::create($attributes);
+        $project = Project::create($attributes);
+
+        return redirect(route('items.create', ["project" => $project->id]));
     }
 
     /**

@@ -234,6 +234,7 @@
 
 						<div style="padding: 10px 0px 20px 300px; width: 60%;" class="text-center">
 							<button type="submit" class="btn btn-success btn-block makeppmp">Add Item</button>
+							<a href="{{ route('projects.index') }}"><button type="button" class="btn btn-primary btn-block makeppmp">Done</button></a>
 						</div>
 
 						</form>
@@ -244,10 +245,12 @@
 					<table class="table table-bordered" >
 						<thead class="text-center">
 						<tr style="font-weight: bolder;">
+							<td rowspan="2">CODE</td>
 							<td rowspan="2">DESCRIPTION</td>
 							<td rowspan="2">QTY</td>
 							<td rowspan="2">UNIT PRICE</td>
-							<td rowspan="2">TOTAL</td>
+							<td rowspan="2">ESTIMATED BUDGET</td>
+							<td rowspan="2">MODE OF PROCUREMENT</td>
 							<td colspan="12" rowspan="1" class="text-center">SCHEDULE / MILESTONES</td>
 							<!-- <td rowspan="2">Action</td>                 -->
 						</tr>
@@ -269,24 +272,28 @@
 						<tbody>
 						<tr>
 						</tr>
+						@foreach($project->items as $item)
 						<tr class="text-center">
-							<td rowspan="2">TestTestTe</td>
-							<td rowspan="2">12</td>
-							<td rowspan="2">10</td>
-							<td rowspan="2">120</td>
-							<td rowspan="2"> -- </td>
-							<td rowspan="2"> -- </td>
-							<td rowspan="2"> &#x2714; </td>
-							<td rowspan="2"> &#x2714; </td>
-							<td rowspan="2"> &#x2714; </td>
-							<td rowspan="2"> &#x2714;</td>
-							<td rowspan="2"> -- </td>
-							<td rowspan="2"> -- </td>
-							<td rowspan="2"> &#x2714; </td>
-							<td rowspan="2"> -- </td>
-							<td rowspan="2"> -- </td>
+							<td>{{ $item->code }}</td>
+							<td>{{ $item->description }}</td>
+							<td>{{ $item->quantity . ' ' . $item->uom }}</td>
+							<td>{{ $item->unit_cost }}</td>
+							<td>{{ $item->estimated_budget }}</td>
+							<td>{{ $item->procurement_mode }}</td>
+							@for($i=1; $i<=12; $i++)
+							<td> {!! ($item->schedules->firstWhere('id', $i)) ? "&#x2714;" : "" !!} </td>
+							@endfor
+							<!-- <td> &#x2714; </td>
 							<td> &#x2714; </td>
+							<td> &#x2714;</td>
+							<td> -- </td>
+							<td> -- </td>
+							<td> &#x2714; </td>
+							<td> -- </td>
+							<td> -- </td>
+							<td> &#x2714; </td> -->
 						</tr>
+						@endforeach
 						</tbody>
 					</table>
 					</div>
