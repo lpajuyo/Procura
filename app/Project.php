@@ -16,9 +16,17 @@ class Project extends Model
         return $this->belongsTo('App\BudgetYear', 'budget_year_id');
     }
 
+    public function department_budget(){
+        return $this->belongsTo('App\DepartmentBudget');
+    }
+
     public function addItem($attributes){
         // dd($attributes);
         $project_item = $this->items()->create($attributes);
         $project_item->addSchedules($attributes['schedules']);
+    }
+
+    public function getApproverAttribute(){
+        return $this->department_budget->department->sector->head->user;
     }
 }

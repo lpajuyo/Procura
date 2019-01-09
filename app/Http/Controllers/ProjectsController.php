@@ -20,7 +20,9 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        return view("user_viewppmp");
+        $projects = Project::all();
+        
+        return view("user_viewppmp", compact('projects'));
     }
 
     /**

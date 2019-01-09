@@ -19,6 +19,10 @@ class Sector extends Model
         return $this->hasMany('App\Department');
     }
 
+    public function head(){
+        return $this->hasOne('App\SectorHead');
+    }
+
     public function allocated($budget_year_id){
         return $this->yearsAllocated->firstWhere('id', $budget_year_id);
     }

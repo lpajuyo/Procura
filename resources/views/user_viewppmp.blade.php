@@ -31,12 +31,13 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+									@foreach($projects as $project)
 			            <tr>
-			                <td>PAPS</td>
-			                <td>Dr. Florida C. Labuguen</td>
-			                <td>24/10/2019</td>
-			                <td>24/11/2019</td>
-			                <td>Approved</td>
+			                <td>{{ $project->title }}</td>
+			                <td>{{ $project->approver->name }}</td>
+			                <td>{{ $project->created_at }}</td>
+			                <td>//24/11/2019</td>
+			                <td>//Approved</td>
 			                <td>
 			                	<button type="button" rel="tooltip" title="View Full Details" class="btn btn-warning btn-simple btn-xs"
 					                	data-toggle="modal" data-target="#viewdets">
@@ -48,23 +49,7 @@
 					            </button>
 			                </td>
 			            </tr>
-			            <tr>
-			                <td>PAPS 2</td>
-			                <td>Dr. Florida C. Labuguen</td>
-			                <td>16/05/2018</td>
-			                <td>16/06/2018</td>
-			                <td>Pending</td>
-			                <td>
-			                	<button type="button" rel="tooltip" title="View Full Details" class="btn btn-warning btn-simple btn-xs"
-					                	data-toggle="modal" data-target="#viewdets">
-					                    <i class="fa fa-eye"></i>
-					                </button>
-
-					            <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
-					            	<i class="far fa-file"></i>
-					            </button>
-			                </td>
-			            </tr>
+									@endforeach
 			            </tbody>
 			        </table>
 			</div>
