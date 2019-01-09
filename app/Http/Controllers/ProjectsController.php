@@ -57,6 +57,10 @@ class ProjectsController extends Controller
         return redirect(route('items.create', ["project" => $project->id]));
     }
 
+    public function generateFile(Project $project){
+        dd("lala");
+    }
+
     /**
      * Display the specified resource.
      *
