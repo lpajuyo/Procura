@@ -15,6 +15,8 @@
 			<div class="card-body" style="margin-top: 10px;">
 				<p style="font-size: 23px;"> LIST OF PPMP 
 					<i class="fas fa-list-ul" style="margin-left: 10px; "></i><br>
+        <p style="font-size: 23px;"> APPROVE PPMP
+					<i class="fas fa-pencil-alt" style="margin-left: 10px; "></i><br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
 					<a href="{{ route('projects.create') }}" id="create"><span class="fa fa-pencil-alt fa-xs"></span> </a>
 				</p><br>
@@ -24,6 +26,7 @@
 			            <tr class=" text-primary">
 			                <th>Project Title</th>
 			                <th>Approver</th>
+			                <th>Department</th>
 			                <th>Date Submitted</th>
 			                <th>Due Date</th>
 			                <th>Status</th>
@@ -35,6 +38,8 @@
 			            <tr>
 			                <td>{{ $project->title }}</td>
 			                <td>{{ $project->approver->name }}</td>
+			                <td>{{ $project->department->name }}</td>
+                      <td>Mathemathics</td>
 			                <td>{{ $project->created_at }}</td>
 			                <td>//24/11/2019</td>
 			                <td>//Approved</td>
@@ -45,6 +50,10 @@
 
 					            <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
 					            	<i class="far fa-file"></i>
+					            </button>
+
+                      <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
+					            	<i class="fas fa-pencil-alt"></i>
 					            </button>
 			                </td>
 			            </tr>
@@ -101,6 +110,18 @@
               <!-- populated by script -->
             </tbody>
           </table>
+
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+              <button type="submit" class="btn btn-block btn-success"> APPROVE</button>
+            </div>
+            <div class="col-lg-3">
+              <button type="submit" class="btn btn-block btn-danger"> REJECT </button>
+            </div>
+            <div class="col-lg-3"></div>
+          </div>
+          
           </div>
 
         </div>

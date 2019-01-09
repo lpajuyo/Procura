@@ -29,4 +29,8 @@ class Project extends Model
     public function getApproverAttribute(){
         return $this->department_budget->department->sector->head->user;
     }
+
+    public function getDepartmentAttribute(){
+        return $this->department_budget->department;
+    }
 }
