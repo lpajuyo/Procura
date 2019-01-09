@@ -39,10 +39,9 @@
 			                <td>{{ $project->title }}</td>
 			                <td>{{ $project->approver->name }}</td>
 			                <td>{{ $project->department->name }}</td>
-                      <td>Mathemathics</td>
 			                <td>{{ $project->created_at }}</td>
 			                <td>//24/11/2019</td>
-			                <td>//Approved</td>
+                      <td>{{ (is_null($project->is_approved)) ? 'Pending' : (($project->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
 			                <td>
 			                	<button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
 					                    <i class="fa fa-eye"></i>
@@ -114,10 +113,17 @@
           <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-3">
-              <button type="submit" class="btn btn-block btn-success"> APPROVE</button>
+              <form id="approve-project" method="POST" action="{{ url('approved_projects') }}/">
+              @csrf
+                <button type="submit" class="btn btn-block btn-success"> APPROVE</button>
+              </form>
             </div>
             <div class="col-lg-3">
-              <button type="submit" class="btn btn-block btn-danger"> REJECT </button>
+              <form id="reject-project" method="POST" action="{{ url('approved_projects') }}/">
+              @csrf
+              @method('DELETE')
+                <button type="submit" class="btn btn-block btn-danger"> REJECT </button>
+              </form>
             </div>
             <div class="col-lg-3"></div>
           </div>
@@ -140,6 +146,14 @@
       dataType: "json"
     }).done(function(project){
       $("#viewdets tbody").empty();
+      $("#approve-project").attr("action", function (index, action) { 
+        action += id;
+        return action;
+      });
+      $("#reject-project").attr("action", function (index, action) { 
+        action += id;
+        return action;
+      });
       $.each(project.items, function (indexInArray, item) { 
         $("#viewdets tbody").append("<tr>")
         $("#viewdets tbody").append("<td>"+ item.code +"</td>");

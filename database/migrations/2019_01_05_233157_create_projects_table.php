@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('department_budget_id');
             $table->string('title');
-            // $table->boolean('is_approved');
+            $table->boolean('is_approved')->nullable();
             $table->timestamps();
         });
     }

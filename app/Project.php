@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $fillable = ['budget_year_id', 'title', 'user_id', 'department_budget_id'];
+    protected $fillable = ['budget_year_id', 'title', 'user_id', 'department_budget_id', 'is_approved'];
 
     public function items(){
         return $this->hasMany('App\ProjectItem');
@@ -20,17 +20,31 @@ class Project extends Model
         return $this->belongsTo('App\DepartmentBudget');
     }
 
+    public function getApproverAttribute(){
+        return $this->department_budget->department->sector->head->user;
+    }
+    
+    public function getDepartmentAttribute(){
+        return $this->department_budget->department;
+    }
+
     public function addItem($attributes){
         // dd($attributes);
         $project_item = $this->items()->create($attributes);
         $project_item->addSchedules($attributes['schedules']);
     }
 
-    public function getApproverAttribute(){
-        return $this->department_budget->department->sector->head->user;
+    public function approve($approved = true){ //public function approve($remarks, $approved = true){
+        $this->update(["is_approved" => $approved]);
+        // $this->addRemarks($remarks);
     }
 
-    public function getDepartmentAttribute(){
-        return $this->department_budget->department;
+    public function reject(){ //    public function reject($remarks){
+        // $this->approve($remarks, false);
+        $this->approve(false);
     }
+
+    // public function addRemarks($remarks){
+    //     $this->update(compact("remarks"));
+    // }
 }
