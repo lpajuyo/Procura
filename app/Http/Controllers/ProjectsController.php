@@ -65,7 +65,7 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return $project->load('items.schedules')->toJson();
     }
 
     /**

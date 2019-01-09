@@ -39,12 +39,11 @@
 			                <td>//24/11/2019</td>
 			                <td>//Approved</td>
 			                <td>
-			                	<button type="button" rel="tooltip" title="View Full Details" class="btn btn-warning btn-simple btn-xs"
-					                	data-toggle="modal" data-target="#viewdets">
+			                	<button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
 					                    <i class="fa fa-eye"></i>
 					                </button>
 
-					            <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
+					            <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
 					            	<i class="far fa-file"></i>
 					            </button>
 			                </td>
@@ -75,11 +74,13 @@
             <table class="table table-bordered" >
               <thead class="text-center">
               <tr style="font-weight: bolder;">
+                <td rowspan="2">CODE</td>
                 <td rowspan="2">DESCRIPTION</td>
                 <td rowspan="2">QTY</td>
                 <td rowspan="2">UNIT PRICE</td>
-                <td rowspan="2">TOTAL</td>
-                <td colspan="12" rowspan="1" class="text-center">SCHEDULE / MILESTONES</td>                
+                <td rowspan="2">ESTIMATED BUDGET</td>
+                <td rowspan="2">MODE OF PROCUREMENT</td>
+                <td colspan="12" rowspan="1" class="text-center">SCHEDULE / MILESTONES</td>               
               </tr>
               <tr>
                  <td>Jan</td>
@@ -97,24 +98,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="text-center">
-                <td>Test</td>
-                <td>12</td>
-                <td>10</td>
-                <td>120</td>
-                <td> -- </td>
-                <td> -- </td>
-                <td> &#x2714; </td>
-                <td> &#x2714; </td>
-                <td> &#x2714; </td>
-                <td> &#x2714;</td>
-                <td> -- </td>
-                <td> -- </td>
-                <td> &#x2714; </td>
-                <td> -- </td>
-                <td> -- </td>
-                <td> &#x2714; </td>
-              </tr>
+              <!-- populated by script -->
             </tbody>
           </table>
           </div>
@@ -126,6 +110,43 @@
 
 
 @section('scripts')
+<!-- view ppmp modal -->
+<script>
+	$(".view-ppmp-btn").click(function(){
+    var id = $(this).attr('data-id');
+		$.ajax({
+      url: "{{ route('projects.index') }}/" + id,
+      dataType: "json"
+    }).done(function(project){
+      $("#viewdets tbody").empty();
+      $.each(project.items, function (indexInArray, item) { 
+        $("#viewdets tbody").append("<tr>")
+        $("#viewdets tbody").append("<td>"+ item.code +"</td>");
+        $("#viewdets tbody").append("<td>"+ item.description +"</td>");
+        $("#viewdets tbody").append("<td>"+ item.quantity + " " + item.uom +"</td>");
+        $("#viewdets tbody").append("<td>"+ item.unit_cost +"</td>");
+        $("#viewdets tbody").append("<td>"+ item.estimated_budget +"</td>");
+        $("#viewdets tbody").append("<td>"+ item.procurement_mode +"</td>");
+        
+        var months = item.schedules.map(function(schedule){
+          return schedule.id;
+        });
+        for(i=1; i<=12; i++){
+          if($.inArray(i, months) != -1)
+            $("#viewdets tbody").append("<td>&#x2714;</td>");
+          else
+            $("#viewdets tbody").append("<td></td>");
+          
+        }
+        $("#viewdets tbody").append("</tr>");
+      
+      });
+
+      $("#viewdets").modal("show");
+    });
+	});
+</script>
+
 <script>
     $(document).ready(function() {
         $('#example').DataTable({
