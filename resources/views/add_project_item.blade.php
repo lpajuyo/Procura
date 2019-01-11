@@ -82,13 +82,13 @@
 			                    <div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="Unit Price">Unit Price:</label>
-			                        <input name="unit_cost" value="" type="number" class="form-control" id="UPrice">
+			                        <input name="unit_cost" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
 			                      </div>
 			                    </div>
 			                    <div class="col-lg-4">
 			                      <div class="form-group">
-			                        <label for="Total">Estimated Total:</label>
-			                        <input name="estimated_budget" value="" type="number" class="form-control" id="Total">
+			                        <label for="Estimated Budget">Estimated Budget:</label>
+			                        <input name="estimated_budget" value="" type="number" min="0" step=".01" class="form-control" id="Total">
 			                      </div>
 			                    </div>
 			                  </div>
@@ -98,6 +98,15 @@
 										<label for="Mode of Procurement">Mode of Procurement:</label>
 										<input name="procurement_mode" type="text" class="form-control" id="Proc-Mode">
 									</div>
+								</div>
+								<div class="col-lg-2"></div>
+								<div class="col-lg-4">
+									<div class="form-group">
+										<label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label>
+										<input name="total_ppmp_budget" 
+											value="{{ (old('total_ppmp_budget') == null) ? $project->totalBudgetWithContingency() : old('total_ppmp_budget') }}" 
+											type="number" min="0" step=".01" class="form-control" id="PPMP-Total" readonly>
+			                      	</div>
 								</div>
 							  </div>
 
@@ -231,6 +240,7 @@
 								</div>
 							</div>
 						
+						@include('errors')
 
 						<div style="padding: 10px 0px 20px 300px; width: 60%;" class="text-center">
 							<button type="submit" class="btn btn-success btn-block makeppmp">Add Item</button>
@@ -357,6 +367,35 @@
 
 
 @section('scripts')
+<script>
+$(document).ready(function(){
+	$("#Qty,#UPrice,#Total").on("input", function(e){
+		var id = $(e.target).attr('id');
+		var origPpmpTotal = {{ $project->total_budget }}; 
+
+		if(id == "Qty" || id == "UPrice"){
+			if($("#Qty").val() != "" && $("#UPrice").val() != ""){
+				$("#Total").val($("#Qty").val() * $("#UPrice").val());
+
+				$("#PPMP-Total").val("");
+				$("#PPMP-Total").val(function(i, currentVal){
+					var total = Number(origPpmpTotal) + Number($("#Total").val());
+					return (total + total*.2)
+				});
+			}
+		}
+
+		if(id == "Total"){
+			$("#PPMP-Total").val("");
+			$("#PPMP-Total").val(function(i, currentVal){
+				var total = Number(origPpmpTotal) + Number($("#Total").val());
+				return (total + total*.2)
+			});
+		}
+	});
+});
+</script>
+
 <!-- <script type="text/javascript">
 $('button.makeppmp').click(function(e) {
 	e.preventDefault();

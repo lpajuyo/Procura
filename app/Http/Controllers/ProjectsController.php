@@ -14,6 +14,7 @@ class ProjectsController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        bcscale(2);
     }
 
     /**
@@ -49,9 +50,13 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $attributes = $request->validate([
+            'budget_year_id' => 'exists:budget_years,id',
+            'title' => 'required|string'
+        ]);
+
         $user = Auth::user();
-        $budgetYear = BudgetYear::find($request->budget_year_id);
-        $attributes = $request->all();
+        $budgetYear = BudgetYear::find($attributes['budget_year_id']);
         $attributes['user_id'] = $user->id;
         $attributes['department_budget_id'] = $budgetYear->departmentBudgets->firstWhere('department_id', 1)->id;
         // dd($attributes);

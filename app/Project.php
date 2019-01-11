@@ -32,6 +32,22 @@ class Project extends Model
         return $this->department_budget->department;
     }
 
+    public function getTotalBudgetAttribute(){
+        $items = $this->items;
+
+        $total=0;
+        foreach($items as $item){
+            $total = bcadd($total, $item->estimated_budget);
+        }
+
+        return $total;
+    }
+
+    public function totalBudgetWithContingency(){
+        $total = bcadd($this->total_budget, bcmul($this->total_budget, "0.20", 5), 5);
+        return number_format($total, 2, ".", "");
+    }
+
     public function addItem($attributes){
         // dd($attributes);
         $project_item = $this->items()->create($attributes);

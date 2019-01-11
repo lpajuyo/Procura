@@ -37,7 +37,20 @@ class ProjectItemsController extends Controller
     public function store(Request $request, Project $project)
     {
         // dd($request->all());
-        $attributes = $request->all();
+        // $attributes = $request->all();
+        $attributes = $request->validate([
+            'code' => 'nullable|string',
+            'description' => 'required|string',
+            'quantity' => 'nullable|numeric|min:1|', //gte:schedules
+            'uom' => 'nullable|string', // exists? || in:array?
+            'unit_cost' => 'nullable|numeric|min:1|', //lte:estimated_budget',  
+            'estimated_budget' => 'required|numeric|min:1', //between 0 and dept budget
+            'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
+            'schedules' => 'required|array',
+            'schedules.*' => 'exists:schedules,id|distinct',
+            'total_ppmp_budget' => 'required|numeric|between:'.$project->totalBudgetWithContingency().','.$project->department_budget->remaining 
+        ]);
+
         $project->addItem($attributes);
 
         return back();

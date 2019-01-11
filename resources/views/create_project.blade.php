@@ -39,6 +39,9 @@
 								<label for="Product Type">Project Title:</label>
                     			<input name="title" value="{{ old('title') }}" type="text" class="form-control" id="Type">
 							</div>
+
+							@include('errors')
+
 						<div style="padding: 10px 0px 20px 300px; width: 60%;" class="text-center">
 							<button type="submit "class="btn btn-success btn-block makeppmp">Create Project</button>
 						</div>
