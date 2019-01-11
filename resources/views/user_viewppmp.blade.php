@@ -47,9 +47,11 @@
 					                    <i class="fa fa-eye"></i>
 					                </button>
 
-					            <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
+					            <a href="{{ route('projects.generateFile', ['project' => $project->id]) }}">
+                      <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
 					            	<i class="far fa-file"></i>
 					            </button>
+                      </a>
 
                       <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
 					            	<i class="fas fa-pencil-alt"></i>

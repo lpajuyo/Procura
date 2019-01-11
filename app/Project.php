@@ -8,6 +8,10 @@ class Project extends Model
 {
     protected $fillable = ['budget_year_id', 'title', 'user_id', 'department_budget_id', 'is_approved'];
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
     public function items(){
         return $this->hasMany('App\ProjectItem');
     }
