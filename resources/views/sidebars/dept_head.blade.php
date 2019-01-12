@@ -6,7 +6,7 @@
 
           <li class="sb-content">
             <!-- <a data-toggle="collapse" href="#collapseItem2" aria-expanded="false" aria-controls="collapseItem2"> -->
-            <a href="/user_viewppmp">
+            <a href="/projects">
             <i class="nc-icon nc-briefcase-24"></i> 
             <p>PPMP</p> </a>
             <!-- <ul class="collapse" id="collapseItem2">

@@ -40,6 +40,10 @@ class User extends Authenticatable
         return $this->hasMany('App\BudgetProposal');
     }
 
+    public function projects(){
+        return $this->hasMany('App\Project');
+    }
+
     public function addProposal($attributes){
         $attributes['department_id'] = $this->userable->department_id;
         $this->budget_proposals()->create($attributes);

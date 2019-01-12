@@ -11,4 +11,8 @@ class DepartmentHead extends Model
     public function department(){
         return $this->belongsTo('App\Department');
     }
+
+    public function user(){
+        return $this->morphOne('App\User', 'userable');
+    }
 }

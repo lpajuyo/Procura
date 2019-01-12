@@ -21,23 +21,19 @@
 				
 				<div class="row">
 					<div class="col-lg-12">
-						<form method="POST" id="add-ppmp-form" action="{{ route('projects.store') }}">
+						<form method="POST" action="{{ route('items.store', ['project' => $project->id]) }}">
 						@csrf
 							<div class="row" style="padding:0px 30px 5px 30px;">
 			                    <div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="For Year">For Year:</label>
-			                        <select name="budget_year_id" class="form-control" id="For Year">
-										@foreach($budgetYears as $year)
-								      		<option value="{{ $year->id }}">{{ $year->budget_year }}</option>
-										@endforeach
-								    </select>
+									<input type="text" class="form-control" value="{{ $project->year->budget_year }}" disabled>
 			                      </div>
 			                    </div>
 							</div>
 							<div class="form-group" style="padding:0px 30px 5px 30px;">
 								<label for="Product Type">Project Title:</label>
-                    			<input name="title" value="{{ old('title') }}" type="text" class="form-control" id="Type">
+                    			<input name="title" value="{{ $project->title }}" type="text" class="form-control" id="Type" disabled>
 							</div>
 
 							<div class="row" style="padding:0px 30px 5px 30px;">
@@ -54,13 +50,13 @@
 								<div class="col-lg-3">
 									<div class="form-group">
 										<label for="Code">Code:</label>
-										<input type="text" class="form-control" id="Code">
+										<input name="code" type="text" class="form-control" id="Code">
 									</div>
 								</div>
 			                    <div class="col-lg-9">
 			                      <div class="form-group">
 			                        <label for="Description">Product Description:</label>
-									<input value="" type="text" class="form-control" id="Description">
+									<input name="description" value="" type="text" class="form-control" id="Description">
 			                        <!-- <select class="form-control" id="Description">
 								      <option>1</option>
 								      <option>2</option>
@@ -74,25 +70,25 @@
 			                    <div class="col-lg-2">
 			                      <div class="form-group">
 			                        <label for="Quantity">Quantity:</label>
-			                        <input value="" type="number" class="form-control" id="Qty">
+			                        <input name="quantity" value="" type="number" class="form-control" id="Qty">
 			                      </div>
 			                    </div>
 								<div class="col-lg-3">
 			                      <div class="form-group">
-			                        <label for="Quantity">Unit of Measurement:</label>
-			                        <input value="" type="text" class="form-control" id="Uom">
+			                        <label for="Unit of Measurement">Unit of Measurement:</label>
+			                        <input name="uom" value="" type="text" class="form-control" id="Uom">
 			                      </div>
 			                    </div>
 			                    <div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="Unit Price">Unit Price:</label>
-			                        <input value="" type="number" class="form-control" id="UPrice">
+			                        <input name="unit_cost" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
 			                      </div>
 			                    </div>
 			                    <div class="col-lg-4">
 			                      <div class="form-group">
-			                        <label for="Total">Estimated Total:</label>
-			                        <input value="" type="number" class="form-control" id="Total" disabled>
+			                        <label for="Estimated Budget">Estimated Budget:</label>
+			                        <input name="estimated_budget" value="" type="number" min="0" step=".01" class="form-control" id="Total">
 			                      </div>
 			                    </div>
 			                  </div>
@@ -100,8 +96,17 @@
 							 	<div class="col-lg-6">
 									<div class="form-group">
 										<label for="Mode of Procurement">Mode of Procurement:</label>
-										<input type="text" class="form-control" id="Proc-Mode">
+										<input name="procurement_mode" type="text" class="form-control" id="Proc-Mode">
 									</div>
+								</div>
+								<div class="col-lg-2"></div>
+								<div class="col-lg-4">
+									<div class="form-group">
+										<label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label>
+										<input name="total_ppmp_budget" 
+											value="{{ (old('total_ppmp_budget') == null) ? $project->totalBudgetWithContingency() : old('total_ppmp_budget') }}" 
+											type="number" min="0" step=".01" class="form-control" id="PPMP-Total" readonly>
+			                      	</div>
 								</div>
 							  </div>
 
@@ -112,7 +117,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> January
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="1">January
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -122,7 +127,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> February
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="2"> February
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -132,7 +137,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> March
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="3"> March
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -142,7 +147,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> April
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="4"> April
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -152,7 +157,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> May
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="5"> May
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -162,7 +167,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> June
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="6"> June
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -175,7 +180,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> July
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="7"> July
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -185,7 +190,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> August
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="8"> August
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -195,7 +200,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> September
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="9"> September
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -205,7 +210,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> October
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="10"> October
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -215,7 +220,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> November
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="11"> November
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -225,7 +230,7 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" value=""> December
+										        <input class="form-check-input" type="checkbox" name=schedules[] value="12"> December
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
@@ -235,13 +240,72 @@
 								</div>
 							</div>
 						
+						@include('errors')
 
 						<div style="padding: 10px 0px 20px 300px; width: 60%;" class="text-center">
-							<button type="button" onClick="addInputItem()" class="btn btn-primary btn-block makeppmp">Add Item</button>
-							<button type="submit" class="btn btn-success btn-block makeppmp">Create PPMP</button>
+							<button type="submit" class="btn btn-success btn-block makeppmp">Add Item</button>
+							<a href="{{ route('projects.index') }}"><button type="button" class="btn btn-primary btn-block makeppmp">Done</button></a>
 						</div>
 
 						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+					<table class="table table-bordered" >
+						<thead class="text-center">
+						<tr style="font-weight: bolder;">
+							<td rowspan="2">CODE</td>
+							<td rowspan="2">DESCRIPTION</td>
+							<td rowspan="2">QTY</td>
+							<td rowspan="2">UNIT PRICE</td>
+							<td rowspan="2">ESTIMATED BUDGET</td>
+							<td rowspan="2">MODE OF PROCUREMENT</td>
+							<td colspan="12" rowspan="1" class="text-center">SCHEDULE / MILESTONES</td>
+							<!-- <td rowspan="2">Action</td>                 -->
+						</tr>
+						<tr>
+							<td>Jan</td>
+							<td>Feb</td>
+							<td>Mar</td>
+							<td>Apr</td>
+							<td>May</td>
+							<td>Jun</td>
+							<td>Jul</td>
+							<td>Aug</td>
+							<td>Sept</td>
+							<td>Oct</td>
+							<td>Nov</td>
+							<td>Dec</td>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						</tr>
+						@foreach($project->items as $item)
+						<tr class="text-center">
+							<td>{{ $item->code }}</td>
+							<td>{{ $item->description }}</td>
+							<td>{{ $item->quantity . ' ' . $item->uom }}</td>
+							<td>{{ $item->unit_cost }}</td>
+							<td>{{ $item->estimated_budget }}</td>
+							<td>{{ $item->procurement_mode }}</td>
+							@for($i=1; $i<=12; $i++)
+							<td> {!! ($item->schedules->firstWhere('id', $i)) ? "&#x2714;" : "" !!} </td>
+							@endfor
+							<!-- <td> &#x2714; </td>
+							<td> &#x2714; </td>
+							<td> &#x2714;</td>
+							<td> -- </td>
+							<td> -- </td>
+							<td> &#x2714; </td>
+							<td> -- </td>
+							<td> -- </td>
+							<td> &#x2714; </td> -->
+						</tr>
+						@endforeach
+						</tbody>
+					</table>
 					</div>
 				</div>
 			</div>
@@ -304,12 +368,34 @@
 
 @section('scripts')
 <script>
-	var n = 0;
-	function addInputItem(){
-		alert(n);
-		n++;
-	}
+$(document).ready(function(){
+	$("#Qty,#UPrice,#Total").on("input", function(e){
+		var id = $(e.target).attr('id');
+		var origPpmpTotal = {{ $project->total_budget }}; 
+
+		if(id == "Qty" || id == "UPrice"){
+			if($("#Qty").val() != "" && $("#UPrice").val() != ""){
+				$("#Total").val($("#Qty").val() * $("#UPrice").val());
+
+				$("#PPMP-Total").val("");
+				$("#PPMP-Total").val(function(i, currentVal){
+					var total = Number(origPpmpTotal) + Number($("#Total").val());
+					return (total + total*.2)
+				});
+			}
+		}
+
+		if(id == "Total"){
+			$("#PPMP-Total").val("");
+			$("#PPMP-Total").val(function(i, currentVal){
+				var total = Number(origPpmpTotal) + Number($("#Total").val());
+				return (total + total*.2)
+			});
+		}
+	});
+});
 </script>
+
 <!-- <script type="text/javascript">
 $('button.makeppmp').click(function(e) {
 	e.preventDefault();

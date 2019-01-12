@@ -11,4 +11,8 @@ class SectorHead extends Model
     public function sector(){
         return $this->belongsTo('App\Sector');
     }
+
+    public function user(){
+        return $this->morphOne('App\User', 'userable');
+    }
 }
