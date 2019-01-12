@@ -70,6 +70,10 @@ Route::get('sector_ppmp', function () {
     return view('sector_ppmp');
 });
 
+Route::get('test', function () {
+    abort(504);
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
