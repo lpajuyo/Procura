@@ -50,7 +50,9 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        return $user->type->name == "Department Head";
+        if($user->type->name == "Department Head"){
+            return true;
+        }
     }
 
     /**
