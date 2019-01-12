@@ -61,7 +61,7 @@ class ProjectsController extends Controller
         $user = Auth::user();
         $budgetYear = BudgetYear::find($attributes['budget_year_id']);
         $attributes['user_id'] = $user->id;
-        $attributes['department_budget_id'] = $budgetYear->departmentBudgets->firstWhere('department_id', 1)->id;
+        $attributes['department_budget_id'] = $budgetYear->departmentBudgets->firstWhere('department_id', $user->userable->department_id)->id;
         // dd($attributes);
         $project = Project::create($attributes);
 
