@@ -24,7 +24,20 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $this->authorize('viewProjects', Project::class);
+
+        $user = Auth::user();
+        if($user->type->name == "Sector Head"){
+            $projects = Project::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                    ->latest('created_at')
+                                    ->get();
+            $projects = $projects->filter(function($project){
+                return $project->approver->id == Auth::user()->id;
+            });
+        }
+        else if($user->type->name == "Department Head"){
+            $projects = $user->projects;
+        }
         
         return view("user_viewppmp", compact('projects'));
     }

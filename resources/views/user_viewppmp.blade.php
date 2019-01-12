@@ -199,11 +199,12 @@
 
 <script>
     $(document).ready(function() {
-        $('#example').DataTable({
-        	 "columnDefs": [
-			    { "orderable": false, "targets": [4,5] }
-			  ]
-		} );
-    } );
+      $('#example').DataTable({
+        "order": [],
+        "columnDefs": [
+          { "orderable": false, "targets": [4,5] }
+        ]
+      });
+    });
   </script>
 @endsection

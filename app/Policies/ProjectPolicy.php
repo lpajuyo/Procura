@@ -36,6 +36,12 @@ class ProjectPolicy
         }
     }
 
+    public function viewProjects(User $user){
+        $allowedUserTypes = ['Department Head', 'Sector Head'];
+
+        return in_array($user->type->name, $allowedUserTypes);
+    }
+
     /**
      * Determine whether the user can create projects.
      *
