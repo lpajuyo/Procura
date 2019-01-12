@@ -36,8 +36,6 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Project::class);
-
         $budgetYears = BudgetYear::all();
 
         return view("create_project", compact('budgetYears'));
@@ -68,8 +66,6 @@ class ProjectsController extends Controller
     }
 
     public function generateFile(Project $project){
-        $this->authorize('viewFile', $project);
-
         // $projectArray = $project->load('items')->toArray();
         // $projectArray['items'] = array_map(function($item){
         //     $item['quantity'] = 'lala';// . $item['quantity'] . ' ' . $item['uom'];
@@ -89,10 +85,8 @@ class ProjectsController extends Controller
         $spreadsheet = $reader->load($templatePath);
         $spreadsheet->getActiveSheet()->setCellValue('D9', $project->user->name . ' / ' . $project->department->name)
                                         ->setCellValue('D10', $project->title)
-                                        ->setCellValue('B30', $project->user->name);
-        if($project->is_approved == true){
-            $spreadsheet->getActiveSheet()->setCellValue('O30', $project->approver->name);
-        }
+                                        ->setCellValue('B30', $project->user->name)
+                                        ->setCellValue('O30', $project->approver->name);
 
         if($project->items->count() > 7)
             $spreadsheet->getActiveSheet()->insertNewRowBefore(21, $project->items->count() - 7);
@@ -142,8 +136,6 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        $this->authorize('view', $project);
-
         return $project->load('items.schedules')->toJson();
     }
 

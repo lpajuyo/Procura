@@ -13,26 +13,20 @@
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
-        @can('create', App\Project::class)
 				<p style="font-size: 23px;"> LIST OF PPMP 
 					<i class="fas fa-list-ul" style="margin-left: 10px; "></i><br>
-          <a href="{{ route('projects.create') }}" id="create"><span class="fa fa-pencil-alt fa-xs"></span> </a>
-        @elsecan('approveProjects', App\Project::class)
         <p style="font-size: 23px;"> APPROVE PPMP
 					<i class="fas fa-pencil-alt" style="margin-left: 10px; "></i><br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
+					<a href="{{ route('projects.create') }}" id="create"><span class="fa fa-pencil-alt fa-xs"></span> </a>
 				</p><br>
-        @endcan
 				
 				<table id="example" class="table table-striped table-bordered dataTable" style="width:100%">
 			        <thead>
 			            <tr class=" text-primary">
 			                <th>Project Title</th>
-                      @can('create', App\Project::class)
 			                <th>Approver</th>
-                      @elsecan('approveProjects', App\Project::class)
 			                <th>Department</th>
-                      @endcan
 			                <th>Date Submitted</th>
 			                <th>Due Date</th>
 			                <th>Status</th>
@@ -43,11 +37,8 @@
 									@foreach($projects as $project)
 			            <tr>
 			                <td>{{ $project->title }}</td>
-                      @can('create', App\Project::class)
 			                <td>{{ $project->approver->name }}</td>
-                      @elsecan('approveProjects', App\Project::class)
 			                <td>{{ $project->department->name }}</td>
-                      @endcan
 			                <td>{{ $project->created_at }}</td>
 			                <td>//24/11/2019</td>
                       <td>{{ (is_null($project->is_approved)) ? 'Pending' : (($project->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
@@ -62,7 +53,7 @@
 					            </button>
                       </a>
 
-                      <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
+                      <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
 					            	<i class="fas fa-pencil-alt"></i>
 					            </button>
 			                </td>
@@ -86,7 +77,7 @@
         <div class="modal-content" style="margin-top: 100px;">
 
           <div class="modal-header" style="background-color: #f4f3ef;">
-            <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 15px;"> PROJECT TITLE: <span id="title"></span></p>
+            <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 15px;"> PROJECT TITLE: </p>
           </div>
 
           <div class="modal-body" style="padding: 25px 25px 25px 25px;">
@@ -120,17 +111,17 @@
               <!-- populated by script -->
             </tbody>
           </table>
-          @can('approveProjects', App\Project::class)
+
           <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-3">
-              <form id="approve-project" method="POST" action="">
+              <form id="approve-project" method="POST" action="{{ url('approved_projects') }}/">
               @csrf
                 <button type="submit" class="btn btn-block btn-success"> APPROVE</button>
               </form>
             </div>
             <div class="col-lg-3">
-              <form id="reject-project" method="POST" action="">
+              <form id="reject-project" method="POST" action="{{ url('approved_projects') }}/">
               @csrf
               @method('DELETE')
                 <button type="submit" class="btn btn-block btn-danger"> REJECT </button>
@@ -138,7 +129,7 @@
             </div>
             <div class="col-lg-3"></div>
           </div>
-          @endcan
+          
           </div>
 
         </div>
@@ -159,6 +150,14 @@
       $("#title").html(project.title);
 
       $("#viewdets tbody").empty();
+      $("#approve-project").attr("action", function (index, action) { 
+        action += id;
+        return action;
+      });
+      $("#reject-project").attr("action", function (index, action) { 
+        action += id;
+        return action;
+      });
       $.each(project.items, function (indexInArray, item) { 
         $("#viewdets tbody").append("<tr>")
         $("#viewdets tbody").append("<td>"+ item.code +"</td>");
@@ -181,18 +180,9 @@
         $("#viewdets tbody").append("</tr>");
       
       });
-      @can('approveProjects', App\Project::class)
-      if(project.is_approved == null){
-        $("#approve-project, #reject-project").show();
-        $("#approve-project, #reject-project").attr("action", "{{ url('approved_projects') }}/" + id);
-      }
-      else
-        $("#approve-project, #reject-project").hide();
-      @endcan
+
       $("#viewdets").modal("show");
-    }).fail(function(jqXHR, textStatus, errorThrown){
-	    	alert(errorThrown);
-	  });
+    });
 	});
 </script>
 

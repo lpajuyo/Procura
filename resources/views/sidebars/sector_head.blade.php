@@ -16,7 +16,7 @@
 
           <li class="sb-content">
             <!-- <a data-toggle="collapse" href="#collapseItem2" aria-expanded="false" aria-controls="collapseItem2"> -->
-            <a href="/projects">
+            <a href="/sector_ppmp">
             <i class="nc-icon nc-briefcase-24"></i> 
             <p>PPMP</p> </a>
             <!-- <ul class="collapse" id="collapseItem2">
