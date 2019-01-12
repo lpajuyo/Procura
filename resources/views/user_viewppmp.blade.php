@@ -147,6 +147,8 @@
       url: "{{ route('projects.index') }}/" + id,
       dataType: "json"
     }).done(function(project){
+      $("#title").html(project.title);
+
       $("#viewdets tbody").empty();
       $("#approve-project").attr("action", function (index, action) { 
         action += id;
