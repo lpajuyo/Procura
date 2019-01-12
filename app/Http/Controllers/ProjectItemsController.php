@@ -25,6 +25,8 @@ class ProjectItemsController extends Controller
      */
     public function create(Project $project)
     {
+        $this->authorize('create', Project::class);
+
         return view('add_project_item', compact('project'));
     }
 
@@ -36,6 +38,8 @@ class ProjectItemsController extends Controller
      */
     public function store(Request $request, Project $project)
     {
+        $this->authorize('create', Project::class);
+
         // dd($request->all());
         // $attributes = $request->all();
         $attributes = $request->validate([
