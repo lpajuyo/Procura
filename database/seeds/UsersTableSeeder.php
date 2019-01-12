@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             "user_type_id" => "3",
             "username" => "sectorhead2",
-            "name" => "Sector Head",
+            "name" => "Sector Head2",
             "password" => Hash::make('1234'),
             "userable_id" => 2,
             "userable_type" => "App\SectorHead",
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             "user_type_id" => "3",
             "username" => "sectorhead3",
-            "name" => "Sector Head",
+            "name" => "Sector Head3",
             "password" => Hash::make('1234'),
             "userable_id" => 3,
             "userable_type" => "App\SectorHead",
