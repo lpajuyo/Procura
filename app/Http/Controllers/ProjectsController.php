@@ -126,8 +126,6 @@ class ProjectsController extends Controller
 
         $spreadsheet->disconnectWorksheets();
         unset($spreadsheet);
-
-        return redirect()->route('projectx.index');
     }
 
     /**
