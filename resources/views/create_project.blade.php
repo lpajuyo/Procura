@@ -19,12 +19,12 @@
 					<!-- <a href="" data-toggle="modal" data-target="#additem" id="create2"><span class="fas fa-plus fa-xs"></span> </a> -->
 				</p><br>
 				
-				<div class="row">
-					<div class="col-lg-12">
+				<!-- <div class="row">
+					<div class="col-lg-12"> -->
 						<form method="POST" action="{{ route('projects.store') }}">
 						@csrf
 							<div class="row" style="padding:0px 30px 5px 30px;">
-			                    <div class="col-lg-3">
+			                    <div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="For Year">For Year:</label>
 			                        <select name="budget_year_id" class="form-control" id="For Year">
@@ -34,11 +34,15 @@
 								    </select>
 			                      </div>
 			                    </div>
+
+			                    <div class="col-lg-8">
+			                    	<div class="form-group" style="padding:0px 30px 5px 30px;">
+										<label for="Product Type">Project Title:</label>
+		                    			<input name="title" value="{{ old('title') }}" type="text" class="form-control" id="Type">
+									</div>
+			                    </div>
 							</div>
-							<div class="form-group" style="padding:0px 30px 5px 30px;">
-								<label for="Product Type">Project Title:</label>
-                    			<input name="title" value="{{ old('title') }}" type="text" class="form-control" id="Type">
-							</div>
+						
 
 							@include('errors')
 
@@ -46,8 +50,8 @@
 							<button type="submit "class="btn btn-success btn-block makeppmp">Create Project</button>
 						</div>
 						</form>
-					</div>
-				</div>
+					<!-- </div>
+				</div> -->
 			</div>
 		</div>
 	</div>

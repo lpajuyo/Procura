@@ -33,22 +33,33 @@
 									<p> <strong>TECHNOLOGICAL UNIVERSITY </strong> <br> OF THE <strong> PHILIPPINES </strong></p>
 								</div>
 
-								<form>
+								<form class="form-box" method="POST" action="{{ route('login') }}">
+									@csrf
+
 									<div class="form-group"> 
 										<!-- <label></label> -->
 										<span class="fa fa-user fa4"></span>
-										<input type="text" name="username" id="username" class="input-underline" value="username" 
-
-										onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'username';}" > 
+										<input type="text" name="username" id="username" placeholder="username" class="input-underline" value="{{ old('username') }}">
+										@if ($errors->has('username'))
+											<span class="text-danger" role="alert">
+												<strong>{{ $errors->first('username') }}</strong>
+											</span>
+				                        @endif 
 									</div>
+									
 									<div class="form-group"> 
 										<!-- <label></label> -->
 										<span class="fa fa-lock fa4"></span>
-										<input type="password" name="password" id="password" value="password"class="input-underline"
-
-										onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}">
+										<input type="password" name="password" id="password" placeholder="password" class="input-underline">
+										@if ($errors->has('password'))
+											<span class="text-danger" role="alert">
+												<strong>{{ $errors->first('password') }}</strong>
+											</span>
+										@endif
 									</div>
+									
 									<button type="submit" class="btn-5 fa fa-lock-open"><span>LOGIN</span></button>
+								
 								</form>
 							</div>
 

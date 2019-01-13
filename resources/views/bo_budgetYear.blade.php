@@ -21,7 +21,7 @@
 				</button>
 				</div><br><br><br>
 				<div class="table-responsive" style="overflow: visible;"> 
-					<table class="table table-striped">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr class=" text-primary">
 					            <th>Budget Year</th>
@@ -40,17 +40,19 @@
 					            <td>{{ $budgetYear->fund_164 }}</td>
 					            <!-- <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td> -->
 					            <td class="td-actions text-center">
-					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-danger btn-simple btn-xs btnEditBudgetYear" data-year-id="{{ $budgetYear->id }}">
+					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear" data-year-id="{{ $budgetYear->id }}">
 					                    <i class="fa fa-edit"></i>
 					                </button>
+									
+									<a href="{{ route('budget_alloc', ['budgetYear' => $budgetYear->id]) }}">
+									<button type="button" rel="tooltip" title="Proceed to Budget Allocation" class="btn btn-success btn-simple btn-xs btnEditBudgetYear"> 
+										<i class="nc-icon nc-money-coins"></i>
+					                </button>
+									</a>
+
 									<button type="submit" form="{{ 'del-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
 										<i class="fa fa-times"></i>
 									</button>
-									<a href="{{ route('budget_alloc', ['budgetYear' => $budgetYear->id]) }}">
-									<button type="button" rel="tooltip" title="Proceed to Budget Allocation" class="btn btn-danger btn-simple btn-xs btnEditBudgetYear">
-					                    <i class="fa fa-edit"></i>
-					                </button>
-									</a>
 
 									<form id="{{ 'del-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_years.destroy', ['budget_year' => $budgetYear->id]) }}">
 									@csrf
