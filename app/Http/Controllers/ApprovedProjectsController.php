@@ -19,7 +19,7 @@ class ApprovedProjectsController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        $this->authorize('approve', $project);
+        $this->authorize('approveProject', $project);
 
         // $project->approve($request->remarks);
         $project->approve();
@@ -35,7 +35,7 @@ class ApprovedProjectsController extends Controller
      */
     public function destroy(Request $request, Project $project)
     {
-        $this->authorize('approve', $project);
+        $this->authorize('approveProject', $project);
 
         // $project->reject($request->remarks);
         $project->reject();
