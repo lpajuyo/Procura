@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProjectItem;
 use App\Project;
+use App\CommonUseItem;
 use Illuminate\Http\Request;
 
 class ProjectItemsController extends Controller
@@ -27,7 +28,9 @@ class ProjectItemsController extends Controller
     {
         $this->authorize('create', Project::class);
 
-        return view('add_project_item', compact('project'));
+        $cseItems = CommonUseItem::all();
+
+        return view('add_project_item', compact('project', 'cseItems'));
     }
 
     /**

@@ -40,6 +40,41 @@
 			                    </div>
 							</div>
 
+							<br />
+
+							<div class="row" style="padding:0px 30px 5px 30px;">
+								<div class="col">
+									<div class="form-check form-check-radio">
+										<label class="form-check-label">
+											<input class="form-check-input" type="radio" id="cse-radio" name="is_cse" value="1" checked>
+											CSE Item
+											<span class="form-check-sign"></span>
+										</label>
+									</div>
+									<div class="form-check form-check-radio">
+										<label class="form-check-label">
+											<input class="form-check-input" type="radio" id="non-cse-radio" name="is_cse" value="0">
+											Non-CSE Item
+											<span class="form-check-sign"></span>
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="padding:0px 30px 5px 30px;">
+								<div class="col-lg-11">
+									<div class="form-group">
+										<label for="exampleFormControlSelect1">Common Use Items:</label>
+										<select class="form-control" id="cse-dropdown">
+											<option selected disabled value="0">--Select an Item--</option>
+											@foreach($cseItems as $cseItem)
+											<option value="{{ $cseItem->id }}">{{ $cseItem->description }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+							</div>
+
 							<div class="row" style="padding:0px 30px 5px 30px;">
 			                    <!-- <div class="col-lg-6">
 			                      <div class="form-group">
@@ -74,7 +109,7 @@
 			                    <div class="col-lg-2">
 			                      <div class="form-group">
 			                        <label for="Quantity">Quantity:</label>
-			                        <input name="quantity" value="" type="number" class="form-control" id="Qty">
+			                        <input name="quantity" min="0" value="" type="number" class="form-control" id="Qty">
 			                      </div>
 			                    </div>
 								<div class="col-lg-3">
@@ -86,13 +121,13 @@
 			                    <div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="Unit Price">Unit Price:</label>
-			                        <input name="unit_cost" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
+			                        <input name="unit_cost" min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
 			                      </div>
 			                    </div>
 			                    <div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="Estimated Budget">Estimated Budget:</label>
-			                        <input name="estimated_budget" value="" type="number" min="0" step=".01" class="form-control" id="Total">
+			                        <input name="estimated_budget" min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="Total">
 			                      </div>
 			                    </div>
 			                  </div>
@@ -284,7 +319,7 @@
 					<table class="table table-bordered" style="margin: : 0px 50px 20px 40px;" >
 						<thead class="text-center text-info">
 						<tr style="font-weight: bolder;">
-							<td rowspan="2">CODE</td>
+							<td rowspan="2">ITEM #</td>
 							<td rowspan="2">DESCRIPTION</td>
 							<td rowspan="2">QTY</td>
 							<td rowspan="2">UNIT PRICE</td>
@@ -295,9 +330,12 @@
 						</tr>
 						</thead>
 						<tbody style="font-size: 12px;">
+						@php
+							$count=1;
+						@endphp
 						@foreach($project->items as $item)
 						<tr class="text-center" style="line-height: 10px;">
-							<td>{{ $item->code }}</td>
+							<td>{{ $count++ }}</td>
 							<td>{{ $item->description }}</td>
 							<td>{{ $item->quantity . ' ' . $item->uom }}</td>
 							<td>{{ $item->unit_cost }}</td>
@@ -312,7 +350,7 @@
 					<table class="table table-bordered">
 						<thead class="text-center text-info">
 						<tr style="font-weight: bolder;">
-							<td rowspan="2">CODE</td>
+							<td rowspan="2">ITEM #</td>
 							<td colspan="12" rowspan="1" class="text-center">SCHEDULE / MILESTONES</td>
 							<!-- <td rowspan="2">Action</td>                 -->
 						</tr>
@@ -332,9 +370,13 @@
 						</tr>
 						</thead>
 						<tbody style="font-size: 12px;">
+						@php
+							$count=1;
+						@endphp
 						@foreach($project->items as $item)
 						<tr class="text-center" style="line-height: 10px;">
-							<td>{{ $item->code }}</td>
+							<td>{{ $count++ }}</td>
+							
 							@for($i=1; $i<=12; $i++)
 							<td> {!! ($item->schedules->firstWhere('id', $i)) ? "&#x2714;" : "" !!} </td>
 							@endfor
@@ -399,6 +441,7 @@
 
 
 @section('scripts')
+<!-- autocomplete of costs -->
 <script>
 $(document).ready(function(){
 	$("#Qty,#UPrice,#Total").on("input", function(e){
@@ -407,12 +450,12 @@ $(document).ready(function(){
 
 		if(id == "Qty" || id == "UPrice"){
 			if($("#Qty").val() != "" && $("#UPrice").val() != ""){
-				$("#Total").val($("#Qty").val() * $("#UPrice").val());
+				$("#Total").val(($("#Qty").val() * $("#UPrice").val()).toFixed(2));
 
 				$("#PPMP-Total").val("");
 				$("#PPMP-Total").val(function(i, currentVal){
 					var total = Number(origPpmpTotal) + Number($("#Total").val());
-					return (total + total*.2)
+					return (total + total*.2).toFixed(2);
 				});
 			}
 		}
@@ -421,11 +464,43 @@ $(document).ready(function(){
 			$("#PPMP-Total").val("");
 			$("#PPMP-Total").val(function(i, currentVal){
 				var total = Number(origPpmpTotal) + Number($("#Total").val());
-				return (total + total*.2)
+				return (total + total*.2).toFixed(2);
 			});
 		}
 	});
 });
+</script>
+<!-- CSE related scripts -->
+<script>
+	$(document).ready(function(){
+		// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", true);
+	});
+
+	$("[name=is_cse]").change(function(e){
+		var id = $(e.target).attr('id');
+		// console.log(id);
+		if(id == "cse-radio"){
+			$("#cse-dropdown").prop("disabled", false);
+			$("#cse-dropdown").val(0);
+			// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", true);
+		}
+		else if(id == "non-cse-radio"){
+			$("#cse-dropdown").prop("disabled", true);
+			$("#cse-dropdown").val(0);
+			// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", false);
+			$("#Code,#Description,#Uom,#UPrice,#Total").val("");
+		}
+	});
+
+	$("#cse-dropdown").change(function(){
+		var items = @json($cseItems);
+		var val = $(this).val();
+
+		$("#Code").val(items[val-1].code);
+		$("#Description").val(items[val-1].description);
+		$("#Uom").val(items[val-1].uom);
+		$("#UPrice").val(items[val-1].price);
+	});
 </script>
 
 <!-- <script type="text/javascript">
