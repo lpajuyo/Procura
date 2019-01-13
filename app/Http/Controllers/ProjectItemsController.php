@@ -55,8 +55,11 @@ class ProjectItemsController extends Controller
             'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
             'schedules' => 'required|array',
             'schedules.*' => 'exists:schedules,id|distinct',
-            'total_ppmp_budget' => 'required|numeric|between:'.$project->totalBudgetWithContingency().','.$project->department_budget->remaining 
+            'total_ppmp_budget' => 'required|numeric|between:'.$project->totalBudgetWithContingency().','.$project->department_budget->remaining,
+            'is_cse' => 'required|boolean'
         ]);
+        
+        // dd($attributes);
 
         $project->addItem($attributes);
 

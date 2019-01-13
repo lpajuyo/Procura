@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectItem extends Model
 {
-    protected $fillable = ['project_id', 'code', 'description', 'quantity', 'uom', 'unit_cost', 'estimated_budget', 'procurement_mode'];
+    protected $fillable = ['project_id', 'code', 'description', 'quantity', 'uom', 'unit_cost', 'estimated_budget', 'procurement_mode', 'is_cse'];
 
     public function schedules(){
         return $this->belongsToMany('App\Schedule')->withTimestamps();

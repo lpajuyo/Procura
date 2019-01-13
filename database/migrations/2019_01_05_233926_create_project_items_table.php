@@ -22,7 +22,8 @@ class CreateProjectItemsTable extends Migration
             $table->string('uom')->nullable();
             $table->unsignedDecimal('unit_cost', 11, 2)->nullable();
             $table->unsignedDecimal('estimated_budget', 11, 2);
-            $table->string('procurement_mode');
+            $table->string('procurement_mode')->nullable();
+            $table->boolean('is_cse');
             $table->timestamps();
         });
     }
