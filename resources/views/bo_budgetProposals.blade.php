@@ -9,20 +9,33 @@
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 30px; padding-right: 20px;">
+<div class="row" style="padding-left: 10px; padding-right: 20px;">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
-				<p style="position: absolute; font-size: 22px;"> Budget Proposal List </p><br><br><br>
 				@can('create', App\BudgetProposal::class)
 				<!-- <button class="btn btn-default btn-sm" style="right: 40px; top: 25px; position: absolute !important;" data-toggle="modal"
 				data-target="#makebp">
 					<i class="fa fa-plus"></i> &nbsp;New Budget Proposal
 				</button> -->
-				<a href="" data-toggle="modal" data-target="#makebp" id="create3"><span class="fas fa-plus fa-xs"></span> </a>
+				<a href="" data-toggle="modal" data-target="#makebp" id="create3" style="margin-right: 200px;"><span class="fas fa-plus fa-xs"></span> </a>
 				@endcan
+
+				<a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip" title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
+          
+		        <a href="#" class="circle tablinks" id="approved" onclick="openFilter(event, 'Approved')" style="margin-right: 100px;" rel="tooltip" title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
+		          
+		        <a href="#" class="circle tablinks" id="pending" onclick="openFilter(event, 'Pending')"  style="margin-right: 50px;" rel="tooltip" title="Pending"> <span class="far fa-file-powerpoint fa-xs"></span> </a>
+		          
+		        <a href="#" class="circle tablinks" id="rejected" onclick="openFilter(event, 'Rejected')"  rel="tooltip" title="Rejected"> <span class="far fa-thumbs-down fa-xs"></span> </a>
+
+				<div id="All" class="tabcontent">
+
+				<p class="text-info" style="position: absolute; font-size: 20px;">ALL BUDGET PROPOSALS 
+				<i class="fas fa-list-ul fa-sm" style="margin-left: 10px; color:black;"></i> </p> <br><br><br>
+
 				<div class="table-responsive" style="overflow: visible;"> 
-					<table class="table table-striped">
+					<table class="table table-striped table-bordered display">
 						<thead>
 							<tr class=" text-primary">
 					            <th>Year</th>
@@ -96,6 +109,29 @@
 					</table>
 
 					</div>
+				</div>
+
+					<div id="Approved" class="tabcontent hide"> 
+					<p class="text-success"  style="position: absolute; font-size: 20px;"> APPROVED BUDGET PROPOSAL
+					<i class="far fa-thumbs-up fa-sm" style="margin-left: 10px; color:black;"></i> </p> 
+					<br><br><br>
+						APPROVED!
+					</div>
+
+					<div id="Pending" class="tabcontent hide"> 
+					<p class="text-warning" style="position: absolute; font-size: 20px;"> PENDING BUDGET PROPOSAL 
+					<i class="far fa-file-powerpoint fa-sm" style="margin-left: 10px; color:black;"></i> </p>
+					<br><br><br>
+						PENDING!
+					</div>
+
+					<div id="Rejected" class="tabcontent hide"> 
+					<p class="text-danger" style="position: absolute; font-size: 20px;"> REJECTED BUDGET PROPOSAL 
+					<i class="far fa-thumbs-down fa-sm" style="margin-left: 10px; color:black;"></i>  </p>
+					<br><br><br>
+						REJECTED!
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -301,4 +337,20 @@ $(".viewProposalbtn").click(function(){
 	});
 </script>
 @endcan
+
+<script>
+function openFilter(evt, filterName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(filterName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
 @endsection

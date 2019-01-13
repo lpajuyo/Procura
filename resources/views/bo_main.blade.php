@@ -22,7 +22,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/responsive.bootstrap4.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/sweetalert2.css') }}">
     <!--   Core JS Files   -->
-  <script src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
   <script src="{{ asset('/js/sweetalert2.js') }}"></script>
   <script src="{{ asset('/pd/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
@@ -98,8 +98,8 @@
               </button>
             </div>
             <a class="navbar-brand" href="#pablo"><img src="{{ asset('/images/logo.png') }}" class="img-responsive" 
-              style=" width: 40px; height: 40px;">
-            Tecnological University of the Philippines</a>
+              style=" width: 40px; height: 40px; ">
+            TECHNOLOGICAL UNIVERSITY OF THE PHILIPPINES</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>

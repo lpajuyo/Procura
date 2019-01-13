@@ -9,12 +9,13 @@
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 20px; padding-right: 20px;">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px; margin-left: 10px; ">
-				<p style="font-size: 23px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> CREATE PPMP 
-					<i class="fas fa-box" style="margin-left: 10px; "></i><br>
+				<p style="font-size: 20px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> CREATE PPMP 
+					<i class="fas fa-edit" style="margin-left:10px;"></i>
+					<br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
 					<!-- <a href="" data-toggle="modal" data-target="#additem" id="create2"><span class="fas fa-plus fa-xs"></span> </a> -->
 				</p><br>
@@ -24,16 +25,19 @@
 						<form method="POST" action="{{ route('items.store', ['project' => $project->id]) }}">
 						@csrf
 							<div class="row" style="padding:0px 30px 5px 30px;">
-			                    <div class="col-lg-3">
+			                    <div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="For Year">For Year:</label>
 									<input type="text" class="form-control" value="{{ $project->year->budget_year }}" disabled>
 			                      </div>
 			                    </div>
-							</div>
-							<div class="form-group" style="padding:0px 30px 5px 30px;">
-								<label for="Product Type">Project Title:</label>
-                    			<input name="title" value="{{ $project->title }}" type="text" class="form-control" id="Type" disabled>
+
+			                    <div class="col-lg-7">
+			                    	<div class="form-group">
+										<label for="Product Type">Project Title:</label>
+		                    			<input name="title" value="{{ $project->title }}" type="text" class="form-control" id="Type" disabled>
+									</div>
+			                    </div>
 							</div>
 
 							<div class="row" style="padding:0px 30px 5px 30px;">
@@ -47,13 +51,13 @@
 								    </select>
 			                      </div>
 			                    </div> -->
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<div class="form-group">
 										<label for="Code">Code:</label>
 										<input name="code" type="text" class="form-control" id="Code">
 									</div>
 								</div>
-			                    <div class="col-lg-9">
+			                    <div class="col-lg-7">
 			                      <div class="form-group">
 			                        <label for="Description">Product Description:</label>
 									<input name="description" value="" type="text" class="form-control" id="Description">
@@ -66,7 +70,7 @@
 			                    </div>
 			                  </div>
 
-			                 <div class="row" style="padding:0px 30px 5px 30px;">
+			                 <div class="row" style="padding:0px 100px 5px 30px;">
 			                    <div class="col-lg-2">
 			                      <div class="form-group">
 			                        <label for="Quantity">Quantity:</label>
@@ -92,17 +96,20 @@
 			                      </div>
 			                    </div>
 			                  </div>
-							  <div class="row" style="padding:0px 30px 5px 30px;">
-							 	<div class="col-lg-6">
+
+							  <div class="row" style="padding:0px 100px 5px 30px;">
+							 	<div class="col-lg-4">
 									<div class="form-group">
 										<label for="Mode of Procurement">Mode of Procurement:</label>
 										<input name="procurement_mode" type="text" class="form-control" id="Proc-Mode">
 									</div>
 								</div>
-								<div class="col-lg-2"></div>
-								<div class="col-lg-4">
+								<div class="col-lg-4" style="padding-top: 26px">
+									<label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label>
+								</div>
+								<div class="col-lg-4" style="padding-top: 26px;">
 									<div class="form-group">
-										<label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label>
+										<!-- <label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label> -->
 										<input name="total_ppmp_budget" 
 											value="{{ (old('total_ppmp_budget') == null) ? $project->totalBudgetWithContingency() : old('total_ppmp_budget') }}" 
 											type="number" min="0" step=".01" class="form-control" id="PPMP-Total" readonly>
@@ -113,7 +120,7 @@
 
 							<div class="form-group">
 								<label style="padding: 5px 0px 0px 30px;">Schedule / Milestones:</label>
-								<div class="row" style="font-size: 20px; padding:20px 30px 20px 30px;">
+								<div class="row" style="font-size: 18px; padding:20px 100px 20px 30px;">
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
@@ -176,7 +183,7 @@
 									</div>
 								</div>
 
-								<div class="row" style="font-size: 20px; padding:10px 30px 10px 30px;">
+								<div class="row" style="font-size: 18px; padding:10px 100px 10px 30px;">
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
@@ -242,18 +249,40 @@
 						
 						@include('errors')
 
-						<div style="padding: 10px 0px 20px 300px; width: 60%;" class="text-center">
-							<button type="submit" class="btn btn-success btn-block makeppmp">Add Item</button>
-							<a href="{{ route('projects.index') }}"><button type="button" class="btn btn-primary btn-block makeppmp">Done</button></a>
+						<div class="row">
+							<div class="col-lg-1" style="margin-right:40px;"></div>
+							<div class="col-lg-4">
+								<div style="padding: 20px 0px 30px 0px;" class="text-center">
+									<button type="submit" class="btn btn-info btn-block makeppmp">Add Item</button>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div style="padding: 20px 0px 30px 0px;" class="text-center">
+									<a href="{{ route('projects.index') }}"><button type="button" class="btn btn-success btn-block makeppmp">Done</button></a>
+								</div>
+							</div>	
 						</div>
 
 						</form>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col">
-					<table class="table table-bordered" >
-						<thead class="text-center">
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<div class="row" style="padding-left: 20px; padding-right: 20px;">
+<div class="col-lg-12 col-md-12">
+	<div class="card">
+	<div class="card-body" style="margin-top: 10px; margin-left: 10px; padding: 15px 25px 20px 15px; ">
+		 <p style="font-size: 20px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> PPMP DETAILS
+					<i class="fas fa-info-circle" style="margin-left: 10px; "></i><br>
+				</p><br>
+					<table class="table table-bordered" style="margin: : 0px 50px 20px 40px;" >
+						<thead class="text-center text-info">
 						<tr style="font-weight: bolder;">
 							<td rowspan="2">CODE</td>
 							<td rowspan="2">DESCRIPTION</td>
@@ -261,6 +290,29 @@
 							<td rowspan="2">UNIT PRICE</td>
 							<td rowspan="2">ESTIMATED BUDGET</td>
 							<td rowspan="2">MODE OF PROCUREMENT</td>
+							
+							<!-- <td rowspan="2">Action</td>                 -->
+						</tr>
+						</thead>
+						<tbody style="font-size: 12px;">
+						@foreach($project->items as $item)
+						<tr class="text-center" style="line-height: 10px;">
+							<td>{{ $item->code }}</td>
+							<td>{{ $item->description }}</td>
+							<td>{{ $item->quantity . ' ' . $item->uom }}</td>
+							<td>{{ $item->unit_cost }}</td>
+							<td>{{ $item->estimated_budget }}</td>
+							<td>{{ $item->procurement_mode }}</td>
+						</tr><br>
+						@endforeach
+						</tbody>
+					</table>
+					<br>
+
+					<table class="table table-bordered">
+						<thead class="text-center text-info">
+						<tr style="font-weight: bolder;">
+							<td rowspan="2">CODE</td>
 							<td colspan="12" rowspan="1" class="text-center">SCHEDULE / MILESTONES</td>
 							<!-- <td rowspan="2">Action</td>                 -->
 						</tr>
@@ -279,41 +331,21 @@
 							<td>Dec</td>
 						</tr>
 						</thead>
-						<tbody>
-						<tr>
-						</tr>
+						<tbody style="font-size: 12px;">
 						@foreach($project->items as $item)
-						<tr class="text-center">
+						<tr class="text-center" style="line-height: 10px;">
 							<td>{{ $item->code }}</td>
-							<td>{{ $item->description }}</td>
-							<td>{{ $item->quantity . ' ' . $item->uom }}</td>
-							<td>{{ $item->unit_cost }}</td>
-							<td>{{ $item->estimated_budget }}</td>
-							<td>{{ $item->procurement_mode }}</td>
 							@for($i=1; $i<=12; $i++)
 							<td> {!! ($item->schedules->firstWhere('id', $i)) ? "&#x2714;" : "" !!} </td>
 							@endfor
-							<!-- <td> &#x2714; </td>
-							<td> &#x2714; </td>
-							<td> &#x2714;</td>
-							<td> -- </td>
-							<td> -- </td>
-							<td> &#x2714; </td>
-							<td> -- </td>
-							<td> -- </td>
-							<td> &#x2714; </td> -->
 						</tr>
 						@endforeach
 						</tbody>
 					</table>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
-
+	</div>
 </div>
-
+</div>
 @endsection
 
 

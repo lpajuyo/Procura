@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/png" href="{{ asset('/images/logo.png') }}">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ asset('/pd/css/bootstrap.min.css') }}">
@@ -14,53 +17,65 @@
 </head>
 
 <body>
-	<div class="container-fluid body1">
+	<div class="container-fluid newbody">
 		<div class="row">
-			<div class="col-lg-3 col-md-3 col-s-3"></div>
-			<div class="col-lg-6 col-md-6 col-s-6">
-				<form class="form-box" method="POST" action="{{ route('login') }}">
-                	@csrf
 
-					<img src="{{ asset('/images/logo.png') }}" class="tuplogo" alt="TUP LOGO"> <br><br>
-					<span class="tup">TECHNOLOGICAL UNIVERSITY OF THE PHILIPPINES</span> <br><br><br>
-					
-					<div class="form-group"> 
-						<!-- <label></label> -->
-						<span class="fa fa-user fa1"></span>
-						<input type="text" name="username" id="username" placeholder="username" class="L1-input" value="{{ old('username') }}">
-						@if ($errors->has('username'))
-							<span class="text-danger" role="alert">
-								<strong>{{ $errors->first('username') }}</strong>
-							</span>
-                        @endif
+			<div class="col-lg-2 col-md-2"></div>
+
+			<div class="col-lg-8 col-md-8">
+
+				<div class="wrapper">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-5 col-md-5 leftpanel">
+								<div class="title">
+									<img id="logospin" src="{{ asset('/images/logo.png') }}">
+									<p> <strong>TECHNOLOGICAL UNIVERSITY </strong> <br> OF THE <strong> PHILIPPINES </strong></p>
+								</div>
+
+								<form method="POST" action="{{ route('login') }}">
+									@csrf
+
+									<div class="form-group"> 
+										<!-- <label></label> -->
+										<span class="fa fa-user fa4"></span>
+										<input type="text" name="username" id="username" placeholder="username" class="input-underline" value="{{ old('username') }}">
+										@if ($errors->has('username'))
+											<span class="text-danger" role="alert" style="font-size:13px; margin-left:10px;">
+												<strong>{{ $errors->first('username') }}</strong>
+											</span>
+				                        @endif 
+									</div>
+									
+									<div class="form-group"> 
+										<!-- <label></label> -->
+										<span class="fa fa-lock fa4"></span>
+										<input type="password" name="password" id="password" placeholder="password" class="input-underline">
+										@if ($errors->has('password'))
+											<span class="text-danger" role="alert" style="font-size:13px; margin-left:10px;">
+												<strong>{{ $errors->first('password') }}</strong>
+											</span>
+										@endif
+									</div>
+									
+									<button type="submit" class="btn-5 fa fa-lock-open"><span>LOGIN</span></button>
+								
+								</form>
+							</div>
+
+							<div class="col-lg-7 col-md-7 rightpanel">
+								<h4><strong> Better Procurement System. <br> Better Work Place. </strong></h4> <br>
+								<p style="font-size: 13px;">Lorem ipsum dolor sit amet, consectetur <br> adipiscing elit. Cras eros sem, laoreet quis <br> mollis vel, vestibulum in arcu.</p>	
+							</div>
+						</div>
 					</div>
+				</div>
 
-					<div class="form-group"> 
-						<!-- <label></label> -->
-						<span class="fa fa-lock fa1"></span>
-						<input type="password" name="password" id="password" placeholder="password" class="L1-input">
-						@if ($errors->has('password'))
-							<span class="text-danger" role="alert">
-								<strong>{{ $errors->first('password') }}</strong>
-							</span>
-						@endif
-					</div>
+			</div>
 
-					<button type="submit" class="btn btn-success btn-block">Login</button>
-				</form>
-			</div>
-			<div class="col-lg-3 col-md-3 col-s-3">
-			</div>
+			<div class="col-lg-2 col-md-2"></div>
+
 		</div>
 	</div>
-    
-<!-- <script type="text/javascript">
-	$(document).ready(function(){
-		$("#username").focus(function(){
-			$("span").css ("visibility", "visible");
-		});
-	});
-</script> -->
-
 </body>
 </html>

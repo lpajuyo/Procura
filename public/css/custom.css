@@ -250,3 +250,53 @@
   height: 40px;
   border-radius: 35px;
 }
+
+
+/* TABS (ALL, APPROVED, PENDING, REJECTED)*/
+.circle{
+    position: absolute;
+    right: 40px;
+    top: 26px;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    text-align: center;
+    line-height: 35px;
+    background: #FFFFFF;
+    color: #444;
+    cursor: pointer;
+    border: 1px solid #D5D8DC;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+#all:hover{
+  background-color: #5DADE2;
+  color: black;
+}
+
+#approved:hover{
+  background-color: #27AE60;
+  color: black;
+}
+
+#pending:hover{
+  background-color: #F7DC6F;
+  color: black;
+}
+
+#rejected:hover{
+  background-color: #E74C3C;
+  color: black;
+}
+
+.hide{
+  display: none;
+}
+
+input[type="checkbox"] {
+  width: 10px !important;
+  height: 10px !important;
+}
