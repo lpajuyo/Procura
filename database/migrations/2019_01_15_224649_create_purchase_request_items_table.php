@@ -17,10 +17,9 @@ class CreatePurchaseRequestItemsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('purchase_request_id');
             $table->unsignedInteger('project_item_id');
-            $table->text('specification');
-            $table->unsignedInteger('quantity');
+            $table->text('specification')->nullable();
+            $table->unsignedInteger('quantity')->nullable();
             $table->unsignedDecimal('total_cost', 11, 2);
-            $table->string('purpose');
             $table->timestamps();
         });
     }

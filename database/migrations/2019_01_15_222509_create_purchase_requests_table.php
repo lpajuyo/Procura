@@ -18,6 +18,7 @@ class CreatePurchaseRequestsTable extends Migration
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('user_id');
             $table->string('pr_number')->nullable();
+            // $table->string('purpose');
             $table->boolean('is_approved')->nullable();
             $table->timestamps();
         });

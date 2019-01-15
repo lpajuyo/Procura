@@ -39,7 +39,10 @@ Route::post('approved_projects/{project}', 'ApprovedProjectsController@store')->
 Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy')->name('reject_project');
 
 Route::resource('purchase_requests', 'PurchaseRequestsController');
-Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestItemsController');
+Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestItemsController')->names([
+    'create' => 'pr_items.create',
+    'store' => 'pr_items.store' 
+]);
 
 //
 Route::get('/user_BPhistory', function () {

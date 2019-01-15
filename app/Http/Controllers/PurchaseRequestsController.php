@@ -42,7 +42,9 @@ class PurchaseRequestsController extends Controller
         $pr_month = str_pad($now->month, 2, "0", STR_PAD_LEFT);
         $pr_serial = PurchaseRequest::whereYear('created_at', $pr_year)->count() + 1;
         $pr_number = $pr_year . '-' . $pr_month . '-' . str_pad($pr_serial, 4, "0", STR_PAD_LEFT);
-        PurchaseRequest::create(['user_id' => Auth::user()->id, "project_id" => $request->project_id, 'pr_number' => $pr_number]);
+        $pr = PurchaseRequest::create(['user_id' => Auth::user()->id, "project_id" => $request->project_id, 'pr_number' => $pr_number]);
+
+        return redirect()->route('pr_items.create', ['purchase_request' => $pr->id]);
     }
 
     /**

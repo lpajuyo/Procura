@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PurchaseRequest;
 use App\PurchaseRequestItem;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,11 @@ class PurchaseRequestItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(PurchaseRequest $purchaseRequest)
     {
-        //
+        $projectItems = $purchaseRequest->project->items;
+
+        return view('create_pr_item', compact('projectItems', 'purchaseRequest'));
     }
 
     /**
@@ -33,9 +36,15 @@ class PurchaseRequestItemsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, PurchaseRequest $purchaseRequest)
     {
-        //
+        // dd($request->all());
+
+        $attributes = $request->all();
+
+        $purchaseRequest->items()->create($attributes);
+
+        return back();
     }
 
     /**
