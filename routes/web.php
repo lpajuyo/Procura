@@ -21,6 +21,8 @@ Route::get('budget_allocation/{budgetYear?}', 'BudgetAllocationController')->nam
 
 Route::resource('sector_budgets', 'SectorBudgetsController');
 Route::resource('department_budgets', 'DepartmentBudgetsController');
+// Route::get('sector_budgets', 'SectorBudgetsController@index');
+// Route::post('sector_budgets', 'SectorBudgetsController@store');
 
 Route::resource('sectors', 'SectorsController');
 
@@ -35,9 +37,11 @@ Route::resource('projects', 'ProjectsController');
 Route::resource('projects/{project}/items', 'ProjectItemsController');
 Route::post('approved_projects/{project}', 'ApprovedProjectsController@store')->name('approve_project');
 Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy')->name('reject_project');
-// Route::get('sector_budgets', 'SectorBudgetsController@index');
-// Route::post('sector_budgets', 'SectorBudgetsController@store');
 
+Route::resource('purchase_requests', 'PurchaseRequestsController');
+Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestItemsController');
+
+//
 Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
 });
