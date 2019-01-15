@@ -9,6 +9,7 @@
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/fonts.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('font-awesome-4.7.0/css/font-awesome.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('/fontawesome/css/fontawesome-all.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('/linearicons/style.css') }}">
   <!-- CSS Files -->
@@ -36,7 +37,7 @@
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('/dropify/js/dropify.min.js') }}"></script>
   <script src="{{ asset('/pd/js/paper-dashboard.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('/pd/demo/demo.js') }}"></script>
+  <!-- <script src="{{ asset('/pd/demo/demo.js') }}"></script> -->
   <!-- DATA TABLE JS Files -->
   <script src="{{ asset('/datatables/jquery.dataTables.js') }}"> </script>
   <script src="{{ asset('/datatables/dataTables.bootstrap4.js') }}"> </script>
