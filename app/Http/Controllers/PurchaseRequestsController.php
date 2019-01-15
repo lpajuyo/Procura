@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\PurchaseRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PurchaseRequestsController extends Controller
 {
@@ -35,7 +37,12 @@ class PurchaseRequestsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $now = new Carbon();
+        $pr_year = $now->year;
+        $pr_month = str_pad($now->month, 2, "0", STR_PAD_LEFT);
+        $pr_serial = PurchaseRequest::whereYear('created_at', $pr_year)->count() + 1;
+        $pr_number = $pr_year . '-' . $pr_month . '-' . str_pad($pr_serial, 4, "0", STR_PAD_LEFT);
+        PurchaseRequest::create(['user_id' => Auth::user()->id, "project_id" => $request->project_id, 'pr_number' => $pr_number]);
     }
 
     /**

@@ -89,8 +89,18 @@
                         <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
   					            	<i class="fas fa-pencil-alt"></i>
   					            </button>
-  			                </td>
                         @endcan
+
+                        <button type="submit" form="{{ $project->id }}-create-pr" rel="tooltip" title="Create Purchase Request" class="btn btn-danger btn-simple btn-xs" >
+  					            	<i class="far fa-file"></i>
+  					            </button>
+
+                        <form id="{{ $project->id }}-create-pr" method="POST" action="{{ route('purchase_requests.store') }}">
+                        @csrf
+                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+                        </form>
+
+                        </td>
   			            </tr>
   									@endforeach
   			            </tbody>
