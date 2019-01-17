@@ -296,7 +296,73 @@
   display: none;
 }
 
-input[type="checkbox"] {
+/*input[type="checkbox"] {
   width: 10px !important;
   height: 10px !important;
+}*/
+
+#createpr{
+    position: absolute;
+    right: 40px;
+    top: 26px;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    text-align: center;
+    line-height: 35px;
+    background: #FFFFFF;
+    color: #444;
+    cursor: pointer;
+    border: 1px solid #D5D8DC;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+#createpr span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#createpr span:after {
+  content: 'create pr';
+  font-family: Montserrat Thin;
+  font-weight: bolder;
+  font-size: 14px;
+  width: 100px;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.3s;
+}
+
+#createpr:hover span {
+  padding-right: 90px;
+  padding-left: 0px;
+  border-radius: 90% !important;
+}
+
+#createpr:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#createpr:hover{
+  width: 200px;
+  height: 40px;
+  border-radius: 35px;
+}
+
+
+.line{
+  width:0%; 
+  padding: 0px;
+  border-right:1px solid #99A3A4; 
+  height: 40px; 
+  margin-top: 9px;
+
 }
