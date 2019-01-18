@@ -23,4 +23,18 @@ class PurchaseRequest extends Model
     public function getDepartmentAttribute(){
         return $this->project->department;
     }
+
+    public function approve($approved = true){ //public function approve($remarks, $approved = true){
+        $this->update(["is_approved" => $approved]);
+        // $this->addRemarks($remarks);
+    }
+
+    public function reject(){ //    public function reject($remarks){
+        // $this->approve($remarks, false);
+        $this->approve(false);
+    }
+
+    // public function addRemarks($remarks){
+    //     $this->update(compact("remarks"));
+    // }
 }
