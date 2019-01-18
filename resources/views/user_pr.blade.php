@@ -10,7 +10,7 @@
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
 				<!-- <p style="font-size: 23px;"> PURCHASE REQUESTS --> 
-					<a href="/user_createpr" class="circle tablinks" id="createpr" style="margin-right: 200px;">
+					<a href="{{ route('purchase_requests.create') }}" class="circle tablinks" id="createpr" style="margin-right: 200px;">
 						<span class="fa fa-pencil-alt fa-xs"></span> 
 					</a>
 					

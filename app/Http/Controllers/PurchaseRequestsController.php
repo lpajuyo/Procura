@@ -28,7 +28,16 @@ class PurchaseRequestsController extends Controller
      */
     public function create()
     {
-        //
+        $projects = Auth::user()->projects;
+
+        //create pr_number
+        $now = new Carbon();
+        $pr_year = $now->year;
+        $pr_month = str_pad($now->month, 2, "0", STR_PAD_LEFT);
+        $pr_serial = PurchaseRequest::whereYear('created_at', $pr_year)->count() + 1;
+        $pr_number = $pr_year . '-' . $pr_month . '-' . str_pad($pr_serial, 4, "0", STR_PAD_LEFT);
+
+        return view('create_purchase_request', compact('pr_number', 'projects'));
     }
 
     /**
@@ -39,12 +48,7 @@ class PurchaseRequestsController extends Controller
      */
     public function store(Request $request)
     {
-        $now = new Carbon();
-        $pr_year = $now->year;
-        $pr_month = str_pad($now->month, 2, "0", STR_PAD_LEFT);
-        $pr_serial = PurchaseRequest::whereYear('created_at', $pr_year)->count() + 1;
-        $pr_number = $pr_year . '-' . $pr_month . '-' . str_pad($pr_serial, 4, "0", STR_PAD_LEFT);
-        $pr = PurchaseRequest::create(['user_id' => Auth::user()->id, "project_id" => $request->project_id, 'pr_number' => $pr_number]);
+        $pr = PurchaseRequest::create(['project_id' => $request->project_id, 'pr_number' => $request->pr_number, 'purpose' => $request->purpose]);
 
         return redirect()->route('pr_items.create', ['purchase_request' => $pr->id]);
     }
