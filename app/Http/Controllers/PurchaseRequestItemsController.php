@@ -25,6 +25,8 @@ class PurchaseRequestItemsController extends Controller
      */
     public function create(PurchaseRequest $purchaseRequest)
     {
+        $this->authorize('create', PurchaseRequest::class);
+
         $projectItems = $purchaseRequest->project->items;
 
         return view('user_create_pr_item', compact('projectItems', 'purchaseRequest'));
@@ -38,6 +40,8 @@ class PurchaseRequestItemsController extends Controller
      */
     public function store(Request $request, PurchaseRequest $purchaseRequest)
     {
+        $this->authorize('create', PurchaseRequest::class);
+
         // dd($request->all());
 
         $attributes = $request->all();

@@ -9,10 +9,12 @@
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
-				<!-- <p style="font-size: 23px;"> PURCHASE REQUESTS --> 
+				<!-- <p style="font-size: 23px;"> PURCHASE REQUESTS -->
+					@can('create', App\PurchaseRequest::class) 
 					<a href="{{ route('purchase_requests.create') }}" class="circle tablinks" id="createpr" style="margin-right: 200px;">
 						<span class="fa fa-pencil-alt fa-xs"></span> 
 					</a>
+					@endcan
 					
 					<a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip" title="All PR"> <span class="fas fa-list-ul fa-xs"></span> </a>
 					
@@ -33,8 +35,11 @@
 				        <thead>
 				            <tr class=" text-primary">
 				                <th>PR No.</th>
+												@can('create', App\PurchaseRequest::class)
 				                <th>Approver</th>
+												@elsecan('approvePurchaseRequests', App\PurchaseRequest::class)
 												<th>Department</th>
+												@endcan
 				                <th>Date Submitted</th>
 				                <th>Due Date</th>
 				                <th>Status</th>
@@ -45,8 +50,11 @@
 										@foreach($purchaseRequests as $pr)
 				            <tr>
 				                <td>{{ $pr->pr_number }}</td>
+												@can('create', App\PurchaseRequest::class)
 				                <td>{{ $pr->approver->name }}</td>
+												@elsecan('approvePurchaseRequests', App\PurchaseRequest::class)
 												<td>{{ $pr->department->name }}</td>
+												@endcan
 				                <td>24/10/2019</td>
 				                <td>//24/11/2019</td>
 				                <td>{{ (is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
@@ -57,9 +65,11 @@
 							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
 													</a>
 
-													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
+													@can('approvePurchaseRequests', App\PurchaseRequest::class)
+													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
 						            	<i class="fas fa-pencil-alt"></i>
 						            	</button>
+													@endcan
 				                </td>
 				            </tr>
 				    				@endforeach
@@ -118,17 +128,10 @@
             </tr>
             </thead>
             <tbody style="font-size: 12px;">
-            <tr class="text-center" style="line-height: 10px;">
-              <td></td>
-              <td> </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr><br>
+						<!-- populated by script -->
             </tbody>
           </table>
-					
+					@can('approvePurchaseRequests', App\PurchaseRequest::class)
           <div id="pr-approval" class="row">
             <div class="col-lg-3"></div>
 
@@ -151,7 +154,7 @@
 							</form>
             </div>
           </div>
-          
+          @endcan
           </div>
 
         </div>
@@ -183,14 +186,14 @@ $(".view-pr-btn").click(function(){
         $("#prdetails tbody").append("<td>"+ item.total_cost +"</td>");
 			}); 
 
-			{{-- @can('approveProjects', App\Project::class) --}}
+			@can('approvePurchaseRequests', App\PurchaseRequest::class)
       if(pr.is_approved == null){
         $("#approve-pr, #reject-pr").attr("action", "{{ url('approved_purchase_requests') }}/" + id);
         $("#pr-approval").show();
       }
       else
         $("#pr-approval").hide();
-      {{-- @endcan --}}
+      @endcan
 
       $("#prdetails").modal("show");
     }).fail(function(jqXHR, textStatus, errorThrown){

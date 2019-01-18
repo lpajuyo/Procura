@@ -19,7 +19,7 @@ class ApprovedPurchaseRequestsController extends Controller
      */
     public function store(Request $request, PurchaseRequest $purchaseRequest)
     {
-        // $this->authorize('approvePurchaseRequest', $PurchaseRequest);
+        $this->authorize('approve', $purchaseRequest);
 
         // $PurchaseRequest->approve($request->remarks);
         $purchaseRequest->approve();
@@ -35,7 +35,7 @@ class ApprovedPurchaseRequestsController extends Controller
      */
     public function destroy(Request $request, PurchaseRequest $purchaseRequest)
     {
-        // $this->authorize('approvePurchaseRequest', $PurchaseRequest);
+        $this->authorize('approve', $purchaseRequest);
 
         // $PurchaseRequest->reject($request->remarks);
         $purchaseRequest->reject();

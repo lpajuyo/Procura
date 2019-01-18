@@ -26,7 +26,7 @@
           </li>
 
           <li>
-            <a href="/sector_pr">
+            <a href="/purchase_requests">
               <i class="nc-icon nc-bag-16"></i>
               <p>Purchase Request</p>
             </a>

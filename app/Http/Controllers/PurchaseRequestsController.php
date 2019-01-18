@@ -29,6 +29,8 @@ class PurchaseRequestsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', PurchaseRequest::class);
+
         $projects = Auth::user()->projects;
 
         //create pr_number
@@ -49,6 +51,8 @@ class PurchaseRequestsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', PurchaseRequest::class);
+
         $pr = PurchaseRequest::create(['project_id' => $request->project_id, 'pr_number' => $request->pr_number, 'purpose' => $request->purpose]);
 
         return redirect()->route('pr_items.create', ['purchase_request' => $pr->id]);
@@ -62,10 +66,14 @@ class PurchaseRequestsController extends Controller
      */
     public function show(PurchaseRequest $purchaseRequest)
     {
+        $this->authorize('view', $purchaseRequest);
+
         return $purchaseRequest->load('items.project_item')->toJson();
     }
 
     public function showFile(PurchaseRequest $purchaseRequest){
+        $this->authorize('view', $purchaseRequest);
+        
         $templatePath = Storage::disk('public')->path('templates\pr_template.xlsx');
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
