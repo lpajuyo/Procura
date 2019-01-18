@@ -1,6 +1,7 @@
 @extends('bo_main') 
 
 @section('title', 'View PR List')
+<!-- @section('title', 'Approve PR') -->
 
 
 @section('content')
@@ -33,6 +34,7 @@
 				            <tr class=" text-primary">
 				                <th>PR No.</th>
 				                <th>Approver</th>
+												<th>Department</th>
 				                <th>Date Submitted</th>
 				                <th>Due Date</th>
 				                <th>Status</th>
@@ -40,19 +42,25 @@
 				            </tr>
 				        </thead>
 				        <tbody>
+										@foreach($purchaseRequests as $pr)
 				            <tr>
-				                <td>001</td>
-				                <td>Dr. Florida C. Labuguen</td>
+				                <td>{{ $pr->pr_number }}</td>
+				                <td>{{ $pr->approver->name }}</td>
+												<td>{{ $pr->department->name }}</td>
 				                <td>24/10/2019</td>
-				                <td>24/11/2019</td>
-				                <td>Approved</td>
+				                <td>//24/11/2019</td>
+				                <td>{{ (is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
 				                <td>
 				                	<button type="button" rel="tooltip" title="View Full Details" class="btn btn-warning btn-simple btn-xs" data-toggle="modal" data-target="#prdetails"> <i class="fa fa-eye"></i> </button>
 
-							        <button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
+							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
+
+													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
+						            	<i class="fas fa-pencil-alt"></i>
+						            	</button>
 				                </td>
 				            </tr>
-				    
+				    				@endforeach
 				            </tbody>
 				        </table>
 				    </div>
@@ -118,6 +126,24 @@
             </tr><br>
             </tbody>
           </table>
+					
+          <div class="row">
+            <div class="col-lg-3"></div>
+
+            <div class="col-lg-3">
+              <button type="submit" class="btn btn-block btn-success"> APPROVE &nbsp;
+              <i class="fa fa-thumbs-up"></i> </button>
+            </div>
+
+            <span class="line"></span>
+
+            <div class="col-lg-3">
+              
+              <button type="submit" class="btn btn-block btn-danger" > REJECT &nbsp;
+              <i class="fa fa-thumbs-down"></i> </button>
+            </div>
+          </div>
+          
           </div>
 
         </div>

@@ -16,7 +16,9 @@ class PurchaseRequestsController extends Controller
      */
     public function index()
     {
-        dd("test");
+        $purchaseRequests = PurchaseRequest::all();
+
+        return view('user_pr', compact('purchaseRequests'));
     }
 
     /**
