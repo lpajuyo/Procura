@@ -17,8 +17,18 @@ class PurchaseRequestsController extends Controller
      */
     public function index()
     {
-        $purchaseRequests = PurchaseRequest::all();
-
+        $user = Auth::user();
+        if($user->type->name == "Sector Head"){
+            $purchaseRequests = PurchaseRequest::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                ->latest('created_at')
+                                ->get();
+            $purchaseRequests = $purchaseRequests->filter(function($purchaseRequest){
+                return $purchaseRequest->approver->id == Auth::user()->id;
+            });
+        }
+        else if($user->type->name == "Department Head"){
+            $purchaseRequests = $user->purchase_requests;
+        }
         return view('user_pr', compact('purchaseRequests'));
     }
 
@@ -73,7 +83,7 @@ class PurchaseRequestsController extends Controller
 
     public function showFile(PurchaseRequest $purchaseRequest){
         $this->authorize('view', $purchaseRequest);
-        
+
         $templatePath = Storage::disk('public')->path('templates\pr_template.xlsx');
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
