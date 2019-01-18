@@ -46,6 +46,14 @@ Route::get('/user_viewppmp', function () {
     return view('user_viewppmp');
 });
 
+Route::get('/user_pr', function () {
+    return view('user_pr');
+});
+
+Route::get('/user_createpr', function () {
+    return view('user_createpr');
+});
+
 Route::get('/user_createppmp', function () {
     return view('user_createppmp');
 });
@@ -68,6 +76,10 @@ Route::get('sector_BPhistory', function () {
 
 Route::get('sector_ppmp', function () {
     return view('sector_ppmp');
+});
+
+Route::get('sector_pr', function () {
+    return view('sector_pr');
 });
 
 Route::get('test', 'CseController');
