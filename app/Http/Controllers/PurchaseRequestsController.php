@@ -6,6 +6,7 @@ use App\PurchaseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 
 class PurchaseRequestsController extends Controller
@@ -41,7 +42,7 @@ class PurchaseRequestsController extends Controller
     {
         $this->authorize('create', PurchaseRequest::class);
 
-        $projects = Auth::user()->projects;
+        $projects = Auth::user()->projects()->where('is_approved', 1)->get();
 
         //create pr_number
         $now = new Carbon();
@@ -62,6 +63,17 @@ class PurchaseRequestsController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', PurchaseRequest::class);
+
+        // dd($request->all());
+
+        $attributes = $request->validate([
+            'project_id' => [
+                'required',
+                Rule::exists('projects', 'id')->where('is_approved', 1),
+                ],
+            'purpose' => 'required|string',
+            'pr_number' => 'required|unique:purchase_requests'
+        ]);
 
         $pr = PurchaseRequest::create(['project_id' => $request->project_id, 'pr_number' => $request->pr_number, 'purpose' => $request->purpose]);
 
