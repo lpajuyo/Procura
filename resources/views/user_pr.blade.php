@@ -51,7 +51,7 @@
 				                <td>//24/11/2019</td>
 				                <td>{{ (is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
 				                <td>
-				                	<button type="button" rel="tooltip" title="View Full Details" class="btn btn-warning btn-simple btn-xs" data-toggle="modal" data-target="#prdetails"> <i class="fa fa-eye"></i> </button>
+				                	<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
 
 							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
 
@@ -102,17 +102,17 @@
 
           <div class="modal-body" style="padding: 25px 25px 25px 25px;">
             <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary"> 
-              PURCHASE REQUEST NUMBER: &nbsp; <span id="title" style="color: black;"></span></p>
+              PURCHASE REQUEST NUMBER: &nbsp; <span id="pr-no" style="color: black;"></span></p>
 
               <table class="table table-bordered" style="margin: : 0px 50px 20px 40px;" >
             <thead class="text-center text-info">
             <tr style="font-weight: bolder;">
-              <td rowspan="2">ITEM</td>
-              <td rowspan="2">ITEM DESCRIPTION</td>
-              <td rowspan="2">QTY</td>
-              <td rowspan="2">UNIT PRICE</td>
-              <td rowspan="2">TOTAL PRICE</td>
-              <td rowspan="2">PURPOSE</td>
+							<td rowspan="2">ITEM #</td>
+							<td rowspan="2">UNIT</td>
+							<td rowspan="2">ITEM DESCRIPTION</td>
+							<td rowspan="2">QTY</td>
+							<td rowspan="2">UNIT PRICE</td>
+							<td rowspan="2">TOTAL PRICE</td>
             </tr>
             </thead>
             <tbody style="font-size: 12px;">
@@ -127,20 +127,26 @@
             </tbody>
           </table>
 					
-          <div class="row">
+          <div id="pr-approval" class="row">
             <div class="col-lg-3"></div>
 
             <div class="col-lg-3">
-              <button type="submit" class="btn btn-block btn-success"> APPROVE &nbsp;
-              <i class="fa fa-thumbs-up"></i> </button>
+							<form id="approve-pr" method="POST" action="">
+							@csrf
+								<button type="submit" class="btn btn-block btn-success"> APPROVE &nbsp;
+								<i class="fa fa-thumbs-up"></i> </button>
+							</form>
             </div>
 
             <span class="line"></span>
 
             <div class="col-lg-3">
-              
-              <button type="submit" class="btn btn-block btn-danger" > REJECT &nbsp;
-              <i class="fa fa-thumbs-down"></i> </button>
+							<form id="reject-pr" method="POST" action="">
+							@csrf
+							@method('DELETE')
+								<button type="submit" class="btn btn-block btn-danger" > REJECT &nbsp;
+								<i class="fa fa-thumbs-down"></i> </button>
+							</form>
             </div>
           </div>
           
@@ -153,6 +159,44 @@
 
 
 @section('scripts')
+<script>
+$(".view-pr-btn").click(function(){
+    var id = $(this).attr('data-id');
+		console.log(id);
+		$.ajax({
+      url: "{{ route('purchase_requests.index') }}/" + id,
+      dataType: "json"
+    }).done(function(pr){
+      $("#pr-no").html(pr.pr_number);
+
+      $("#prdetails tbody").empty();
+			var n = 1;
+      $.each(pr.items, function (indexInArray, item) { 
+        $("#prdetails tbody").append("<tr class='text-center' style='line-height: 10px;>'");
+        $("#prdetails tbody").append("<td>"+ n++ +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.project_item.uom +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.project_item.description +"<br />"+ item.specifications +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.quantity +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.project_item.unit_cost +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.total_cost +"</td>");
+			}); 
+
+			{{-- @can('approveProjects', App\Project::class) --}}
+      if(pr.is_approved == null){
+        $("#approve-pr, #reject-pr").attr("action", "{{ url('approved_purchase_requests') }}/" + id);
+        $("#pr-approval").show();
+      }
+      else
+        $("#pr-approval").hide();
+      {{-- @endcan --}}
+
+      $("#prdetails").modal("show");
+    }).fail(function(jqXHR, textStatus, errorThrown){
+	    	alert(errorThrown);
+	  });
+	});
+</script>
+
 <script>
     $(document).ready(function() {
         $('table.display').DataTable({

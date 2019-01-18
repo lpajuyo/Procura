@@ -61,7 +61,7 @@ class PurchaseRequestsController extends Controller
      */
     public function show(PurchaseRequest $purchaseRequest)
     {
-        //
+        return $purchaseRequest->load('items.project_item')->toJson();
     }
 
     /**
