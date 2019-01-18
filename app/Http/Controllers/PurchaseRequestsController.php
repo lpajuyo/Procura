@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PurchaseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class PurchaseRequestsController extends Controller
@@ -62,6 +63,60 @@ class PurchaseRequestsController extends Controller
     public function show(PurchaseRequest $purchaseRequest)
     {
         return $purchaseRequest->load('items.project_item')->toJson();
+    }
+
+    public function showFile(PurchaseRequest $purchaseRequest){
+        $templatePath = Storage::disk('public')->path('templates\pr_template.xlsx');
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
+
+        $spreadsheet = $reader->load($templatePath);
+        $worksheet = $spreadsheet->getActiveSheet();
+
+        $worksheet->setCellValue('C8', $purchaseRequest->project->department->name);
+        $worksheet->setCellValue('C9', $purchaseRequest->project->department->sector->name);
+        $worksheet->setCellValue('D8', 'P.R. No. ' . $purchaseRequest->pr_number);
+        $worksheet->setCellValue('C52', $purchaseRequest->purpose);
+        // $worksheet->setCellValue('C55', $purchaseRequest->purpose); //requestor signature
+        $worksheet->setCellValue('C57', $purchaseRequest->requestor->name);
+        // $worksheet->setCellValue('C58', $purchaseRequest->requestor->name); //requestor designation
+
+        if($purchaseRequest->is_approved){
+            // $worksheet->setCellValue('E55', $purchaseRequest->purpose); //approver signature
+            $worksheet->setCellValue('E57', $purchaseRequest->approver->name); //approver signature
+            // $worksheet->setCellValue('E58', $purchaseRequest->purpose); //approver designation
+        }
+
+        $row = 12;
+        $n = 1;
+        foreach($purchaseRequest->items as $item){
+            $col = 1;
+            $worksheet->setCellValueByColumnAndRow($col++, $row, $n++);
+            $worksheet->setCellValueByColumnAndRow($col++, $row, $item->project_item->uom);
+            $worksheet->setCellValueByColumnAndRow($col++, $row, $item->project_item->description . "\n" . $item->specifications);
+            $worksheet->setCellValueByColumnAndRow($col++, $row, $item->quantity);
+            $worksheet->setCellValueByColumnAndRow($col++, $row, $item->project_item->unit_cost);
+            $worksheet->setCellValueByColumnAndRow($col++, $row, $item->total_cost);
+            $row++;
+        }
+
+        $itemCount =$purchaseRequest->items->count();
+        if($itemCount < 39){
+            $worksheet->removeRow($row, 39-$itemCount);
+        }
+
+        // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Html($spreadsheet);
+        // $writer->save('php://output');
+
+        //temp download spreadsheet
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="PR-' . $purchaseRequest->pr_number . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $writer->save('php://output');
+
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
     }
 
     /**

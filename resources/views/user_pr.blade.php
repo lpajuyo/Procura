@@ -53,7 +53,9 @@
 				                <td>
 				                	<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
 
+													<a href="{{ route('purchase_requests.showFile', ['purchase_request' => $pr->id]) }}">
 							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
+													</a>
 
 													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple 		btn-xs" >
 						            	<i class="fas fa-pencil-alt"></i>

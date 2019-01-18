@@ -16,6 +16,10 @@ class PurchaseRequest extends Model
         return $this->hasMany('App\PurchaseRequestItem');
     }
 
+    public function getRequestorAttribute(){
+        return $this->project->user;
+    }
+
     public function getApproverAttribute(){
         return $this->project->approver;
     }
