@@ -1,6 +1,7 @@
 @extends('bo_main') 
 
 @section('title', 'View PR List')
+<!-- @section('title', 'Approve PR') -->
 
 
 @section('content')
@@ -8,10 +9,12 @@
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px;">
-				<!-- <p style="font-size: 23px;"> PURCHASE REQUESTS --> 
-					<a href="/user_createpr" class="circle tablinks" id="createpr" style="margin-right: 200px;">
+				<!-- <p style="font-size: 23px;"> PURCHASE REQUESTS -->
+					@can('create', App\PurchaseRequest::class) 
+					<a href="{{ route('purchase_requests.create') }}" class="circle tablinks" id="createpr" style="margin-right: 200px;">
 						<span class="fa fa-pencil-alt fa-xs"></span> 
 					</a>
+					@endcan
 					
 					<a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip" title="All PR"> <span class="fas fa-list-ul fa-xs"></span> </a>
 					
@@ -32,7 +35,11 @@
 				        <thead>
 				            <tr class=" text-primary">
 				                <th>PR No.</th>
+												@can('create', App\PurchaseRequest::class)
 				                <th>Approver</th>
+												@elsecan('approvePurchaseRequests', App\PurchaseRequest::class)
+												<th>Department</th>
+												@endcan
 				                <th>Date Submitted</th>
 				                <th>Due Date</th>
 				                <th>Status</th>
@@ -40,19 +47,32 @@
 				            </tr>
 				        </thead>
 				        <tbody>
+										@foreach($purchaseRequests as $pr)
 				            <tr>
-				                <td>001</td>
-				                <td>Dr. Florida C. Labuguen</td>
+				                <td>{{ $pr->pr_number }}</td>
+												@can('create', App\PurchaseRequest::class)
+				                <td>{{ $pr->approver->name }}</td>
+												@elsecan('approvePurchaseRequests', App\PurchaseRequest::class)
+												<td>{{ $pr->department->name }}</td>
+												@endcan
 				                <td>24/10/2019</td>
-				                <td>24/11/2019</td>
-				                <td>Approved</td>
+				                <td>//24/11/2019</td>
+				                <td>{{ (is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
 				                <td>
-				                	<button type="button" rel="tooltip" title="View Full Details" class="btn btn-warning btn-simple btn-xs" data-toggle="modal" data-target="#prdetails"> <i class="fa fa-eye"></i> </button>
+				                	<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
 
-							        <button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
+													<a href="{{ route('purchase_requests.showFile', ['purchase_request' => $pr->id]) }}">
+							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
+													</a>
+
+													@can('approvePurchaseRequests', App\PurchaseRequest::class)
+													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
+						            	<i class="fas fa-pencil-alt"></i>
+						            	</button>
+													@endcan
 				                </td>
 				            </tr>
-				    
+				    				@endforeach
 				            </tbody>
 				        </table>
 				    </div>
@@ -94,30 +114,47 @@
 
           <div class="modal-body" style="padding: 25px 25px 25px 25px;">
             <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary"> 
-              PURCHASE REQUEST NUMBER: &nbsp; <span id="title" style="color: black;"></span></p>
+              PURCHASE REQUEST NUMBER: &nbsp; <span id="pr-no" style="color: black;"></span></p>
 
               <table class="table table-bordered" style="margin: : 0px 50px 20px 40px;" >
             <thead class="text-center text-info">
             <tr style="font-weight: bolder;">
-              <td rowspan="2">ITEM</td>
-              <td rowspan="2">ITEM DESCRIPTION</td>
-              <td rowspan="2">QTY</td>
-              <td rowspan="2">UNIT PRICE</td>
-              <td rowspan="2">TOTAL PRICE</td>
-              <td rowspan="2">PURPOSE</td>
+							<td rowspan="2">ITEM #</td>
+							<td rowspan="2">UNIT</td>
+							<td rowspan="2">ITEM DESCRIPTION</td>
+							<td rowspan="2">QTY</td>
+							<td rowspan="2">UNIT PRICE</td>
+							<td rowspan="2">TOTAL PRICE</td>
             </tr>
             </thead>
             <tbody style="font-size: 12px;">
-            <tr class="text-center" style="line-height: 10px;">
-              <td></td>
-              <td> </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr><br>
+						<!-- populated by script -->
             </tbody>
           </table>
+					@can('approvePurchaseRequests', App\PurchaseRequest::class)
+          <div id="pr-approval" class="row">
+            <div class="col-lg-3"></div>
+
+            <div class="col-lg-3">
+							<form id="approve-pr" method="POST" action="">
+							@csrf
+								<button type="submit" class="btn btn-block btn-success"> APPROVE &nbsp;
+								<i class="fa fa-thumbs-up"></i> </button>
+							</form>
+            </div>
+
+            <span class="line"></span>
+
+            <div class="col-lg-3">
+							<form id="reject-pr" method="POST" action="">
+							@csrf
+							@method('DELETE')
+								<button type="submit" class="btn btn-block btn-danger" > REJECT &nbsp;
+								<i class="fa fa-thumbs-down"></i> </button>
+							</form>
+            </div>
+          </div>
+          @endcan
           </div>
 
         </div>
@@ -127,6 +164,44 @@
 
 
 @section('scripts')
+<script>
+$(".view-pr-btn").click(function(){
+    var id = $(this).attr('data-id');
+		console.log(id);
+		$.ajax({
+      url: "{{ route('purchase_requests.index') }}/" + id,
+      dataType: "json"
+    }).done(function(pr){
+      $("#pr-no").html(pr.pr_number);
+
+      $("#prdetails tbody").empty();
+			var n = 1;
+      $.each(pr.items, function (indexInArray, item) { 
+        $("#prdetails tbody").append("<tr class='text-center' style='line-height: 10px;>'");
+        $("#prdetails tbody").append("<td>"+ n++ +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.project_item.uom +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.project_item.description +"<br />"+ item.specifications +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.quantity +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.project_item.unit_cost +"</td>");
+        $("#prdetails tbody").append("<td>"+ item.total_cost +"</td>");
+			}); 
+
+			@can('approvePurchaseRequests', App\PurchaseRequest::class)
+      if(pr.is_approved == null){
+        $("#approve-pr, #reject-pr").attr("action", "{{ url('approved_purchase_requests') }}/" + id);
+        $("#pr-approval").show();
+      }
+      else
+        $("#pr-approval").hide();
+      @endcan
+
+      $("#prdetails").modal("show");
+    }).fail(function(jqXHR, textStatus, errorThrown){
+	    	alert(errorThrown);
+	  });
+	});
+</script>
+
 <script>
     $(document).ready(function() {
         $('table.display').DataTable({

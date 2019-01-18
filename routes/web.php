@@ -21,6 +21,8 @@ Route::get('budget_allocation/{budgetYear?}', 'BudgetAllocationController')->nam
 
 Route::resource('sector_budgets', 'SectorBudgetsController');
 Route::resource('department_budgets', 'DepartmentBudgetsController');
+// Route::get('sector_budgets', 'SectorBudgetsController@index');
+// Route::post('sector_budgets', 'SectorBudgetsController@store');
 
 Route::resource('sectors', 'SectorsController');
 
@@ -35,9 +37,17 @@ Route::resource('projects', 'ProjectsController');
 Route::resource('projects/{project}/items', 'ProjectItemsController');
 Route::post('approved_projects/{project}', 'ApprovedProjectsController@store')->name('approve_project');
 Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy')->name('reject_project');
-// Route::get('sector_budgets', 'SectorBudgetsController@index');
-// Route::post('sector_budgets', 'SectorBudgetsController@store');
 
+Route::get('purchase_requests/{purchase_request}/file', 'PurchaseRequestsController@showFile')->name('purchase_requests.showFile');
+Route::resource('purchase_requests', 'PurchaseRequestsController');
+Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestItemsController')->names([
+    'create' => 'pr_items.create',
+    'store' => 'pr_items.store' 
+]);
+Route::post('approved_purchase_requests/{purchase_request}', 'ApprovedPurchaseRequestsController@store')->name('approve_pr');
+Route::delete('approved_purchase_requests/{purchase_request}', 'ApprovedPurchaseRequestsController@destroy')->name('reject_pr');
+
+//
 Route::get('/user_BPhistory', function () {
     return view('user_BPhistory');
 });
