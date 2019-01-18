@@ -27,7 +27,7 @@ class PurchaseRequestItemsController extends Controller
     {
         $projectItems = $purchaseRequest->project->items;
 
-        return view('create_pr_item', compact('projectItems', 'purchaseRequest'));
+        return view('user_create_pr_item', compact('projectItems', 'purchaseRequest'));
     }
 
     /**

@@ -15,14 +15,17 @@
 				
 				<div class="row" style="padding: 5px 10px 30px 20px;">
 				<div class="col-lg-12">
-				<form>
-
+				<form method="POST" action="{{ route('pr_items.store', ['purchase_request' => $purchaseRequest->id]) }}">
+				@csrf
 					<div class="row">
-						<div class="col-lg-5 col-md-5">
+						<div class="col-lg-6 col-md-6">
 							<div class="form-group">
 								<label for="Item">Item:</label>
-								<select class="form-control" id="PR Item">
-									<option>1</option>
+								<select name="project_item_id" class="form-control" id="item-dropdown">
+									<option disabled selected>--Select an Item--</option>
+									@foreach($projectItems as $item)
+									<option value="{{ $item->id }}">{{ $item->description }}</option>
+									@endforeach
 								</select>
 							</div>
 						</div>
@@ -30,39 +33,41 @@
 						<div class="col-lg-2">
 			               <div class="form-group">
 			                  <label for="Quantity">Quantity:</label>
-			                  <input name="quantity" value="" type="number" class="form-control" id="Qty">
+							  <input name="quantity" min="0" value="" type="number" class="form-control" id="Qty">
 			               </div>
 			            </div>
+
+						<div class="col-lg-2">
+							<div class="form-group">
+								<label for="Unit of Measurement">Unit of Measurement:</label>
+								<input value="" type="text" class="form-control" id="Uom">
+							</div>
+						</div>
 
 					    <div class="col-lg-2">
 			               <div class="form-group">
 			                  <label for="Unit Cost">Unit Cost:</label>
-			                  <input name="unitcost" value="" type="text" class="form-control" id="unitcost">
-			               </div>
-			            </div>
-
-			            <div class="col-lg-2">
-			               <div class="form-group">
-			                  <label for="Total Price">Total Price</label>
-			                  <input name="Total" value="" type="text"  class="form-control" id="total" disabled>
+							  <input min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
 			               </div>
 			            </div>
 					</div>
 
 					<div class="row">
-						<div class="col-lg-5">
+						<div class="col-lg-6">
 							<div class="form-group">
-			                    <label for="Description">Item Description:</label>
-			                    <textarea class="form-control" id="description" rows="10" style="max-height: 20vh;"></textarea>
+			                    <label for="Specifications">Specifications:</label>
+			                    <textarea class="form-control" name="specifications" id="Specification" rows="10" style="max-height: 20vh;"></textarea>
 			                </div>
 						</div>
 
-						<div class="col-lg-6">
-						  <div class="form-group">
-							<label for="purpose">Purpose:</label>
-							<textarea class="form-control" id="purpose" rows="10" style="max-height: 20vh;"></textarea>
-						  </div>
-						</div>
+						<div class="col"></div>
+
+						<div class="col-lg-2">
+			               <div class="form-group">
+			                  <label for="Total Price">Total Price:</label>
+							  <input name="total_cost" min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="Total">
+			               </div>
+			            </div>
 					</div><br>
 
 
@@ -74,7 +79,9 @@
 							</div>
 							<div class="col-lg-4">
 								<div style="" class="text-center">
-									<a href=""><button type="button" class="btn btn-success btn-block makeppmp">Done</button></a>
+									<a href="{{ route('purchase_requests.index') }}">
+										<button type="button" class="btn btn-success btn-block makeppmp">Done</button>
+									</a>
 								</div>
 							</div>	
 						</div>
@@ -99,23 +106,26 @@
 				<table class="table table-bordered" style="margin: : 0px 50px 20px 40px;" >
 						<thead class="text-center text-info">
 						<tr style="font-weight: bolder;">
-							<td rowspan="2">ITEM</td>
+							<td rowspan="2">ITEM #</td>
+							<td rowspan="2">UNIT</td>
 							<td rowspan="2">ITEM DESCRIPTION</td>
 							<td rowspan="2">QTY</td>
 							<td rowspan="2">UNIT PRICE</td>
 							<td rowspan="2">TOTAL PRICE</td>
-							<td rowspan="2">PURPOSE</td>
 						</tr>
 						</thead>
 						<tbody style="font-size: 12px;">
+						@php $n=1; @endphp
+						@foreach($purchaseRequest->items as $item)
 						<tr class="text-center" style="line-height: 10px;">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>{{ $n++ }}</td>
+							<td>{{ $item->project_item->uom }}</td>
+							<td>{{ $item->project_item->description }} <br /> {{ $item->specifications }}</td>
+							<td>{{ $item->quantity }}</td>
+							<td>{{ $item->project_item->unit_cost }}</td>
+							<td>{{ $item->total_cost }}</td>
 						</tr><br>
+						@endforeach
 						</tbody>
 					</table>
 					<br>
@@ -123,4 +133,18 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+	$("#item-dropdown").change(function(){
+		var items = @json($projectItems);
+		var val = $(this).val();
+
+		$("#Qty").val(items[val-1].quantity);
+		$("#Uom").val(items[val-1].uom);
+		$("#UPrice").val(items[val-1].unit_cost);
+		$("#Total").val(items[val-1].estimated_budget);
+	});
+</script>
 @endsection
