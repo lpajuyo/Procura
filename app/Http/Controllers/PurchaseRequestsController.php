@@ -18,6 +18,8 @@ class PurchaseRequestsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewPurchaseRequests', PurchaseRequest::class);
+
         $user = Auth::user();
         if($user->type->name == "Sector Head"){
             $purchaseRequests = PurchaseRequest::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')

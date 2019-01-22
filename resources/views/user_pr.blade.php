@@ -3,6 +3,7 @@
 @section('title', 'View PR List')
 <!-- @section('title', 'Approve PR') -->
 
+@section('pr-active', 'active')
 
 @section('content')
 <div class="row" style="padding-left: 10px; padding-right: 20px;">

@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\BudgetProposal' => 'App\Policies\BudgetProposalPolicy',
+        'App\BudgetYear' => 'App\Policies\BudgetYearPolicy',
         'App\SectorBudget' => 'App\Policies\SectorBudgetPolicy',
         'App\Project' => 'App\Policies\ProjectPolicy',
         'App\PurchaseRequest' => 'App\Policies\PurchaseRequestPolicy',
@@ -28,6 +29,19 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function($user){
+            if($user->type->name == "Admin")
+                return true;
+        });
+
+        Gate::define('viewBudgetAlloc', function($user){
+            $allowedUserTypes = ['Budget Officer', 'Sector Head'];
+    
+            return in_array($user->type->name, $allowedUserTypes);
+        });
+
+        Gate::define('administer', function($user){
+            return $user->type->name == "Admin";
+        });
     }
 }

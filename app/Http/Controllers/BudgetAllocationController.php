@@ -24,6 +24,8 @@ class BudgetAllocationController extends Controller
      */
     public function __invoke(BudgetYear $budgetYear = null) //Request $request
     {
+        $this->authorize('viewBudgetAlloc');
+
         bcscale(2);
         $currentYear = date('Y', strtotime('2020'));
         

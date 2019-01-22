@@ -21,6 +21,8 @@ class BudgetYearsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewBudgetYears', BudgetYear::class);
+
         $budgetYears = BudgetYear::all();
         
         return view("bo_budgetYear", compact('budgetYears'));
