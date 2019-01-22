@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="icon" type="image/png" href="{{ asset('/images/logo.png') }}">
-  <title> @yield('title','Procura')</title>
+  <title> @yield('title', 'Procura')</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/fonts.css') }}">
@@ -37,7 +37,7 @@
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('/dropify/js/dropify.min.js') }}"></script>
   <script src="{{ asset('/pd/js/paper-dashboard.js') }}" type="text/javascript"></script>
-  <!-- <script src="{{ asset('/pd/demo/demo.js') }}"></script> -->
+  <script src="{{ asset('/pd/demo/demo.js') }}"></script>
   <!-- DATA TABLE JS Files -->
   <script src="{{ asset('/datatables/jquery.dataTables.js') }}"> </script>
   <script src="{{ asset('/datatables/dataTables.bootstrap4.js') }}"> </script>
@@ -60,16 +60,59 @@
 
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active">
+          <li class="@yield('dashboard-active')">
             <a href="/home">
               <i class="nc-icon nc-layout-11"></i>
               <p>Dashboard</p>
             </a>
           </li>
 
-          @includeWhen((Auth::user()->type->name == 'Budget Officer'), 'sidebars.budget_officer')
+          <li class="sb-content @yield('budget-active')">
+            <a data-toggle="collapse" href="#collapseItem1" aria-expanded="false" aria-controls="collapseItem1">
+            <i class="nc-icon nc-money-coins"></i>
+            <p>Budgeting</p> </a>
+            <ul class="collapse @yield('budget-dropdown-show')" id="collapseItem1">
+              @can('viewBudgetProposals', App\BudgetProposal::class)
+              <li class="@yield('proposal-active')"> <a href="/budget_proposals"> <p> Budget Proposals</p> </a> </li>
+              @endcan
+              @can('viewBudgetYears', App\BudgetYear::class)
+              <li class="@yield('bYear-active')"> <a href="/budget_years"> <p> Budget Year</p> </a> </li>
+              @endcan
+              @can('viewBudgetAlloc')
+              <li class="@yield('bAlloc-active')"> <a href="/budget_allocation"> <p> Budget Allocation</p> </a> </li>
+              @endcan
+            </ul>
+          </li>
+
+          @can('viewProjects', App\Project::class)
+          <li class="sb-content @yield('ppmp-active')">
+            <a href="/projects">
+            <i class="nc-icon nc-briefcase-24"></i> 
+            <p>PPMP</p> </a>
+          </li>
+          @endcan
+
+          @can('viewPurchaseRequests', App\PurchaseRequest::class)
+          <li class="@yield('pr-active')">
+            <a href="/purchase_requests">
+              <i class="nc-icon nc-bag-16"></i>
+              <p>Purchase Request</p>
+            </a>
+          </li>
+          @endcan
+
+          @can('administer')
+          <li>
+            <a href="#">
+              <i class="nc-icon nc-bag-16"></i>
+              <p>Administration</p>
+            </a>
+          </li>
+          @endcan
+
+          {{-- @includeWhen((Auth::user()->type->name == 'Budget Officer'), 'sidebars.budget_officer')
           @includeWhen((Auth::user()->type->name == 'Sector Head'), 'sidebars.sector_head')
-          @includeWhen((Auth::user()->type->name == 'Department Head'), 'sidebars.dept_head')
+          @includeWhen((Auth::user()->type->name == 'Department Head'), 'sidebars.dept_head') --}}
 
           <li>
             <a href="{{ route('logout') }}" 

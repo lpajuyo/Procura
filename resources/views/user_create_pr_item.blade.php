@@ -2,6 +2,7 @@
 
 @section('title', 'View PPMP')
 
+@section('pr-active', 'active')
 
 @section('content')
 <div class="row" >

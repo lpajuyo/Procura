@@ -15,6 +15,10 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::resource('budget_years', 'BudgetYearsController');
 
 Route::get('budget_allocation/{budgetYear?}', 'BudgetAllocationController')->name('budget_alloc');
@@ -47,53 +51,6 @@ Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestIt
 Route::post('approved_purchase_requests/{purchase_request}', 'ApprovedPurchaseRequestsController@store')->name('approve_pr');
 Route::delete('approved_purchase_requests/{purchase_request}', 'ApprovedPurchaseRequestsController@destroy')->name('reject_pr');
 
+
 //
-Route::get('/user_BPhistory', function () {
-    return view('user_BPhistory');
-});
-
-Route::get('/user_viewppmp', function () {
-    return view('user_viewppmp');
-});
-
-Route::get('/user_pr', function () {
-    return view('user_pr');
-});
-
-Route::get('/user_createpr', function () {
-    return view('user_createpr');
-});
-
-Route::get('/user_createppmp', function () {
-    return view('user_createppmp');
-});
-
-Route::get('bo_budgetProposals', function () {
-    return view('bo_budgetProposals');
-});
-
-// Route::get('bo_budgetAlloc', function () {
-//     return view('bo_budgetAlloc');
-// });
-
-Route::get('sector_budgetAlloc', function () {
-    return view('sector_budgetAlloc');
-});
-
-Route::get('sector_BPhistory', function () {
-    return view('sector_BPhistory');
-});
-
-Route::get('sector_ppmp', function () {
-    return view('sector_ppmp');
-});
-
-Route::get('sector_pr', function () {
-    return view('sector_pr');
-});
-
 Route::get('test', 'CseController');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

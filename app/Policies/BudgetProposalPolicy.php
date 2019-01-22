@@ -10,6 +10,11 @@ class BudgetProposalPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user){
+        if($user->type->name == "Admin")
+            return true;
+    }
+
     /**
      * Determine whether the user can view the budget proposal.
      *
@@ -29,6 +34,12 @@ class BudgetProposalPolicy
 
     public function viewFile(User $user){
         return $user->type->name == "Budget Officer";
+    }
+
+    public function viewBudgetProposals(User $user){
+        $allowedUserTypes = ['Department Head', 'Budget Officer'];
+
+        return in_array($user->type->name, $allowedUserTypes);
     }
 
     /**

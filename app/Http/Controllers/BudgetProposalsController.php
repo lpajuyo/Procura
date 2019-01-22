@@ -21,6 +21,8 @@ class BudgetProposalsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewBudgetProposals', BudgetProposal::class);
+
         if(Auth::user()->type->name == "Budget Officer")
             $budgetProposals = BudgetProposal::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
                                                 ->orderBy('for_year')

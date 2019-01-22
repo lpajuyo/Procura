@@ -13,6 +13,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::create([
+            "user_type_id" => "4",
+            "username" => "admin",
+            "name" => "Administrator",
+            "password" => Hash::make('1234'),
+        ]);
+        User::create([
             "user_type_id" => "1",
             "username" => "depthead",
             "name" => "Department Head",

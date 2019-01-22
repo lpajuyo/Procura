@@ -10,6 +10,11 @@ class SectorBudgetPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user){
+        if($user->type->name == "Admin")
+            return true;
+    }
+    
     /**
      * Determine whether the user can view the sector budget.
      *

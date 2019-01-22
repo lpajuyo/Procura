@@ -2,6 +2,8 @@
 
 @section('title', 'View PPMP')
 
+@section('ppmp-active', 'active')
+
 @section('brand', 'PPMP')
 
 

@@ -10,6 +10,11 @@ class PurchaseRequestPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user){
+        if($user->type->name == "Admin")
+            return true;
+    }
+
     /**
      * Determine whether the user can view the purchase request.
      *
@@ -25,6 +30,12 @@ class PurchaseRequestPolicy
         else if($user->type->name == "Sector Head"){
             return true;
         }
+    }
+
+    public function viewPurchaseRequests(User $user){
+        $allowedUserTypes = ['Department Head', 'Sector Head'];
+
+        return in_array($user->type->name, $allowedUserTypes);
     }
 
     /**

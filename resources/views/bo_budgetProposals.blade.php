@@ -2,6 +2,12 @@
 
 @section('title', 'Budget Proposal')
 
+@section('budget-active', 'active')
+
+@section('budget-dropdown-show', 'show')
+
+@section('proposal-active', 'active')
+
 @section('brand', 'Budget Proposal List')
 
 
