@@ -23,13 +23,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        switch($request->user()->user_type_id){
-            case 1:
+        switch($request->user()->type->name){
+            case "Department Head":
                 return view('user_dashboard');
-            case 2:
+            case "Budget Officer":
                 return view('bo_dashboard');
-            case 3:
+            case "Sector Head":
                 return view('sector_dashboard');
+            case "Admin":
+                return view('admin_dashboard');
         }
         //return view('home');
     }

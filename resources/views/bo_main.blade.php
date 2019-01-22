@@ -37,7 +37,7 @@
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('/dropify/js/dropify.min.js') }}"></script>
   <script src="{{ asset('/pd/js/paper-dashboard.js') }}" type="text/javascript"></script>
-  <!-- <script src="{{ asset('/pd/demo/demo.js') }}"></script> -->
+  <script src="{{ asset('/pd/demo/demo.js') }}"></script>
   <!-- DATA TABLE JS Files -->
   <script src="{{ asset('/datatables/jquery.dataTables.js') }}"> </script>
   <script src="{{ asset('/datatables/dataTables.bootstrap4.js') }}"> </script>
