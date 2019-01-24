@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BudgetYear extends Model
 {
-    protected $fillable = ['budget_year', 'fund_101', 'fund_164']; //, 'is_active'];
+    protected $guarded = ['id'];
 
     public function allocatedSectors(){
         return $this->belongsToMany('App\Sector', 'sector_budgets')
@@ -56,5 +56,9 @@ class BudgetYear extends Model
 
     public function allocated(){
         return bcsub($this->total(), $this->remaining());
+    }
+
+    public function activate(){
+        $this->update(['is_active' => true]);
     }
 }

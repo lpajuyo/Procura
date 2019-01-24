@@ -32,7 +32,7 @@
 					            <th>Budget Year</th>
 					            <th>Fund 101 Amount</th>
 					            <th>Fund 164 Amount</th>
-					            <!-- <th >Status</th> -->
+					            <th >Status</th>
 					            <th class="text-center">Action</th>
 					        </tr>
 					    </thead>
@@ -43,7 +43,7 @@
 					        	<td>{{ $budgetYear->budget_year }}</td>
 					            <td>{{ $budgetYear->fund_101 }}</td>
 					            <td>{{ $budgetYear->fund_164 }}</td>
-					            <!-- <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td> -->
+					            <td >{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td>
 					            <td class="td-actions text-center">
 					                <button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear" data-year-id="{{ $budgetYear->id }}">
 					                    <i class="fa fa-edit"></i>
@@ -55,10 +55,20 @@
 					                </button>
 									</a>
 
+									@can('activate', $budgetYear)
+									<button type="submit" form="{{ 'active-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Set as Active" class="btn btn-success btn-simple btn-xs">
+										<i class="fa fa-check"></i>
+									</button>
+									@endcan
+
 									<button type="submit" form="{{ 'del-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
 										<i class="fa fa-times"></i>
 									</button>
 
+									<form id="{{ 'active-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_year.activate', ['budget_year' => $budgetYear->id]) }}">
+									@csrf
+									</form>
+									
 									<form id="{{ 'del-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_years.destroy', ['budget_year' => $budgetYear->id]) }}">
 									@csrf
 									@method('DELETE')

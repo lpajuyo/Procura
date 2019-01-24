@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('active_budget_year/{budget_year}', 'ActiveBudgetYearController')->name('budget_year.activate');
 Route::resource('budget_years', 'BudgetYearsController');
 
 Route::get('budget_allocation/{budgetYear?}', 'BudgetAllocationController')->name('budget_alloc');

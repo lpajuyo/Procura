@@ -10,9 +10,13 @@ class BudgetYearPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user){
-        if($user->type->name == "Admin")
-            return true;
+    public function before($user, $ability){
+        if($user->type->name == "Admin"){
+            if($ability == "activate")
+                return null;
+            else
+                return true;
+        }
     }
 
     /**
@@ -90,5 +94,9 @@ class BudgetYearPolicy
     public function forceDelete(User $user, BudgetYear $budgetYear)
     {
         //
+    }
+
+    public function activate(User $user, BudgetYear $budgetYear){
+        return in_array($user->type->name, ['Budget Officer', 'Admin']) && $budgetYear->is_active == false;
     }
 }

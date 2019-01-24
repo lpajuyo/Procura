@@ -32,13 +32,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::before(function($user){
-            if($user->type->name == "Admin")
-                return true;
-        });
+        // Gate::before(function($user){
+        //     if($user->type->name == "Admin")
+        //         return true;
+        // });
 
         Gate::define('viewBudgetAlloc', function($user){
-            $allowedUserTypes = ['Budget Officer', 'Sector Head'];
+            $allowedUserTypes = ['Budget Officer', 'Sector Head', 'Admin'];
     
             return in_array($user->type->name, $allowedUserTypes);
         });
