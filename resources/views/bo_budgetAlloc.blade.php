@@ -31,6 +31,11 @@
               @else
               <p class="card-category">Year's Total Budget</p>
               <p class="card-title">&#8369;{{ number_format($budgetYear->total(), 2) }}</p>
+               {{-- @if(strlen($budgetYear->total()) > 9)
+                          <p class="card-title">&#8369;{{ substr_replace($budgetYear->total(),"",-9) }} M<p>
+                        @else
+                          <p class="card-title">&#8369;{{ number_format($budgetYear->total(), 2) }}<p>
+                        @endif --}}
               @endif
             </div>
           </div>
@@ -70,6 +75,11 @@
               <p class="card-title">
                 &#8369;{{ number_format($budgetYear->allocated(), 2) }}
               </p>
+               {{-- @if(strlen($budgetYear->allocated()) > 9)
+                          <p class="card-title">&#8369;{{ substr_replace($budgetYear->allocated(),"",-9) }} M<p>
+                        @else
+                          <p class="card-title">&#8369;{{ number_format($budgetYear->allocated(), 2) }}<p>
+                        @endif --}}
               @endif
             </div>
           </div>
@@ -109,6 +119,11 @@
               <p class="card-title">
                 &#8369;{{ number_format($budgetYear->remaining(), 2) }}
               </p>
+                                       {{-- @if(strlen($budgetYear->remaining()) > 9)
+                          <p class="card-title">&#8369;{{ substr_replace($budgetYear->remaining(),"",-9) }} M<p>
+                        @else
+                          <p class="card-title">&#8369;{{ number_format($budgetYear->remaining(), 2) }}<p>
+                        @endif --}}
               @endif
             </div>
           </div>

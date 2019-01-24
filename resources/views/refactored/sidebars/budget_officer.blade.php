@@ -20,7 +20,7 @@
           </li> -->
 
           <li>
-            <a href="./notifications.html">
+            <a href="#">
               <i class="nc-icon nc-bag-16"></i>
               <p>Purchase Request</p>
             </a>

@@ -162,23 +162,29 @@
 			<div class="modal-body">
 				<form enctype="multipart/form-data" method="POST" action="{{ route('budget_proposals.store') }}">
 				@csrf
+				<div class="row">
+				  <div class="col-lg-5">
 					<div class="form-group">
-					<label for="For Year">For Year</label>
+					<label for="For Year">For Year:</label>
 					<input type="number" class="form-control" id="Year" name="for_year" value="{{ old('for_year') }}">
 					</div>
+				  </div>
+
+				  <div class="col-lg-6">
+				  	<div class="form-group">
+					<label for="Amount">Amount:</label>
+					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="amount" value="{{ old('amount') }}">
+					</div>
+				  </div>
+				</div>
 
 					<div class="form-group">
-					<label for="Proposal Name">Budget Proposal Name</label>
+					<label for="Proposal Name">Budget Proposal Name:</label>
 					<input type="text" class="form-control" id="Proposal Name" name="proposal_name" value="{{ old('proposal_name') }}">
-					</div>
-					
-					<div class="form-group">
-					<label for="Amount">Amount</label>
-					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="amount" value="{{ old('amount') }}">
 					</div>
 
 					<div>
-					<label for="Proposal File">Budget Proposal File</label>
+					<label for="Proposal File">Budget Proposal File:</label>
 					<input type="file" class="dropify" data-allowed-file-extensions="pdf docx" name="proposal_file">
 					</div><br>
 
@@ -205,14 +211,14 @@
 			</div>
 
 			<div class="modal-body">
-				<p><strong>For Year:</strong> <i data-attr="for_year"></i> </p>
-				<p><strong>Proposal Name:</strong> <i data-attr="proposal_name"></i> </p>
-				<p><strong>Amount:</strong>  <i data-attr="amount"></i></p>
-				<p><strong>Date Submitted:</strong> <i data-attr="date_submitted"></i></p>
-				<p> <strong>Date Notified:</strong> <i data-attr="date_notified"></i></p>
-				<p><strong>Status:</strong> <i data-attr="status"></i> </p>
-				<p><strong>Comments or Remarks:</strong> </p>
-				<p style="margin-left: 15px;"> <i data-attr="remarks"> </i></p>
+				<p><strong>FOR YEAR:</strong> &nbsp;<span class="text-primary" data-attr="for_year"></span></p>
+				<p><strong>PROPOSAL NAME:</strong> &nbsp;<span class="text-primary" data-attr="proposal_name"></span> </p>
+				<p><strong>AMOUNT:</strong> &nbsp;<span class="text-primary" data-attr="amount"></span></p>
+				<p><strong>DATE SUBMITTED:</strong> &nbsp;<span class="text-primary" data-attr="date_submitted"></span></p>
+				<p><strong>DATE NOTIFIED:</strong> &nbsp;<span class="text-primary" data-attr="date_notified"></span></p>
+				<p><strong>STATUS:</strong> &nbsp;<span class="text-primary" data-attr="status"></span> </p>
+				<p><strong>COMMENTS/REMARKS:</strong> </p>
+				<p style="margin-left: 15px;"> <span class="text-primary" data-attr="remarks"> </span></p>
 			</div>
 		</div>
 	</div>

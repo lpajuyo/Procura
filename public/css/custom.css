@@ -28,8 +28,6 @@
 	padding: 0 !important;
 	margin: 0 !important;
 }
-
-
 #create{
  /* position: fixed;*/
     position: absolute;
@@ -53,14 +51,12 @@
     transition: all 0.5s;
     opacity: 1;
 }
-
 #create span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 #create span:after {
   content: 'create ppmp';
   font-family: Montserrat Thin;
@@ -73,24 +69,20 @@
   right: -20px;
   transition: 0.3s;
 }
-
 #create:hover span {
   padding-right: 100px;
   padding-left: 0px;
   border-radius: 90% !important;
 }
-
 #create:hover span:after {
   opacity: 1;
   right: 0;
 }
-
 #create:hover{
   width: 200px;
   height: 40px;
   border-radius: 35px;
 }
-
 .pill{
   background: transparent;
   border: .5px solid #D5D8DC;
@@ -99,18 +91,15 @@
   margin-left: 10px;
   padding: 12px 20px 12px 20px;
 }
-
 .pill:hover{
   color: #808B96;
   border: .5px solid #000;
 }
-
 .active2 {
   background: #808B96;
   border: .5px solid #D5D8DC;
   color: white !important;
 }
-
 .pill2{
   background: transparent;
   border: .5px solid #D5D8DC;
@@ -119,16 +108,13 @@
   margin-left: 10px;
   padding: 15px 25px 15px 25px;
 }
-
 .pill2:hover{
   background-color: #808B96;
   color: #FFFFFF;
 }
-
 .detsbody{
   min-width: 1000px;
 }
-
 #create2{
  /* position: fixed;*/
     position: absolute;
@@ -152,14 +138,12 @@
     transition: all 0.5s;
     opacity: 1;
 }
-
 #create2 span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 #create2 span:after {
   content: 'add an item';
   font-family: Montserrat Thin;
@@ -172,23 +156,21 @@
   right: -20px;
   transition: 0.3s;
 }
-
 #create2:hover span {
   padding-right: 100px;
   padding-left: 0px;
   border-radius: 90% !important;
 }
-
 #create2:hover span:after {
   opacity: 1;
   right: 0;
 }
-
 #create2:hover{
   width: 200px;
   height: 40px;
   border-radius: 35px;
 }
+
 
 #create3{
  /* position: fixed;*/
@@ -213,14 +195,12 @@
     transition: all 0.5s;
     opacity: 1;
 }
-
 #create3 span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 #create3 span:after {
   content: 'new budget proposal';
   font-family: Montserrat Thin;
@@ -233,18 +213,15 @@
   right: -20px;
   transition: 0.3s;
 }
-
 #create3:hover span {
   padding-right: 100px;
   padding-left: 0px;
   border-radius: 90% !important;
 }
-
 #create3:hover span:after {
   opacity: 1;
   right: 0;
 }
-
 #create3:hover{
   width: 200px;
   height: 40px;
@@ -271,36 +248,25 @@
     transition: all 0.5s;
     opacity: 1;
 }
-
 #all:hover{
   background-color: #5DADE2;
   color: black;
 }
-
 #approved:hover{
   background-color: #27AE60;
   color: black;
 }
-
 #pending:hover{
   background-color: #F7DC6F;
   color: black;
 }
-
 #rejected:hover{
   background-color: #E74C3C;
   color: black;
 }
-
 .hide{
   display: none;
 }
-
-/*input[type="checkbox"] {
-  width: 10px !important;
-  height: 10px !important;
-}*/
-
 #createpr{
     position: absolute;
     right: 40px;
@@ -319,14 +285,12 @@
     transition: all 0.5s;
     opacity: 1;
 }
-
 #createpr span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 #createpr span:after {
   content: 'create pr';
   font-family: Montserrat Thin;
@@ -339,30 +303,52 @@
   right: -20px;
   transition: 0.3s;
 }
-
 #createpr:hover span {
   padding-right: 90px;
   padding-left: 0px;
   border-radius: 90% !important;
 }
-
 #createpr:hover span:after {
   opacity: 1;
   right: 0;
 }
-
 #createpr:hover{
   width: 200px;
   height: 40px;
   border-radius: 35px;
 }
-
-
 .line{
   width:0%; 
   padding: 0px;
   border-right:1px solid #99A3A4; 
   height: 40px; 
   margin-top: 9px;
-
 }
+.tuplogo{
+  width: 60px; 
+  height: 60px; 
+  position: absolute;
+}
+.tuptitle{
+  font-size:21px; 
+  position: relative; 
+  margin-left: 12%; 
+  margin-top:7px;
+}
+.tagline{
+  font-size: 14px; 
+  margin-left: 12.5%;
+}
+.navicons{
+    text-align: center;
+    background-color: none;
+    cursor: pointer;
+    border: 1px solid #D5D8DC;
+    border-radius: 50px;
+    text-decoration: none;
+    padding: 12px 28px 12px 13px;
+    opacity: 1;
+}
+/*.nav-item{
+  margin-left: 5px !important;
+}*/
