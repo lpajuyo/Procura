@@ -17,22 +17,22 @@
 					<i class="fas fa-box" style="margin-left: 10px; "></i><br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
 					<!-- <a href="" data-toggle="modal" data-target="#additem" id="create2"><span class="fas fa-plus fa-xs"></span> </a> -->
-				</p><br>
+				</p><br><br>
 				
 				<!-- <div class="row">
 					<div class="col-lg-12"> -->
 						<form method="POST" action="{{ route('purchase_requests.store') }}">
 						@csrf
-							<div class="row" style="padding:0px 30px 5px 30px;">
+							<div class="row" style="padding:0px 30px 5px 0px;">
+								<div class="col-lg-2"></div>
 								<div class="col-lg-4">
 									<div class="form-group">
 										<label for="Purchase Request No.">Purchase Request No.:</label>
 		                    			<input name="pr_number" value="{{ $pr_number }}" type="text" class="form-control" id="PRnum" readonly>
 									</div>
 								</div>
-							</div>
-							<div class="row" style="padding:0px 30px 5px 30px;">
-			                    <div class="col-lg-4">
+
+								<div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="Project">Project:</label>
 			                        <select name="project_id" class="form-control" id="Project">
@@ -43,9 +43,12 @@
 								    </select>
 			                      </div>
 			                    </div>
+							</div>
 
+							<div class="row" style="padding:0px 30px 5px 0px;">
+								<div class="col-lg-2"></div>
 			                    <div class="col-lg-8">
-			                    	<div class="form-group" style="padding:0px 30px 5px 30px;">
+			                    	<div class="form-group">
 										<label for="Purpose">Purpose:</label>
 		                    			<input name="purpose" value="{{ old('purpose') }}" type="text" class="form-control" id="Purpose">
 									</div>
