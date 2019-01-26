@@ -56,7 +56,7 @@ class DepartmentBudgetsController extends Controller
                     ->attach($validated["department_id"], 
                             ["fund_101" => $validated["fund_101"], "fund_164" => $validated["fund_164"]]);
 
-        return redirect('budget_allocation');
+        return back();
     }
 
     /**

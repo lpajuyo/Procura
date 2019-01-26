@@ -60,7 +60,7 @@ class SectorBudgetsController extends Controller
 
         SectorBudget::create($validator->valid());
 
-        return redirect('budget_allocation');
+        return back();
     }
 
     /**

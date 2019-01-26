@@ -15,7 +15,7 @@ class SectorBudget extends Pivot
     protected $appends = ['remaining_fund_101', 'remaining_fund_164'];
 
     public function allocatedDepartments(){
-        return $this->belongsToMany('App\Department', 'department_budgets', 'sector_budget_id')
+        return $this->belongsToMany('App\Department', 'department_budgets', 'sector_budget_id', 'department_id')
                     ->using('App\DepartmentBudget')
                     ->withPivot('fund_101', 'fund_164')
                     ->withTimestamps();
