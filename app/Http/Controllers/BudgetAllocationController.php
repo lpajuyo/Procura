@@ -41,7 +41,7 @@ class BudgetAllocationController extends Controller
                                     ->orderBy('budget_year', 'desc')
                                     ->firstorFail();   
         } catch (ModelNotFoundException $e) {
-            abort(497, 'There are no Budget Years in the database.');
+            abort(497, 'There are no Budget Years in the database. Please create one first.');
         }                             
             
         // if(Auth::user()->type->name == "Sector Head"){

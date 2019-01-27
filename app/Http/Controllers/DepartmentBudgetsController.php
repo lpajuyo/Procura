@@ -38,6 +38,9 @@ class DepartmentBudgetsController extends Controller
     public function store(Request $request)
     {
         $budgetYear = BudgetYear::find($request->budget_year_id);
+
+        $this->authorize('create', [DepartmentBudget::class, $budgetYear]);
+
         $validator = Validator::make($request->all(), [
             "fund_101" => "required|numeric|between:0," . $budgetYear->allocatedSectors->firstWhere('id', $request->sector_id)->budget->remaining_fund_101,
             "fund_164" => "required|numeric|between:0," . $budgetYear->allocatedSectors->firstWhere('id', $request->sector_id)->budget->remaining_fund_164,

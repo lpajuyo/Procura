@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Sector;
+use App\Department;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\BudgetProposal' => 'App\Policies\BudgetProposalPolicy',
         'App\BudgetYear' => 'App\Policies\BudgetYearPolicy',
         'App\SectorBudget' => 'App\Policies\SectorBudgetPolicy',
+        'App\DepartmentBudget' => 'App\Policies\DepartmentBudgetPolicy',
         'App\Project' => 'App\Policies\ProjectPolicy',
         'App\PurchaseRequest' => 'App\Policies\PurchaseRequestPolicy',
     ];

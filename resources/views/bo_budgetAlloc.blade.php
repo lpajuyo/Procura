@@ -1,7 +1,8 @@
 @extends('bo_main') 
 @section('title', 'Budget Allocation') {{-- 
 @section('brand', 'Budget Year') --}} 
-@section('budget-active', 'active') 
+@section('budget-active',
+'active') 
 @section('budget-dropdown-show', 'show') 
 @section('bAlloc-active', 'active') 
 @section('content')
@@ -20,7 +21,12 @@
             <div class="numbers">
               @if(Auth::user()->type->name == "Sector Head")
               <p class="card-category">Sector's Total Budget</p>
-              <p class="card-title">&#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->total(), 2) }}
+              <p class="card-title">
+                @if(Auth::user()->userable->sector->isAllocated($budgetYear))
+                  &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->total(), 2) }}
+                @else
+                  {{ "--" }}
+                @endif
               </p>
               @else
               <p class="card-category">Year's Total Budget</p>
@@ -52,13 +58,19 @@
             <div class="numbers">
               @if(Auth::user()->type->name == "Sector Head")
               <p class="card-category">Sector's Total Budget Allocated</p>
-              <p class="card-title">&#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->allocated(), 2) }}
-                <p>
-                  @else
-                  <p class="card-category">Total Budget Allocated</p>
-                  <p class="card-title">&#8369;{{ number_format($budgetYear->allocated(), 2) }}
-                    <p>
-                      @endif
+              <p class="card-title">
+                @if(Auth::user()->userable->sector->isAllocated($budgetYear))
+                  &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->allocated(), 2) }}
+                @else
+                  {{ "--" }}
+                @endif
+              </p>
+              @else
+              <p class="card-category">Total Budget Allocated</p>
+              <p class="card-title">
+                &#8369;{{ number_format($budgetYear->allocated(), 2) }}
+              </p>
+              @endif
             </div>
           </div>
         </div>
@@ -85,13 +97,19 @@
             <div class="numbers">
               @if(Auth::user()->type->name == "Sector Head")
               <p class="card-category">Sector's Remaining Budget</p>
-              <p class="card-title">&#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->remaining(), 2) }}
-                <p>
-                  @else
-                  <p class="card-category">Remaining Budget</p>
-                  <p class="card-title">&#8369;{{ number_format($budgetYear->remaining(), 2) }}
-                    <p>
-                      @endif
+              <p class="card-title">
+                @if(Auth::user()->userable->sector->isAllocated($budgetYear))
+                  &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->remaining(), 2) }}
+                @else
+                  {{ "--" }}
+                @endif
+              </p>
+              @else
+              <p class="card-category">Remaining Budget</p>
+              <p class="card-title">
+                &#8369;{{ number_format($budgetYear->remaining(), 2) }}
+              </p>
+              @endif
             </div>
           </div>
         </div>
@@ -118,9 +136,13 @@
         <div>
           <!-- <p style="position: absolute; font-size: 25px;"> Budget Allocated to Sectors </p> -->
           <p style="position: absolute; font-size: 25px;"> Budget Allocation for {{ $budgetYear->budget_year }} </p>
+          {{-- @can('createBudgetAlloc', $budgetYear) --}}
+          @if(Auth::user()->can('create', [App\SectorBudget::class, $budgetYear]) || Auth::user()->can('create', [App\DepartmentBudget::class, $budgetYear]))
           <button class="btn btn-default btn-sm" style="right: 30px; position: absolute !important;" data-toggle="modal" data-target="#BA">
             <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
           </button>
+          @endif
+          {{-- @endcan --}}
         </div><br><br><br>
         <div class="table-responsive" style="overflow: visible;">
           <table class="table">
@@ -135,6 +157,7 @@
 
             <tbody>
               @foreach($sectors as $sector)
+              @can('view', [App\SectorBudget::class, $sector])
               <tr class="table-dark">
                 <td>{{ $sector->name }}</td>
                 <td>{!! ($sector->isAllocated($budgetYear)) ? $sector->isAllocated($budgetYear)->budget->fund_101 : "<em>Unallocated</em>"
@@ -160,6 +183,7 @@
                 <td></td>
                 <td></td>
               </tr>
+              @endcan
               @endforeach
             </tbody>
 
@@ -183,23 +207,30 @@
       </div>
 
       <div class="modal-body">
-        @can('create', App\SectorBudget::class)
         <ul class="nav nav-pills nav-pills-info nav-pills-icons" role="tablist" style="right: 30px; position: absolute !important;">
+          @can('create', [App\SectorBudget::class, $budgetYear])
           <li class="nav-item">
             <a class="nav-link active" href="#sector" role="tab" data-toggle="tab">
-                    <i class="nc-icon nc-app"></i>
-                    For Sector
-                </a>
+              <i class="nc-icon nc-app"></i>
+              For Sector
+            </a>
           </li>
+          @endcan
           <li class="nav-item">
-            <a class="nav-link" href="#dept" role="tab" data-toggle="tab">
-                    <i class="nc-icon nc-settings"></i>
-                    For Department
-                </a>
+            @cannot('create', [App\SectorBudget::class, $budgetYear])
+              <a class="nav-link active" href="#dept" role="tab" data-toggle="tab">
+            @elsecannot('create', [App\DepartmentBudget::class, $budgetYear])
+              <a class="nav-link disabled" href="#dept" role="tab" data-toggle="tab">
+            @else
+              <a class="nav-link" href="#dept" role="tab" data-toggle="tab">
+            @endcannot
+              <i class="nc-icon nc-settings"></i>
+              For Department
+            </a>
           </li>
         </ul> <br><br>
 
-
+        @can('create', [App\SectorBudget::class, $budgetYear])
         <div class="tab-content tab-space" style="position: relative;">
           <div class="tab-pane active" id="sector">
             <form method="POST" action="/sector_budgets">
@@ -245,29 +276,32 @@
               <button type="submit" class="btn btn-success btn-block">Save</button>
             </form>
           </div>
-
           @endcan
+
           <div class="tab-pane" id="dept">
             <form method="POST" action="/department_budgets">
               @csrf
 
-              <input type="hidden" name="budget_year_id" value="{{ $budgetYear->id }}"> @can('create', App\SectorBudget::class)
+              <input type="hidden" name="budget_year_id" value="{{ $budgetYear->id }}"> 
+              @can('create', App\SectorBudget::class)
               <div class="form-group">
-                <label for="sectorstat">SECTOR</label>
+                <label for="sectorstat">Sector</label>
                 <select name="sector_id" class="form-control" id="sectorstat">
-                @foreach($sectors as $sector)
+                  @foreach($sectors as $sector)
                   @if($sector->isAllocated($budgetYear))
-                    @if($sector->departments->count() != $budgetYear->allocatedSectors->firstWhere('id', $sector->id)->budget->allocatedDepartments->count())
-                    <option value="{{ $sector->id }}" {{ ($errors->dept_budget->any() && $sector->id == old('sector_id')) ? "selected" : "" }}>{{ $sector->name }}</option>
-                    @endif
+                  @if($sector->departments->count() != $budgetYear->allocatedSectors->firstWhere('id', $sector->id)->budget->allocatedDepartments->count())
+                  <option value="{{ $sector->id }}" {{ ($errors->dept_budget->any() && $sector->id == old('sector_id')) ? "selected" : "" }}>{{ $sector->name }}</option>
                   @endif
-                @endforeach
+                  @endif
+                  @endforeach
                 </select>
-              </div><br> @elseif(Auth::user()->type->name == "Sector Head")
-              <input type="hidden" name="sector_id" id="sectorstat" value="{{ Auth::user()->userable->sector_id }}"> @endcan
+              </div><br> 
+              @else
+                <input type="hidden" name="sector_id" id="sectorstat" value="{{ Auth::user()->userable->sector_id }}"> 
+              @endcan
 
               <div class="form-group">
-                <label for="deptstat">DEPARTMENT</label>
+                <label for="deptstat">Department</label>
                 <select name="department_id" class="form-control" id="deptstat"> <!-- options loaded thru popDepartments() -->
                 </select>
               </div><br>
