@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use Illuminate\Auth\Access\HandlesAuthorization;
 use App\User;
 use App\SectorBudget;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Sector;
+use App\BudgetYear;
 
 class SectorBudgetPolicy
 {
@@ -22,9 +24,15 @@ class SectorBudgetPolicy
      * @param  \App\SectorBudget  $sectorBudget
      * @return mixed
      */
-    public function view(User $user, SectorBudget $sectorBudget)
+    public function view(User $user, Sector $sector)
     {
-        //
+        $allowedUserTypes = ['Budget Officer', 'Sector Head'];
+
+        if (in_array($user->type->name, $allowedUserTypes) && $user->type->name == 'Sector Head') {
+            return $user->userable->sector_id == $sector->id;
+        } else {
+            return in_array($user->type->name, $allowedUserTypes);
+        }
     }
 
     /**
@@ -33,9 +41,17 @@ class SectorBudgetPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
-    {
-        return $user->type->name == "Budget Officer";
+    public function create(User $user, BudgetYear $budgetYear = null)
+    {   
+        $allowedUserTypes = ["Budget Officer"];
+        if(!in_array($user->type->name, $allowedUserTypes))
+            return false;
+
+
+        if($budgetYear == null)
+            return true;
+        else
+            return Sector::all()->count() != $budgetYear->allocatedSectors->count();
     }
 
     /**

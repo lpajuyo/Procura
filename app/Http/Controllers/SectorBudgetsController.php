@@ -20,11 +20,7 @@ class SectorBudgetsController extends Controller
      */
     public function index()
     {
-        $budgetYear = BudgetYear::where('budget_year', 2018)->firstOrFail();
-        $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
-        $sectors = Sector::all();
-
-        return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors'));
+        //
     }
 
     /**
@@ -46,6 +42,9 @@ class SectorBudgetsController extends Controller
     public function store(Request $request)
     {
         $budgetYear = BudgetYear::find($request->budget_year_id);
+
+        $this->authorize('create', [SectorBudget::class, $budgetYear]);
+
         $validator = Validator::make($request->all(), [
             "fund_101" => "required|numeric|between:0," . $budgetYear->remainingFund101(),
             "fund_164" => "required|numeric|between:0," . $budgetYear->remainingFund164(),
@@ -60,7 +59,7 @@ class SectorBudgetsController extends Controller
 
         SectorBudget::create($validator->valid());
 
-        return redirect('budget_allocation');
+        return back();
     }
 
     /**

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\BudgetYear;
 use App\SectorBudget;
 use App\Sector;
 use App\Department;
 use App\DepartmentBudget;
+use Carbon\Carbon;
 
 class BudgetAllocationController extends Controller
 {
@@ -27,34 +29,32 @@ class BudgetAllocationController extends Controller
         $this->authorize('viewBudgetAlloc');
 
         bcscale(2);
-        $currentYear = date('Y', strtotime('2020'));
+        $currentYear = Carbon::now()->year;
         
         if($budgetYear==null) //if url does not have year, get current year. if current year is not found, get closest ascending year
             $budgetYear = BudgetYear::where('budget_year', '>=', $currentYear)
                                         ->orderBy('budget_year', 'asc')
                                         ->first();
+        try {
         if($budgetYear==null)//if budgetYear is still null, get closest descending year. if not found, return 'page not found'
         $budgetYear = BudgetYear::where('budget_year', '<', $currentYear)
                                     ->orderBy('budget_year', 'desc')
-                                    ->firstorFail();                                
+                                    ->firstorFail();   
+        } catch (ModelNotFoundException $e) {
+            abort(497, 'There are no Budget Years in the database. Please create one first.');
+        }                             
             
-        if(Auth::user()->type->name == "Sector Head"){
-            $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)
-                                            ->where('sector_id', Auth::user()->userable->sector_id)
-                                            ->get();
-            $deptBudgets = $budgetYear->departmentBudgets;
-            $sectors = Sector::where('id', Auth::user()->userable->sector_id)
-                                ->get();
-            $departments = Department::all(); //needed for commented view
-        }    
-        else{
-            $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)->get();
-            $deptBudgets = $budgetYear->departmentBudgets;
+        // if(Auth::user()->type->name == "Sector Head"){
+        //     $sectorBudgets = SectorBudget::where('budget_year_id', $budgetYear->id)
+        //                                     ->where('sector_id', Auth::user()->userable->sector_id)
+        //                                     ->get();
+        //     $deptBudgets = $budgetYear->departmentBudgets;
+        //     $sectors = Sector::where('id', Auth::user()->userable->sector_id)
+        //                         ->get();
+        // }    
+        // else{
             $sectors = Sector::all();
-            $departments = Department::all();
-        }
-
-       
+        // }
 
         return view('bo_budgetAlloc', compact('sectorBudgets', 'budgetYear', 'sectors', 'departments', 'deptBudgets'));
     }
