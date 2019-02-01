@@ -51,6 +51,7 @@ Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestIt
 Route::post('approved_purchase_requests/{purchase_request}', 'ApprovedPurchaseRequestsController@store')->name('approve_pr');
 Route::delete('approved_purchase_requests/{purchase_request}', 'ApprovedPurchaseRequestsController@destroy')->name('reject_pr');
 
+Route::get('app_cse/{budget_year}', 'AppCseController')->name('app_cse');
 
 //
 Route::get('test', 'CseController');
