@@ -36,7 +36,27 @@ class AppCseController extends Controller
         }
 
         foreach($approvedItems->keys() as $key){
-            $worksheet->setCellValueByColumnAndRow(25, $rowCoordinate[$key], $approvedItems[$key]->sum('quantity'));
+            $itemScheds = $approvedItems[$key]->flatMap->schedules->groupBy->id;
+            for($i = 1; $i <= 3; $i++){
+                if($itemScheds->has($i)){
+                    // dd($itemScheds[$i]->sum('pivot.quantity'));
+                    // dd($rowCoordinate[$key]);
+                    $worksheet->setCellValueByColumnAndRow($i+4, $rowCoordinate[$key], $itemScheds[$i]->sum('pivot.quantity'));
+                    dd($worksheet->getCellByColumnAndRow($i+4, $rowCoordinate[$key]));
+                }
+            }
+            for($i = 4; $i <= 6; $i++){
+                if($itemScheds->has($i))
+                $worksheet->setCellValueByColumnAndRow($i+6, $rowCoordinate[$key], $itemScheds[$i]->sum('pivot.quantity'));
+            }
+            for($i = 7; $i <= 9; $i++){
+                if($itemScheds->has($i))
+                $worksheet->setCellValueByColumnAndRow($i+8, $rowCoordinate[$key], $itemScheds[$i]->sum('pivot.quantity'));
+            }
+            for($i = 10; $i <= 12; $i++)
+                if($itemScheds->has($i)){
+                $worksheet->setCellValueByColumnAndRow($i+10, $rowCoordinate[$key], $itemScheds[$i]->sum('pivot.quantity'));
+            }
         }
 
         // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Html($spreadsheet);

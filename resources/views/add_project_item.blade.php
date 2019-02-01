@@ -145,7 +145,7 @@
 									<label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label>
 								</div>
 								<div class="col-lg-4" style="padding-top: 26px;">
-									<div class="form-group">
+									<div class="form-group">	
 										<!-- <label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label> -->
 										<input name="total_ppmp_budget" 
 											value="{{ (old('total_ppmp_budget') == null) ? $project->totalBudgetWithContingency() : old('total_ppmp_budget') }}" 
@@ -161,61 +161,67 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="1">January
+										        <input class="form-check-input" type="checkbox"> January
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[1][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="2"> February
+										        <input class="form-check-input" type="checkbox"> February
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[2][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="3"> March
+										        <input class="form-check-input" type="checkbox"> March
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[3][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="4"> April
+										        <input class="form-check-input" type="checkbox"> April
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[4][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="5"> May
+										        <input class="form-check-input" type="checkbox"> May
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[5][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="6"> June
+										        <input class="form-check-input" type="checkbox"> June
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[6][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 								</div>
@@ -224,61 +230,67 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="7"> July
+										        <input class="form-check-input" type="checkbox"> July
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[7][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="8"> August
+										        <input class="form-check-input" type="checkbox"> August
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[8][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="9"> September
+										        <input class="form-check-input" type="checkbox"> September
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[9][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="10"> October
+										        <input class="form-check-input" type="checkbox"> October
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[10][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="11"> November
+										        <input class="form-check-input" type="checkbox"> November
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[11][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox" name=schedules[] value="12"> December
+										        <input class="form-check-input" type="checkbox"> December
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
-										    </label>
+											</label>
+											<input name="schedules[12][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 								</div>
@@ -503,6 +515,13 @@ $(document).ready(function(){
 		$("#Uom").val(items[val-1].uom);
 		$("#UPrice").val(items[val-1].price);
 	});
+
+	$("[type=checkbox]").on("click", function(){
+		if($(this).prop("checked"))
+			$(this).parent().next(":text").prop("disabled", false);
+		else
+			$(this).parent().next(":text").prop("disabled", true);
+	})
 </script>
 
 <!-- <script type="text/javascript">
