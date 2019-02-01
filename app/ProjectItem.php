@@ -12,6 +12,10 @@ class ProjectItem extends Model
         return $this->belongsToMany('App\Schedule')->withTimestamps();
     }
 
+    public function scopeCse($query){
+        return $query->where('is_cse', 1);
+    }
+
     public function addSchedules($schedules){
         $this->schedules()->sync($schedules);
     }
