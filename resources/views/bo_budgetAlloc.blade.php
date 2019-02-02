@@ -22,21 +22,19 @@
               @if(Auth::user()->type->name == "Sector Head")
               <p class="card-category">Sector's Total Budget</p>
               <p class="card-title">
-                @if(Auth::user()->userable->sector->isAllocated($budgetYear))
-                  &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->total(), 2) }}
-                @else
-                  {{ "--" }}
-                @endif
+                @if(Auth::user()->userable->sector->isAllocated($budgetYear)) &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->total(),
+                2) }} @else {{ "--" }} @endif
               </p>
               @else
               <p class="card-category">Year's Total Budget</p>
               <p class="card-title">&#8369;{{ number_format($budgetYear->total(), 2) }}</p>
-               {{-- @if(strlen($budgetYear->total()) > 9)
-                          <p class="card-title">&#8369;{{ substr_replace($budgetYear->total(),"",-9) }} M<p>
-                        @else
-                          <p class="card-title">&#8369;{{ number_format($budgetYear->total(), 2) }}<p>
-                        @endif --}}
-              @endif
+              {{-- @if(strlen($budgetYear->total()) > 9)
+              <p class="card-title">&#8369;{{ substr_replace($budgetYear->total(),"",-9) }} M
+                <p>
+                  @else
+                  <p class="card-title">&#8369;{{ number_format($budgetYear->total(), 2) }}
+                    <p>
+                      @endif --}} @endif
             </div>
           </div>
         </div>
@@ -64,23 +62,21 @@
               @if(Auth::user()->type->name == "Sector Head")
               <p class="card-category">Sector's Total Budget Allocated</p>
               <p class="card-title">
-                @if(Auth::user()->userable->sector->isAllocated($budgetYear))
-                  &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->allocated(), 2) }}
-                @else
-                  {{ "--" }}
-                @endif
+                @if(Auth::user()->userable->sector->isAllocated($budgetYear)) &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->allocated(),
+                2) }} @else {{ "--" }} @endif
               </p>
               @else
               <p class="card-category">Total Budget Allocated</p>
               <p class="card-title">
                 &#8369;{{ number_format($budgetYear->allocated(), 2) }}
               </p>
-               {{-- @if(strlen($budgetYear->allocated()) > 9)
-                          <p class="card-title">&#8369;{{ substr_replace($budgetYear->allocated(),"",-9) }} M<p>
-                        @else
-                          <p class="card-title">&#8369;{{ number_format($budgetYear->allocated(), 2) }}<p>
-                        @endif --}}
-              @endif
+              {{-- @if(strlen($budgetYear->allocated()) > 9)
+              <p class="card-title">&#8369;{{ substr_replace($budgetYear->allocated(),"",-9) }} M
+                <p>
+                  @else
+                  <p class="card-title">&#8369;{{ number_format($budgetYear->allocated(), 2) }}
+                    <p>
+                      @endif --}} @endif
             </div>
           </div>
         </div>
@@ -108,23 +104,21 @@
               @if(Auth::user()->type->name == "Sector Head")
               <p class="card-category">Sector's Remaining Budget</p>
               <p class="card-title">
-                @if(Auth::user()->userable->sector->isAllocated($budgetYear))
-                  &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->remaining(), 2) }}
-                @else
-                  {{ "--" }}
-                @endif
+                @if(Auth::user()->userable->sector->isAllocated($budgetYear)) &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->remaining(),
+                2) }} @else {{ "--" }} @endif
               </p>
               @else
               <p class="card-category">Remaining Budget</p>
               <p class="card-title">
                 &#8369;{{ number_format($budgetYear->remaining(), 2) }}
               </p>
-                                       {{-- @if(strlen($budgetYear->remaining()) > 9)
-                          <p class="card-title">&#8369;{{ substr_replace($budgetYear->remaining(),"",-9) }} M<p>
-                        @else
-                          <p class="card-title">&#8369;{{ number_format($budgetYear->remaining(), 2) }}<p>
-                        @endif --}}
-              @endif
+              {{-- @if(strlen($budgetYear->remaining()) > 9)
+              <p class="card-title">&#8369;{{ substr_replace($budgetYear->remaining(),"",-9) }} M
+                <p>
+                  @else
+                  <p class="card-title">&#8369;{{ number_format($budgetYear->remaining(), 2) }}
+                    <p>
+                      @endif --}} @endif
             </div>
           </div>
         </div>
@@ -137,9 +131,6 @@
       </div>
     </div>
   </div>
-
-</div>
-
 </div>
 
 <!-- 
@@ -150,24 +141,21 @@
     <div class="card">
       <div class="card-body" style="margin-top: 5px;">
         <div>
-          <!-- <p style="position: absolute; font-size: 25px;"> Budget Allocated to Sectors </p> -->
-          {{-- @if(session('active_year_error'))
+          @if(session('active_year_error'))
           <div class="alert alert-danger" role="alert">
-              {{ session('active_year_error') }}
+            {{ session('active_year_error') }}
           </div>
           @elseif(session('active_year'))
           <div class="alert alert-success" role="alert">
-              Showing current active budget year
+            Showing current active budget year
           </div>
-          @endif --}}
+          @endif
           <p style="position: absolute; font-size: 25px;"> Budget Allocation for {{ $budgetYear->budget_year }} </p>
-          {{-- @can('createBudgetAlloc', $budgetYear) --}}
-          @if(Auth::user()->can('create', [App\SectorBudget::class, $budgetYear]) || Auth::user()->can('create', [App\DepartmentBudget::class, $budgetYear]))
+          {{-- @can('createBudgetAlloc', $budgetYear) --}} @if(Auth::user()->can('create', [App\SectorBudget::class, $budgetYear])
+          || Auth::user()->can('create', [App\DepartmentBudget::class, $budgetYear]))
           <button class="btn btn-default btn-sm" style="right: 30px; position: absolute !important;" data-toggle="modal" data-target="#BA">
             <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
-          </button>
-          @endif
-          {{-- @endcan --}}
+          </button> @endif {{-- @endcan --}}
         </div><br><br><br>
         <div class="table-responsive" style="overflow: visible;">
           <table class="table">
@@ -181,8 +169,7 @@
             </thead>
 
             <tbody>
-              @foreach($sectors as $sector)
-              @can('view', [App\SectorBudget::class, $sector])
+              @foreach($sectors as $sector) @can('view', [App\SectorBudget::class, $sector])
               <tr class="table-dark">
                 <td>{{ $sector->name }}</td>
                 <td>{!! ($sector->isAllocated($budgetYear)) ? $sector->isAllocated($budgetYear)->budget->fund_101 : "<em>Unallocated</em>"
@@ -208,8 +195,7 @@
                 <td></td>
                 <td></td>
               </tr>
-              @endcan
-              @endforeach
+              @endcan @endforeach
             </tbody>
 
           </table>
@@ -243,7 +229,7 @@
           @endcan
           <li class="nav-item">
             @cannot('create', [App\SectorBudget::class, $budgetYear])
-              <a class="nav-link active" href="#dept" role="tab" data-toggle="tab">
+            <a class="nav-link active" href="#dept" role="tab" data-toggle="tab">
             @elsecannot('create', [App\DepartmentBudget::class, $budgetYear])
               <a class="nav-link disabled" href="#dept" role="tab" data-toggle="tab">
             @else
@@ -253,9 +239,7 @@
               For Department
             </a>
           </li>
-        </ul> <br><br>
-
-        @can('create', [App\SectorBudget::class, $budgetYear])
+        </ul> <br><br> @can('create', [App\SectorBudget::class, $budgetYear])
         <div class="tab-content tab-space" style="position: relative;">
           <div class="tab-pane active" id="sector">
             <form method="POST" action="/sector_budgets">
@@ -307,8 +291,7 @@
             <form method="POST" action="/department_budgets">
               @csrf
 
-              <input type="hidden" name="budget_year_id" value="{{ $budgetYear->id }}"> 
-              @can('create', App\SectorBudget::class)
+              <input type="hidden" name="budget_year_id" value="{{ $budgetYear->id }}"> @can('create', App\SectorBudget::class)
               <div class="form-group">
                 <label for="sectorstat">Sector</label>
                 <select name="sector_id" class="form-control" id="sectorstat">
@@ -320,10 +303,8 @@
                   @endif
                   @endforeach
                 </select>
-              </div><br> 
-              @else
-                <input type="hidden" name="sector_id" id="sectorstat" value="{{ Auth::user()->userable->sector_id }}"> 
-              @endcan
+              </div><br> @else
+              <input type="hidden" name="sector_id" id="sectorstat" value="{{ Auth::user()->userable->sector_id }}"> @endcan
 
               <div class="form-group">
                 <label for="deptstat">Department</label>
