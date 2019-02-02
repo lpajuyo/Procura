@@ -17,7 +17,7 @@ class CreateProjectItemScheduleTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('project_item_id');
             $table->unsignedInteger('schedule_id');
-            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('quantity')->nullable();
             $table->timestamps();
         });
     }

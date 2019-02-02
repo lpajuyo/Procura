@@ -68,9 +68,11 @@
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">Common Use Items:</label>
 										<select class="form-control" id="cse-dropdown">
+											@if(old('description') == null)
 											<option selected disabled value="0">--Select an Item--</option>
+											@endif
 											@foreach($cseItems as $cseItem)
-											<option value="{{ $cseItem->id }}">{{ $cseItem->description }}</option>
+											<option value="{{ $cseItem->id }}" {{ ($cseItem->description == old('description') ? "selected" : "") }}>{{ $cseItem->description }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -91,13 +93,13 @@
 								<div class="col-lg-4">
 									<div class="form-group">
 										<label for="Code">Code:</label>
-										<input name="code" type="text" class="form-control" id="Code">
+										<input name="code" type="text" class="form-control" id="Code" value="{{ old('code') }}">
 									</div>
 								</div>
 			                    <div class="col-lg-7">
 			                      <div class="form-group">
 			                        <label for="Description">Product Description:</label>
-									<input name="description" value="" type="text" class="form-control" id="Description">
+									<input name="description" type="text" class="form-control" id="Description" value="{{ old('description') }}">
 			                        <!-- <select class="form-control" id="Description">
 								      <option>1</option>
 								      <option>2</option>
@@ -111,25 +113,25 @@
 			                    <div class="col-lg-2">
 			                      <div class="form-group">
 			                        <label for="Quantity">Quantity:</label>
-			                        <input name="quantity" min="0" value="" type="number" class="form-control" id="Qty">
+			                        <input name="quantity" min="0" type="number" class="form-control" id="Qty" value="{{ old('quantity') }}">
 			                      </div>
 			                    </div>
 								<div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="Unit of Measurement">Unit of Measurement:</label>
-			                        <input name="uom" value="" type="text" class="form-control" id="Uom">
+			                        <input name="uom" type="text" class="form-control" id="Uom" value="{{ old('uom') }}">
 			                      </div>
 			                    </div>
 			                    <div class="col-lg-3">
 			                      <div class="form-group">
 			                        <label for="Unit Price">Unit Price:</label>
-			                        <input name="unit_cost" min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
+			                        <input name="unit_cost" min="0" step=".01" value="{{ old('unit_cost') }}" type="number" min="0" step=".01" class="form-control" id="UPrice">
 			                      </div>
 			                    </div>
 			                    <div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="Estimated Budget">Estimated Budget:</label>
-			                        <input name="estimated_budget" min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="Total">
+			                        <input name="estimated_budget" min="0" step=".01" value="{{ old('estimated_budget') }}" type="number" min="0" step=".01" class="form-control" id="Total">
 			                      </div>
 			                    </div>
 			                  </div>
@@ -138,7 +140,7 @@
 							 	<div class="col-lg-4">
 									<div class="form-group">
 										<label for="Mode of Procurement">Mode of Procurement:</label>
-										<input name="procurement_mode" type="text" class="form-control" id="Proc-Mode">
+									<input name="procurement_mode" type="text" class="form-control" id="Proc-Mode" value="{{ old('procurement_mode') }}">
 									</div>
 								</div>
 								<div class="col-lg-4" style="padding-top: 26px">
@@ -161,67 +163,67 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> January
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.1')) ? "checked" : "" }}> January
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[1][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+										<input name="schedules[1][quantity]" value="{{ old('schedules.1.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> February
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.2')) ? "checked" : "" }}> February
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[2][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[2][quantity]" value="{{ old('schedules.2.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> March
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.3')) ? "checked" : "" }}> March
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[3][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[3][quantity]" value="{{ old('schedules.3.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> April
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.4')) ? "checked" : "" }}> April
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[4][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[4][quantity]" value="{{ old('schedules.4.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> May
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.5')) ? "checked" : "" }}> May
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[5][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[5][quantity]" value="{{ old('schedules.5.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> June
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.6')) ? "checked" : "" }}> June
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[6][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[6][quantity]" value="{{ old('schedules.6.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 								</div>
@@ -230,67 +232,67 @@
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> July
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.7')) ? "checked" : "" }}> July
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[7][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[7][quantity]" value="{{ old('schedules.7.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> August
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.8')) ? "checked" : "" }}> August
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[8][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[8][quantity]" value="{{ old('schedules.8.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> September
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.9')) ? "checked" : "" }}> September
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[9][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[9][quantity]" value="{{ old('schedules.9.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> October
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.10')) ? "checked" : "" }}> October
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[10][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[10][quantity]" value="{{ old('schedules.10.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> November
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.11')) ? "checked" : "" }}> November
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[11][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[11][quantity]" value="{{ old('schedules.11.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 									<div class="col-lg-2">
 										<div class="form-check">
 										    <label class="form-check-label">
-										        <input class="form-check-input" type="checkbox"> December
+										        <input class="form-check-input" type="checkbox" {{ (old('schedules.12')) ? "checked" : "" }}> December
 										        <span class="form-check-sign">
 										            <span class="check"></span>
 										        </span>
 											</label>
-											<input name="schedules[12][quantity]" value="" type="text" class="form-control" placeholder="Quantity" disabled>
+											<input name="schedules[12][quantity]" value="{{ old('schedules.12.quantity') }}" type="text" class="form-control" placeholder="Quantity" disabled>
 										</div>
 									</div>
 								</div>
@@ -488,6 +490,14 @@ $(document).ready(function(){
 <script>
 	$(document).ready(function(){
 		// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", true);
+
+		$(":checkbox").filter(function(){
+			return $(this).prop("checked")
+		}).parent().next(":text").prop("disabled", false);
+
+		@if(old('is_cse') === "0")
+		$("#non-cse-radio").click();
+		@endif
 	});
 
 	$("[name=is_cse]").change(function(e){
