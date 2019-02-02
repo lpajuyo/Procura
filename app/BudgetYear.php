@@ -61,4 +61,8 @@ class BudgetYear extends Model
     public function activate(){
         $this->update(['is_active' => true]);
     }
+
+    public function scopeActive($query){
+        return $query->where('is_active', true);
+    }
 }

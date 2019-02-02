@@ -140,6 +140,7 @@
 
 </div>
 
+</div>
 
 <!-- 
   <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
@@ -150,6 +151,15 @@
       <div class="card-body" style="margin-top: 5px;">
         <div>
           <!-- <p style="position: absolute; font-size: 25px;"> Budget Allocated to Sectors </p> -->
+          {{-- @if(session('active_year_error'))
+          <div class="alert alert-danger" role="alert">
+              {{ session('active_year_error') }}
+          </div>
+          @elseif(session('active_year'))
+          <div class="alert alert-success" role="alert">
+              Showing current active budget year
+          </div>
+          @endif --}}
           <p style="position: absolute; font-size: 25px;"> Budget Allocation for {{ $budgetYear->budget_year }} </p>
           {{-- @can('createBudgetAlloc', $budgetYear) --}}
           @if(Auth::user()->can('create', [App\SectorBudget::class, $budgetYear]) || Auth::user()->can('create', [App\DepartmentBudget::class, $budgetYear]))
