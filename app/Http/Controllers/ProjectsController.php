@@ -51,9 +51,12 @@ class ProjectsController extends Controller
     {
         $this->authorize('create', Project::class);
 
-        $budgetYears = BudgetYear::all();
+        $activeYear = BudgetYear::active()->first();
 
-        return view("create_project", compact('budgetYears'));
+        if(is_null($activeYear))
+            abort(497, 'Unathorized Action. There is no active Budget Year set.');
+
+        return view("create_project", compact('activeYear'));
     }
 
     /**
