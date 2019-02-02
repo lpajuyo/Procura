@@ -103,12 +103,12 @@
 
 					<div class="form-group">
 					<label for="Amount">Fund 101 Amount</label>
-					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">
+					<input type="number" min="0" step=".01" class="comma form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">
 					</div><br>
 
 					<div class="form-group">
 					<label for="Amount">Fund 164 Amount</label>
-					<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">
+					<input type="number" min="0" step=".01" class="comma form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">
 					</div><br>
 
 				<!-- <div class="form-group">
@@ -220,4 +220,46 @@ $('.btnEditBudgetYear').click(function(){
 	});
 });
 </script>
+
+<!-- Put comma while typing numbers on budget year modal -->
+<!-- <script type="text/javascript">
+$('input.comma').keyup(function(event) {
+
+  // skip for arrow keys
+  if(event.which >= 37 && event.which <= 40) return;
+
+  // format number
+  $(this).val(function(index, value) {
+    return value
+    .replace(/\D/g, "")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    ;
+  });
+});
+</script> -->
+
+<!-- <script type="text/javascript">
+function numberWithCommas(number) {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+$(document).ready(function() {
+  $("input.comma").each(function() {
+    var num = $(this).text();
+    var commaNum = numberWithCommas(num);
+    $(this).text(commaNum);
+  });
+});
+</script> -->
+
+<!-- <script>
+var el = document.querySelector('input.comma');
+el.addEventListener('keyup', function (event) {
+  // if (event.which >= 37 && event.which <= 40) return;
+
+  this.value = this.value.replace(/\D/g, '')
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+});
+</script> -->
 @endsection

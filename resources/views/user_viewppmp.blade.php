@@ -94,7 +94,7 @@
                         @endcan
 
                         <button type="submit" form="{{ $project->id }}-create-pr" rel="tooltip" title="Create Purchase Request" class="btn btn-danger btn-simple btn-xs" >
-  					            	<i class="far fa-file"></i>
+  					            	<i class="fas fa-pencil-alt"></i>
   					            </button>
 
                         <form id="{{ $project->id }}-create-pr" method="POST" action="{{ route('purchase_requests.store') }}">

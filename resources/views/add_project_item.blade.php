@@ -26,7 +26,7 @@
 					<div class="col-lg-12">
 						<form method="POST" action="{{ route('items.store', ['project' => $project->id]) }}">
 						@csrf
-							<div class="row" style="padding:0px 30px 5px 30px;">
+							<div class="row" style="padding:0px 30px 0px 30px;">
 			                    <div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="For Year">For Year:</label>
@@ -45,7 +45,7 @@
 							<br />
 
 							<div class="row" style="padding:0px 30px 5px 30px;">
-								<div class="col">
+								<div class="col-lg-2" style="margin-top: 26px;">
 									<div class="form-check form-check-radio">
 										<label class="form-check-label">
 											<input class="form-check-input" type="radio" id="cse-radio" name="is_cse" value="1" checked>
@@ -53,6 +53,9 @@
 											<span class="form-check-sign"></span>
 										</label>
 									</div>
+								</div>
+
+								<div class="col-lg-2" style="margin-top: 26px;">
 									<div class="form-check form-check-radio">
 										<label class="form-check-label">
 											<input class="form-check-input" type="radio" id="non-cse-radio" name="is_cse" value="0">
@@ -61,10 +64,8 @@
 										</label>
 									</div>
 								</div>
-							</div>
 
-							<div class="row" style="padding:0px 30px 5px 30px;">
-								<div class="col-lg-11">
+								<div class="col-lg-7">
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">Common Use Items:</label>
 										<select class="form-control" id="cse-dropdown">
