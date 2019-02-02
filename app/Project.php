@@ -48,6 +48,10 @@ class Project extends Model
         return number_format($total, 2, ".", "");
     }
 
+    public function scopeApproved($query){
+        return $query->where('is_approved', 1);
+    }
+
     public function addItem($attributes){
         // dd($attributes);
         $project_item = $this->items()->create($attributes);

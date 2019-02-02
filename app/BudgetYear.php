@@ -20,6 +20,10 @@ class BudgetYear extends Model
         return $this->hasManyThrough('App\DepartmentBudget', 'App\SectorBudget', 'budget_year_id', 'sector_budget_id');
     }
 
+    public function projects(){
+        return $this->hasMany('App\Project');
+    }
+
     public function remainingFund101(){
         $allocatedSectors = $this->allocatedSectors;
 
