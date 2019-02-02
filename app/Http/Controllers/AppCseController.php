@@ -42,7 +42,7 @@ class AppCseController extends Controller
                     // dd($itemScheds[$i]->sum('pivot.quantity'));
                     // dd($rowCoordinate[$key]);
                     $worksheet->setCellValueByColumnAndRow($i+4, $rowCoordinate[$key], $itemScheds[$i]->sum('pivot.quantity'));
-                    dd($worksheet->getCellByColumnAndRow($i+4, $rowCoordinate[$key]));
+                    // dd($worksheet->getCellByColumnAndRow($i+4, $rowCoordinate[$key]));
                 }
             }
             for($i = 4; $i <= 6; $i++){
