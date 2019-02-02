@@ -29,11 +29,13 @@
 			                    <div class="col-lg-4">
 			                      <div class="form-group">
 			                        <label for="For Year">For Year:</label>
-			                        <select name="budget_year_id" class="form-control" id="For Year">
+			                        {{-- <select name="budget_year_id" class="form-control" id="For Year">
 										@foreach($budgetYears as $year)
 								      		<option value="{{ $year->id }}">{{ $year->budget_year }}</option>
 										@endforeach
-								    </select>
+									</select> --}}
+									<input type="hidden" name="budget_year_id" value="{{ $activeYear->id }}">
+									<input class="form-control" type="text" value="{{ $activeYear->budget_year }}" disabled>
 			                      </div>
 			                    </div>
 
