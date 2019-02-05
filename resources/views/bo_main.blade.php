@@ -106,7 +106,7 @@
             <p>APP</p> </a>
             <ul class="collapse" id="collapseItem2">
             <li class=""> <a href="{{ route('app_cse') }}"> <p> APP CSE </p> </a> </li>
-              <li class=""> <a href="/"> <p> APP NON-CSE </p> </a> </li>
+              <li class=""> <a href="{{ route('app_non_cse') }}"> <p> APP NON-CSE </p> </a> </li>
             </ul>
           </li>
 

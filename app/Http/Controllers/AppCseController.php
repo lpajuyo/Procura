@@ -18,13 +18,12 @@ class AppCseController extends Controller
     {
         if($budgetYear == null)
             $budgetYear = BudgetYear::active()->first();
-            
+
         $approvedItems = $budgetYear->projects()->approved()->get()->flatMap->items->where('is_cse', 1)->groupBy->code;
 
         $templatePath = Storage::disk('public')->path('templates\app_cse_template.xlsm');
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
-        $reader->getReadDataOnly(true);
 
         $spreadsheet = $reader->load($templatePath);
         $worksheet = $spreadsheet->getActiveSheet();
