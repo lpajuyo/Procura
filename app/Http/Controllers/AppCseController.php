@@ -14,8 +14,11 @@ class AppCseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(BudgetYear $budgetYear)
+    public function __invoke(BudgetYear $budgetYear = null)
     {
+        if($budgetYear == null)
+            $budgetYear = BudgetYear::active()->first();
+            
         $approvedItems = $budgetYear->projects()->approved()->get()->flatMap->items->where('is_cse', 1)->groupBy->code;
 
         $templatePath = Storage::disk('public')->path('templates\app_cse_template.xlsm');
