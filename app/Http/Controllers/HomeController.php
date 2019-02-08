@@ -32,6 +32,8 @@ class HomeController extends Controller
                 return view('sector_dashboard');
             case "Admin":
                 return view('admin_dashboard');
+            default:
+                return view('user_dashboard');
         }
         //return view('home');
     }

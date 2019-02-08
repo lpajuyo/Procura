@@ -99,17 +99,17 @@
             </a>
           </li>
           @endcan
-
+          @can('view-APP')
           <li class="sb-content">
             <a data-toggle="collapse" href="#collapseItem2" aria-expanded="false" aria-controls="collapseItem2">
             <i class="nc-icon nc-money-coins"></i>
             <p>APP</p> </a>
             <ul class="collapse" id="collapseItem2">
-            <li class=""> <a href="{{ route('app_cse', ['budget_year' => 1]) }}"> <p> APP CSE </p> </a> </li>
-              <li class=""> <a href="/"> <p> APP NON-CSE </p> </a> </li>
+            <li class=""> <a href="{{ route('app_cse') }}"> <p> APP CSE </p> </a> </li>
+              <li class=""> <a href="{{ route('app_non_cse') }}"> <p> APP NON-CSE </p> </a> </li>
             </ul>
           </li>
-
+          @endcan
           @can('administer')
           <li>
             <a href="#">

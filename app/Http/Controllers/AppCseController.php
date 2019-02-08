@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\BudgetYear;
+use Carbon\Carbon;
 
 class AppCseController extends Controller
 {
@@ -14,14 +15,21 @@ class AppCseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(BudgetYear $budgetYear)
+    public function __invoke(BudgetYear $budgetYear = null)
     {
+        $this->authorize('view-APP');
+
+        if($budgetYear == null)
+            $budgetYear = BudgetYear::active()->first();
+        
+        if($budgetYear == null)
+            abort(497, "There is no Active Budget Year set. Please wait until one is set.");
+
         $approvedItems = $budgetYear->projects()->approved()->get()->flatMap->items->where('is_cse', 1)->groupBy->code;
 
         $templatePath = Storage::disk('public')->path('templates\app_cse_template.xlsm');
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
-        $reader->getReadDataOnly(true);
 
         $spreadsheet = $reader->load($templatePath);
         $worksheet = $spreadsheet->getActiveSheet();
@@ -64,7 +72,7 @@ class AppCseController extends Controller
 
         //temp download spreadsheet
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="lala.xlsm"');
+        header('Content-Disposition: attachment;filename="APP_' . $budgetYear->budget_year . '_CSE_systemgenerated' . Carbon::now()->toDateString() . '.xlsm"');
         header('Cache-Control: max-age=0');
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $writer->save('php://output');
