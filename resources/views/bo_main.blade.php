@@ -65,7 +65,7 @@
               <p>Dashboard</p>
             </a>
           </li>
-
+          @if(Auth::user()->can('viewBudgetProposals', App\BudgetProposal::class) || Auth::user()->can('viewBudgetYears', App\BudgetYear::class) || Auth::user()->can('viewBudgetAlloc'))
           <li class="sb-content @yield('budget-active')">
             <a data-toggle="collapse" href="#collapseItem1" aria-expanded="false" aria-controls="collapseItem1">
             <i class="nc-icon nc-money-coins"></i>
@@ -82,7 +82,7 @@
               @endcan
             </ul>
           </li>
-
+          @endif
           @can('viewProjects', App\Project::class)
           <li class="sb-content @yield('ppmp-active')">
             <a href="/projects">
