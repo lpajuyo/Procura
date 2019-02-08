@@ -72,5 +72,11 @@ class UsersTableSeeder extends Seeder
             "userable_id" => 3,
             "userable_type" => "App\SectorHead",
         ]);
+        User::create([
+            "user_type_id" => "5",
+            "username" => "bacsecretariat",
+            "name" => "BAC Secretariat",
+            "password" => Hash::make('1234'),
+        ]);
     }
 }

@@ -16,5 +16,6 @@ class UserTypesTableSeeder extends Seeder
         UserType::create(["name" => "Budget Officer"]);
         UserType::create(["name" => "Sector Head"]);
         UserType::create(["name" => "Admin"]);
+        UserType::create(["name" => "BAC Secretariat"]);
     }
 }

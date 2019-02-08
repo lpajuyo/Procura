@@ -17,8 +17,13 @@ class AppCseController extends Controller
      */
     public function __invoke(BudgetYear $budgetYear = null)
     {
+        $this->authorize('view-APP');
+
         if($budgetYear == null)
             $budgetYear = BudgetYear::active()->first();
+        
+        if($budgetYear == null)
+            abort(497, "There is no Active Budget Year set. Please wait until one is set.");
 
         $approvedItems = $budgetYear->projects()->approved()->get()->flatMap->items->where('is_cse', 1)->groupBy->code;
 

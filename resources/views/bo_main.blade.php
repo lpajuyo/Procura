@@ -99,7 +99,7 @@
             </a>
           </li>
           @endcan
-
+          @can('view-APP')
           <li class="sb-content">
             <a data-toggle="collapse" href="#collapseItem2" aria-expanded="false" aria-controls="collapseItem2">
             <i class="nc-icon nc-money-coins"></i>
@@ -109,7 +109,7 @@
               <li class=""> <a href="{{ route('app_non_cse') }}"> <p> APP NON-CSE </p> </a> </li>
             </ul>
           </li>
-
+          @endcan
           @can('administer')
           <li>
             <a href="#">
