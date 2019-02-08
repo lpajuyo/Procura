@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\BudgetYear;
+use Carbon\Carbon;
 
 class AppNonCseController extends Controller
 {
@@ -46,7 +47,7 @@ class AppNonCseController extends Controller
         // header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');
         // header('Content-Disposition: attachment;filename="lala.ods"');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="lala.xlsx"');
+        header('Content-Disposition: attachment;filename="APP_' . $budgetYear->budget_year . '_NON-CSE_systemgenerated' . Carbon::now()->toDateString() . '.xlsx"');
         header('Cache-Control: max-age=0');
         // $storagePath = Storage::path('app_non_cse_files');
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);

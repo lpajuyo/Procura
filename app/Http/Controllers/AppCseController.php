@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\BudgetYear;
+use Carbon\Carbon;
 
 class AppCseController extends Controller
 {
@@ -66,7 +67,7 @@ class AppCseController extends Controller
 
         //temp download spreadsheet
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="lala.xlsm"');
+        header('Content-Disposition: attachment;filename="APP_' . $budgetYear->budget_year . '_CSE_systemgenerated' . Carbon::now()->toDateString() . '.xlsm"');
         header('Cache-Control: max-age=0');
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $writer->save('php://output');
