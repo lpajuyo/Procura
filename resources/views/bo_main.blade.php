@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="{{ asset('/images/logo.png') }}">
   <title> @yield('title', 'Procura')</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/fonts.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('font-awesome-4.7.0/css/font-awesome.css') }}">
@@ -24,10 +25,11 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/sweetalert2.css') }}">
     <!--   Core JS Files   -->
   <script type="text/javascript" src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
+  <script src="{{ asset('/js/app.js') }}"></script>
   <script src="{{ asset('/js/sweetalert2.js') }}"></script>
   <script src="{{ asset('/pd/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
-  <!-- <script src="{{'public/js/plugins/perfect-scrollbar.jquery.min.js'}}"></script> -->
+  {{-- <!-- <script src="{{'public/js/plugins/perfect-scrollbar.jquery.min.js'}}"></script> --> --}}
   <!--  Google Maps Plugin    -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chart JS -->
@@ -179,16 +181,18 @@
               </li>
 
               <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
                   <i class="nc-icon nc-bell-55 navicons"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 20px;">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  @foreach(Auth::user()->notifications as $notif)
+                  <a class="dropdown-item" href="#">{{ $notif->data['message'] }}</a>
+                  @endforeach
+                  {{-- <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a> --}}
                 </div>
               </li>
 
@@ -227,7 +231,20 @@
   <script>
     $(document).ready(function() {
       // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
+      // demo.initChartsPages();
+
+      Echo.private('App.User.' + {{ Auth::user()->id }})
+        .notification((notification) => {
+          $.notify({
+            message: notification.message
+          },{
+            placement: {
+              from: "bottom",
+              align: "right"
+            }
+          });
+        });
+      // $.notify("Hello World");
     });
   </script>
   @yield('scripts')
