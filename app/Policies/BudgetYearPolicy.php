@@ -45,7 +45,7 @@ class BudgetYearPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->type->name == "Budget Officer";
     }
 
     /**
@@ -57,7 +57,7 @@ class BudgetYearPolicy
      */
     public function update(User $user, BudgetYear $budgetYear)
     {
-        //
+        return $user->type->name == "Budget Officer" && !($budgetYear->is_active);
     }
 
     /**
@@ -69,7 +69,8 @@ class BudgetYearPolicy
      */
     public function delete(User $user, BudgetYear $budgetYear)
     {
-        //
+        return $user->type->name == "Budget Officer" && !($budgetYear->is_active);
+
     }
 
     /**
