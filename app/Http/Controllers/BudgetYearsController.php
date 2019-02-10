@@ -46,20 +46,18 @@ class BudgetYearsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', BudgetYear::class);
+
         $validator = Validator::make($request->all(), [
             "budget_year" => "bail|required|numeric|digits:4|min:".date('Y', strtotime("this year"))."|date_format:Y|unique:budget_years,budget_year",
             "fund_101" => "required|numeric|min:0",
             "fund_164" => "required|numeric|min:0",
-            //"is_active" => "required|boolean"
         ]);
 
         if($validator->fails()){
             return redirect('/budget_years')->withErrors($validator, 'create')->withInput();
         }
 
-        //if set to "Active", set all other rows to "Inactive"
-
-        // BudgetYear::create($request->validated());
         BudgetYear::create($validator->valid());
 
         return redirect('/budget_years');
@@ -96,6 +94,8 @@ class BudgetYearsController extends Controller
      */
     public function update(Request $request, BudgetYear $budgetYear)
     {
+        $this->authorize('update', $budgetYear);
+
         $validator = Validator::make($request->all(), [
             "fund_101" => "required|numeric|min:0",
             "fund_164" => "required|numeric|min:0",
@@ -123,6 +123,8 @@ class BudgetYearsController extends Controller
      */
     public function destroy(BudgetYear $budgetYear)
     {
+        $this->authorize('delete', $budgetYear);
+
         $budgetYear->delete();
 
         return redirect('/budget_years');
