@@ -39,7 +39,12 @@ class ProjectsController extends Controller
             $projects = $user->projects;
         }
         
-        return view("user_viewppmp", compact('projects'));
+        $activeYear = BudgetYear::active()->first();
+        if($activeYear == null)
+            abort(497, "There is no Active Budget Year set. Please wait until one is set.");
+        $projects = $projects->where('budget_year_id', $activeYear->id);
+
+        return view("user_viewppmp", compact('projects', 'activeYear'));
     }
 
     /**
