@@ -23,7 +23,7 @@ class BudgetYearsController extends Controller
     {
         $this->authorize('viewBudgetYears', BudgetYear::class);
 
-        $budgetYears = BudgetYear::all();
+        $budgetYears = BudgetYear::orderByRaw('IF(budget_year<=2019, 1, 0), is_active DESC')->orderBy('budget_year', 'asc')->get();
         
         return view("bo_budgetYear", compact('budgetYears'));
     }
