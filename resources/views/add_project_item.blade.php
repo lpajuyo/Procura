@@ -24,7 +24,7 @@
 				
 				<div class="row">
 					<div class="col-lg-12">
-						<form method="POST" action="{{ route('items.store', ['project' => $project->id]) }}">
+						<form id="add-item-form" method="POST" action="{{ route('items.store', ['project' => $project->id]) }}">
 						@csrf
 							<div class="row" style="padding:0px 30px 0px 30px;">
 			                    <div class="col-lg-4">
@@ -310,7 +310,7 @@
 							</div>
 							<div class="col-lg-4">
 								<div style="padding: 20px 0px 30px 0px;" class="text-center">
-									<a href="{{ route('projects.index') }}"><button type="button" class="btn btn-success btn-block makeppmp">Done</button></a>
+									<a id="done-btn" href="{{ route('projects.index') }}" class="btn btn-success btn-block makeppmp">Done</a>
 								</div>
 							</div>	
 						</div>
@@ -409,7 +409,7 @@
 
 
 @section('modals')
-<!-- MODAL FOR ADD ITEM -->
+{{-- <!-- MODAL FOR ADD ITEM -->
   <div id="additem" class="modal fade" role="dialog">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -453,7 +453,7 @@
 
         </div>
       </div>
-    </div>
+    </div> --}}
 @endsection
 
 
@@ -532,6 +532,24 @@ $(document).ready(function(){
 			$(this).parent().next(":text").prop("disabled", false);
 		else
 			$(this).parent().next(":text").prop("disabled", true);
+	})
+</script>
+
+<script>
+	$("#done-btn").click(function(event){
+		var hasInput = $("#add-item-form :input").not("button,:radio,:hidden,:disabled,[readonly]").is(function(){
+			if($(this).is(":checkbox"))
+				return $(this).prop("checked");
+			else
+				return $(this).val();
+		});
+
+		if(hasInput){
+			event.preventDefault();
+
+			if(confirm("You currently have some inputs. If you want to add these to the PPMP, 'Cancel' and click 'Add Item' first. Otherwise, click 'OK'"))
+				window.location = $(this).attr("href");
+		}
 	})
 </script>
 
