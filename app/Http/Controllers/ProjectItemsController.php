@@ -70,7 +70,7 @@ class ProjectItemsController extends Controller
                 }
             ],
             'schedules.*.quantity' => 'nullable|numeric',
-            'total_ppmp_budget' => 'required|numeric|between:'.$project->totalBudgetWithContingency().','.$project->department_budget->remaining,
+            'total_ppmp_budget' => 'required|numeric|between:'.$project->total_budget_with_contingency.','.$project->department_budget->remaining,
             'is_cse' => 'required|boolean'
         ]);
         

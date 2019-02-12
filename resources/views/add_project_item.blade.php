@@ -151,7 +151,7 @@
 									<div class="form-group">	
 										<!-- <label for="Total">PPMP Total Estimated Budget<span>(+10% Provision for Interest, +10% Contigency)</span>:</label> -->
 										<input name="total_ppmp_budget" 
-											value="{{ (old('total_ppmp_budget') == null) ? $project->totalBudgetWithContingency() : old('total_ppmp_budget') }}" 
+											value="{{ (old('total_ppmp_budget') == null) ? $project->total_budget_with_contingency : old('total_ppmp_budget') }}" 
 											type="number" min="0" step=".01" class="form-control" id="PPMP-Total" readonly>
 			                      	</div>
 								</div>

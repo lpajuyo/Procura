@@ -92,18 +92,6 @@ class ProjectsController extends Controller
     public function generateFile(Project $project){
         $this->authorize('viewFile', $project);
 
-        // $projectArray = $project->load('items')->toArray();
-        // $projectArray['items'] = array_map(function($item){
-        //     $item['quantity'] = 'lala';// . $item['quantity'] . ' ' . $item['uom'];
-        //     array_forget($item, 'uom');
-        //     array_forget($item, 'id');
-        //     array_forget($item, 'project_id');
-        //     array_forget($item, 'created_at');
-        //     array_forget($item, 'updated_at');
-        //     return array_values($item);
-        // }, $projectArray['items']);
-        // dd($projectArray);
-
         $templatePath = Storage::disk('public')->path('templates\ppmp_template.xlsx');
         // \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder());
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();

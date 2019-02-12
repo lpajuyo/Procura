@@ -229,6 +229,10 @@
               <!-- populated by script -->
             </tbody>
           </table>
+          <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary"> 
+            TOTAL: &nbsp; &#8369;<span id="total" style="color: black;"></span></p>
+          <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary"> 
+            TOTAL WITH CONTINGENCY(+20%): &nbsp; &#8369;<span id="total-contingency" style="color: black;"></span></p>
           @can('approveProjects', App\Project::class)
           <div class="row">
             <div class="col-lg-3"></div>
@@ -266,6 +270,8 @@
       dataType: "json"
     }).done(function(project){
       $("#title").html(project.title);
+      $("#total").html(project.total_budget);
+      $("#total-contingency").html(project.total_budget_with_contingency);
 
       $("#viewdets tbody").empty();
       $.each(project.items, function (indexInArray, item) { 
