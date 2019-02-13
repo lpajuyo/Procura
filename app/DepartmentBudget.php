@@ -23,11 +23,11 @@ class DepartmentBudget extends Pivot
     }
 
     public function getRemainingAttribute(){
-        $approvedProjects = $this->projects()->where('is_approved', true)->get();
+        $approvedProjects = $this->projects()->get(); //where('is_approved', true)->get();
         
         $allocated = 0;
         foreach($approvedProjects as $project){
-            $allocated = bcadd($allocated, $project->total_budget);
+            $allocated = bcadd($allocated, $project->total_budget_with_contingency);
         }
 
         return bcsub($this->total, $allocated);
