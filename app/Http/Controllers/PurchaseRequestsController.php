@@ -31,6 +31,10 @@ class PurchaseRequestsController extends Controller
         }
         else if($user->type->name == "Department Head"){
             $purchaseRequests = $user->purchase_requests;
+
+            $projects = Auth::user()->projects()->where('is_approved', 1)->get();
+            if($projects->count() == 0)
+                request()->session()->flash('approved_proj_error', 'You have no approve PPMPs at this time. You can\'t create Purchase Requests yet.');
         }
         return view('user_pr', compact('purchaseRequests'));
     }

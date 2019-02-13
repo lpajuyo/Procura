@@ -47,7 +47,7 @@ class PurchaseRequestPolicy
     public function create(User $user)
     {
         if($user->type->name == "Department Head"){
-            return true;
+            return $user->projects()->where('is_approved', 1)->get()->count() != 0;
         }
     }
 
