@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\User;
 use App\Project;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use App\BudgetYear;
 
 class ProjectPolicy
 {
@@ -56,7 +57,7 @@ class ProjectPolicy
     public function create(User $user)
     {
         if($user->type->name == "Department Head"){
-            return true;
+            return $user->userable->department->isAllocated(BudgetYear::active()->first());
         }
     }
 
