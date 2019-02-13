@@ -88,20 +88,20 @@
   					            	<i class="far fa-file"></i>
   					            </button>
                         </a>
-                        @can('approveProjects', App\Project::class)
+                        {{-- @can('approveProjects', App\Project::class)
                         <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
   					            	<i class="fas fa-pencil-alt"></i>
   					            </button>
-                        @endcan
+                        @endcan --}}
 
-                        <button type="submit" form="{{ $project->id }}-create-pr" rel="tooltip" title="Create Purchase Request" class="btn btn-danger btn-simple btn-xs" >
+                        {{-- <button type="submit" form="{{ $project->id }}-create-pr" rel="tooltip" title="Create Purchase Request" class="btn btn-danger btn-simple btn-xs" >
   					            	<i class="fas fa-pencil-alt"></i>
   					            </button>
 
                         <form id="{{ $project->id }}-create-pr" method="POST" action="{{ route('purchase_requests.store') }}">
                         @csrf
                         <input type="hidden" name="project_id" value="{{ $project->id }}">
-                        </form>
+                        </form> --}}
 
                         </td>
   			            </tr>
