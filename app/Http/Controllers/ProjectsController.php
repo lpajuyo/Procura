@@ -27,6 +27,10 @@ class ProjectsController extends Controller
         $this->authorize('viewProjects', Project::class);
 
         $user = Auth::user();
+        $activeYear = BudgetYear::active()->first();
+        if($activeYear == null)
+            abort(497, "There is no Active Budget Year set. Please wait until one is set.");
+
         if($user->type->name == "Sector Head"){
             $projects = Project::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
                                     ->latest('created_at')
@@ -37,11 +41,11 @@ class ProjectsController extends Controller
         }
         else if($user->type->name == "Department Head"){
             $projects = $user->projects;
+
+            if($user->userable->department->isUnallocated($activeYear))
+                request()->session()->flash('dept_budget_error', 'There is no allocated budget for your department at this time. You can\'t create PPMPs yet.');
         }
         
-        $activeYear = BudgetYear::active()->first();
-        if($activeYear == null)
-            abort(497, "There is no Active Budget Year set. Please wait until one is set.");
         $projects = $projects->where('budget_year_id', $activeYear->id);
 
         return view("user_viewppmp", compact('projects', 'activeYear'));

@@ -47,6 +47,11 @@
         @endcan
 				
         <div id="All" class="tabcontent">
+          @if(session('dept_budget_error'))
+          <div class="alert alert-danger" role="alert">
+            {{ session('dept_budget_error') }}
+          </div>
+          @endif
           <p class="text-info" style="position: absolute; font-size: 22px;">LIST OF ALL PPMP FOR {{ $activeYear->budget_year }}
           <i class="fas fa-list-ul fa-sm" style="margin-left: 10px; color:black;"></i> </p>
           <br><br><br>
