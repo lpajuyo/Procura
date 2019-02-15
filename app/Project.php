@@ -8,6 +8,8 @@ class Project extends Model
 {
     protected $fillable = ['budget_year_id', 'title', 'user_id', 'department_budget_id', 'is_approved'];
 
+    protected $appends = ['total_budget', 'total_budget_with_contingency'];
+
     public function user(){
         return $this->belongsTo('App\User');
     }
@@ -43,7 +45,7 @@ class Project extends Model
         return $total;
     }
 
-    public function totalBudgetWithContingency(){
+    public function getTotalBudgetWithContingencyAttribute(){
         $total = bcadd($this->total_budget, bcmul($this->total_budget, "0.20", 5), 5);
         return number_format($total, 2, ".", "");
     }

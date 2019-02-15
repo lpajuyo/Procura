@@ -27,6 +27,10 @@ class ProjectsController extends Controller
         $this->authorize('viewProjects', Project::class);
 
         $user = Auth::user();
+        $activeYear = BudgetYear::active()->first();
+        if($activeYear == null)
+            abort(497, "There is no Active Budget Year set. Please wait until one is set.");
+
         if($user->type->name == "Sector Head"){
             $projects = Project::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
                                     ->latest('created_at')
@@ -37,9 +41,14 @@ class ProjectsController extends Controller
         }
         else if($user->type->name == "Department Head"){
             $projects = $user->projects;
+
+            if($user->userable->department->isUnallocated($activeYear))
+                request()->session()->flash('dept_budget_error', 'There is no allocated budget for your department at this time. You can\'t create PPMPs yet.');
         }
         
-        return view("user_viewppmp", compact('projects'));
+        $projects = $projects->where('budget_year_id', $activeYear->id);
+
+        return view("user_viewppmp", compact('projects', 'activeYear'));
     }
 
     /**
@@ -86,18 +95,6 @@ class ProjectsController extends Controller
 
     public function generateFile(Project $project){
         $this->authorize('viewFile', $project);
-
-        // $projectArray = $project->load('items')->toArray();
-        // $projectArray['items'] = array_map(function($item){
-        //     $item['quantity'] = 'lala';// . $item['quantity'] . ' ' . $item['uom'];
-        //     array_forget($item, 'uom');
-        //     array_forget($item, 'id');
-        //     array_forget($item, 'project_id');
-        //     array_forget($item, 'created_at');
-        //     array_forget($item, 'updated_at');
-        //     return array_values($item);
-        // }, $projectArray['items']);
-        // dd($projectArray);
 
         $templatePath = Storage::disk('public')->path('templates\ppmp_template.xlsx');
         // \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder());
@@ -195,6 +192,10 @@ class ProjectsController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $this->authorize('delete', $project);
+
+        $project->delete();
+
+        return back();
     }
 }
