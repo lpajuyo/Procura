@@ -17,13 +17,14 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('/pd/css/bootstrap.min.css') }}" >
   <link rel="stylesheet" type="text/css" href="{{ asset('/pd/css/paper-dashboard.css') }}" >
   <link rel="stylesheet" type="text/css" href="{{ asset('/dropify/css/dropify.min.css') }}" >
+  <link rel="stylesheet" type="text/css" href="{{ asset('/css/chartist.min.css') }}" >
   <!-- DATA TABLE CSS Files -->
   <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/dataTables.bootstrap4.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/fixedHeader.bootstrap4.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/responsive.bootstrap4.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/sweetalert2.css') }}">
     <!--   Core JS Files   -->
-  <script type="text/javascript" src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
+  <script src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
   <script src="{{ asset('/js/sweetalert2.js') }}"></script>
   <script src="{{ asset('/pd/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
@@ -32,12 +33,14 @@
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chart JS -->
   <script src="{{ asset('/pd/js/plugins/chartjs.min.js') }}"></script>
+  <script src="{{ asset('/js/chartist.min.js') }}"></script>
   <!--  Notifications Plugin    -->
   <script src="{{ asset('/pd/js/plugins/bootstrap-notify.js') }}"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('/dropify/js/dropify.min.js') }}"></script>
   <script src="{{ asset('/pd/js/paper-dashboard.js') }}" type="text/javascript"></script>
   <script src="{{ asset('/pd/demo/demo.js') }}"></script>
+  <script src="{{ asset('/js/progressbar.min.js') }}"></script>
   <!-- DATA TABLE JS Files -->
   <script src="{{ asset('/datatables/jquery.dataTables.js') }}"> </script>
   <script src="{{ asset('/datatables/dataTables.bootstrap4.js') }}"> </script>
@@ -45,7 +48,7 @@
   <script src="{{ asset('/datatables/dataTables.responsive.js') }}"> </script>
 </head>
 
-<body class="">
+<body class="" onload="rtdate()">
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <!--
@@ -140,7 +143,7 @@
 
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent" style="padding-top: 0px !important;">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <div class="navbar-toggle">
@@ -152,8 +155,7 @@
             </div>
             <a class="navbar-brand" href="#pablo" style="padding-bottom: 5px;">
               <img src="{{ asset('/images/logo.png') }}" class="img-responsive tuplogo"> 
-              <div class="tuptitle"> TECHNOLOGICAL UNIVERSITY OF THE PHILIPPINES</div>
-              <div class="tagline"> Better Procurement System. Better Workplace. Procura.</div>
+              <div class="tuptitle"> <strong> TECHNOLOGICAL UNIVERSITY </strong> <br> OF THE <strong> PHILIPPINES </strong></div>
             </a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,37 +166,41 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
 
+              <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
+                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
+                  <i class="nc-icon nc-bell-55 navicons"></i>
+                  <span class="badge1" data-badge="3"></span>
+
+                  <p>
+                    <span class="d-lg-none d-md-block">Notification</span>
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 9px;">
+                  <a class="dropdown-item" href="#">No new notification</a>
+                </div>
+              </li>
+
+              <span class="navline"></span>
+
               <li class="nav-item btn-rotate dropdown" style="padding-right: 0px;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Quicklinks">
-                  <i class="nc-icon nc-tap-01 navicons"></i>
+                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="nc-icon nc-tap-01 navicons"></i> quicklinks
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 20px;">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 40px;">
                   <a class="dropdown-item" href="#" data-toggle="modal">Create Budget Proposal</a>
                   <a class="dropdown-item" href="#">Create PPMP</a>
                   <a class="dropdown-item" href="#">Create Purchase Request</a>
                 </div>
               </li>
 
-              <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
-                  <i class="nc-icon nc-bell-55 navicons"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 20px;">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
+              <span class="navline"></span>
 
               <li class="nav-item" style="padding-left: 0px;">
-                <a class="nav-link btn-rotate" href="#pablo" rel="tooltip" title="Settings">
-                  <i class="nc-icon nc-settings-gear-65 navicons"></i>
+                <a class="nav-link btn-rotate" href="#" rel="tooltip" title="Settings">
+                  <i class="nc-icon nc-settings-gear-65 navicons"></i> settings
                   <p>
                     <span class="d-lg-none d-md-block">Account</span>
                   </p>
