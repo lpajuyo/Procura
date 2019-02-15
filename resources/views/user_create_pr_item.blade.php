@@ -139,13 +139,13 @@
 @section('scripts')
 <script>
 	$("#item-dropdown").change(function(){
-		var items = @json($projectItems);
+		var items = @json($projectItems->keyBy('id'));
 		var val = $(this).val();
 
-		$("#Qty").val(items[val-1].quantity);
-		$("#Uom").val(items[val-1].uom);
-		$("#UPrice").val(items[val-1].unit_cost);
-		$("#Total").val(items[val-1].estimated_budget);
+		$("#Qty").val(items[val].quantity);
+		$("#Uom").val(items[val].uom);
+		$("#UPrice").val(items[val].unit_cost);
+		$("#Total").val(items[val].estimated_budget);
 	});
 </script>
 @endsection
