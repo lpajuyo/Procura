@@ -82,7 +82,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        //
+        return $user->id == $project->user_id;
     }
 
     /**

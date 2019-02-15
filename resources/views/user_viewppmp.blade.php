@@ -93,6 +93,14 @@
   					            	<i class="far fa-file"></i>
   					            </button>
                         </a>
+                        @can('delete', $project)
+                        <button type="submit" form="{{ 'del-proj-' . $project->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                          <i class="fa fa-times"></i>
+                        </button>
+                        <form style="display: none;" id="{{ 'del-proj-' . $project->id }}" method="POST" action="{{ route('projects.destroy', ['project' => $project->id]) }}">
+                            @csrf @method('DELETE')
+                        </form>
+                        @endcan
                         {{-- @can('approveProjects', App\Project::class)
                         <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
   					            	<i class="fas fa-pencil-alt"></i>
@@ -160,8 +168,8 @@
                         <button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
                           <i class="fas fa-pencil-alt"></i>
                         </button>
-                        </td>
                         @endcan
+                      </td>
                     </tr>
                     @endforeach
                     </tbody>
