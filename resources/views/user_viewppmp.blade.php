@@ -13,15 +13,13 @@
         <!-- 	<p style="font-size: 23px; margin-bottom: 40px;"> LIST OF PPMP
 					<i class="fas fa-list-ul" style="margin-left: 10px; "></i><br> -->
         <a href="{{ route('projects.create') }}" id="create" style="margin-right: 200px;">
-          <span class="fa fa-pencil-alt fa-xs"></span> </a>
-        @elsecan('approveProjects', App\Project::class)
-        @endcan
+          <span class="fa fa-pencil-alt fa-xs"></span> </a> @elsecan('approveProjects', App\Project::class) @endcan
 
         <a href="#" class="circle tablinks" id="all" onclick="filterTableByStatus('')" style="margin-right: 150px;" rel="tooltip"
           title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
 
-        <a href="#" class="circle tablinks" id="approved" onclick="filterTableByStatus('Approved')" style="margin-right: 100px;" rel="tooltip"
-          title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
+        <a href="#" class="circle tablinks" id="approved" onclick="filterTableByStatus('Approved')" style="margin-right: 100px;"
+          rel="tooltip" title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
 
         <a href="#" class="circle tablinks" id="pending" onclick="filterTableByStatus('Pending')" style="margin-right: 50px;" rel="tooltip"
           title="Pending">
@@ -29,12 +27,12 @@
           </a>
 
         <a href="#" class="circle tablinks" id="rejected" onclick="filterTableByStatus('Rejected')" rel="tooltip" title="Rejected">
-          <span class="far fa-thumbs-down fa-xs"></span> </a>        
+          <span class="far fa-thumbs-down fa-xs"></span> </a>
         <!-- <p style="font-size: 23px;"> APPROVE PPMP
 					<i class="fas fa-pencil-alt" style="margin-left: 10px; "></i><br>
         </p><br> -->
-        {{-- <a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip"
-          title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
+        {{-- <a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;"
+          rel="tooltip" title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
 
         <a href="#" class="circle tablinks" id="approved" onclick="openFilter(event, 'Approved')" style="margin-right: 100px;" rel="tooltip"
           title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
@@ -44,7 +42,7 @@
             <span class="far fa-file-powerpoint fa-xs"></span> 
           </a>
 
-        <a href="#" class="circle tablinks" id="rejected" onclick="openFilter(event, 'Rejected')" rel="tooltip" title="Rejected"> <span class="far fa-thumbs-down fa-xs"></span> </a> --}}
+        <a href="#" class="circle tablinks" id="rejected" onclick="openFilter(event, 'Rejected')" rel="tooltip" title="Rejected"> <span class="far fa-thumbs-down fa-xs"></span> </a>        --}}
 
         <div id="All" class="tabcontent">
           @if(session('dept_budget_error'))
@@ -83,7 +81,8 @@
                 <td>{{ $project->created_at }}</td>
                 <td>//24/11/2019</td>
                 <td>{{ (is_null($project->is_approved)) ? 'Pending' : (($project->is_approved == true) ? 'Approved' : 'Rejected'
-                  )}}</td>
+                  )}}
+                </td>
                 <td>
                   <button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
   					                    <i class="fa fa-eye"></i>
@@ -120,7 +119,8 @@
           </table>
         </div>
 
-        {{-- <div id="Approved" class="tabcontent hide">
+        {{--
+        <div id="Approved" class="tabcontent hide">
           <p class="text-success" style="position: absolute; font-size: 22px;"> APPROVED PPMP
             <i class="far fa-thumbs-up fa-sm" style="margin-left: 10px; color:black;"></i> </p>
           <br><br><br>
@@ -151,7 +151,8 @@
                 <td>{{ $project->created_at }}</td>
                 <td>//24/11/2019</td>
                 <td>{{ (is_null($project->is_approved)) ? 'Pending' : (($project->is_approved == true) ? 'Approved' : 'Rejected'
-                  )}}</td>
+                  )}}
+                </td>
                 <td>
                   <button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
                                 <i class="fa fa-eye"></i>
@@ -238,20 +239,41 @@
           TOTAL: &nbsp; &#8369;<span id="total" style="color: black;"></span></p>
         <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
           TOTAL WITH CONTINGENCY(+20%): &nbsp; &#8369;<span id="total-contingency" style="color: black;"></span></p>
+        <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
+          REMARKS: <span id="remarks" style="color: black;"></span></p>
         @can('approveProjects', App\Project::class)
+        
+        @include('errors')
+
         <div class="row">
           <div class="col-lg-3"></div>
-          <div class="col-lg-3">
-            <form id="approve-project" method="POST" action="">
-              @csrf
-              <button type="submit" class="btn btn-block btn-success"> APPROVE</button>
-            </form>
+          <div id="approve-dropdown" class="col-lg-3 dropdown">
+            <button type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown"> APPROVE</button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <form class="px-2 py-1" id="approve-project" method="POST" action="">
+                @csrf
+                <div class="form-group">
+                  <label for="Remarks">Remarks:</label>
+                  <textarea class="form-control" name="remarks" cols="100"></textarea>
+                </div>
+
+                <button type="submit" class="float-right btn btn-default btn-sm">Submit</button>
+              </form>
+            </div>
           </div>
-          <div class="col-lg-3">
-            <form id="reject-project" method="POST" action="">
-              @csrf @method('DELETE')
-              <button type="submit" class="btn btn-block btn-danger"> REJECT </button>
-            </form>
+          <div id="reject-dropdown" class="col-lg-3 dropdown">
+            <button type="button" class="btn btn-block btn-danger dropdown-toggle" data-toggle="dropdown"> REJECT </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <form class="px-2 py-1" id="reject-project" method="POST" action="">
+                @csrf @method('DELETE')
+                <div class="form-group">
+                  <label for="Remarks">Remarks:</label>
+                  <textarea class="form-control" name="remarks" cols="100"></textarea>
+                </div>
+
+                <button type="submit" class="float-right btn btn-default btn-sm">Submit</button>
+              </form>
+            </div>
           </div>
           <div class="col-lg-3"></div>
         </div>
@@ -275,6 +297,7 @@
       $("#title").html(project.title);
       $("#total").html(project.total_budget);
       $("#total-contingency").html(project.total_budget_with_contingency);
+      $("#remarks").html(project.remarks);
 
       $("#viewdets tbody").empty();
       $.each(project.items, function (indexInArray, item) { 
@@ -301,11 +324,11 @@
       });
       @can('approveProjects', App\Project::class)
       if(project.is_approved == null){
-        $("#approve-project, #reject-project").show();
+        $("#approve-dropdown, #reject-dropdown").show();
         $("#approve-project, #reject-project").attr("action", "{{ url('approved_projects') }}/" + id);
       }
       else
-        $("#approve-project, #reject-project").hide();
+        $("#approve-dropdown, #reject-dropdown").hide();
       @endcan
       $("#viewdets").modal("show");
     }).fail(function(jqXHR, textStatus, errorThrown){
@@ -324,6 +347,7 @@
           }]
     });
   });
+
 </script>
 <script>
   function filterTableByStatus(status){
@@ -331,8 +355,10 @@
 
     table.column(4).search(status).draw();
   }
+
 </script>
-{{-- <script>
+{{--
+<script>
   function openFilter(evt, filterName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
