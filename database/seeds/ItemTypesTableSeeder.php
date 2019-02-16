@@ -13,14 +13,14 @@ class ItemTypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('item_types')->insert([
-            'name' => 'Electrical Supplies',
-            'name' => 'Office Supplies',
-            'name' => 'Office Equipment',
-            'name' => 'Janitorial Supplies',
-            'name' => 'Paper Products',
-            'name' => 'Writing Supplies',
-            'name' => 'Computer Supplies',
-            'name' => 'Consumable Items',
+            ['name' => 'Electrical Supplies'],
+            ['name' => 'Office Supplies'],
+            ['name' => 'Office Equipment'],
+            ['name' => 'Janitorial Supplies'],
+            ['name' => 'Paper Products'],
+            ['name' => 'Writing Supplies'],
+            [ 'name' => 'Computer Supplies'],
+            ['name' => 'Consumable Items'],
         ]);
     }
 }
