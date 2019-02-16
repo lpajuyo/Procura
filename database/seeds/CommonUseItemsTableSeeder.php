@@ -13,19 +13,19 @@ class CommonUseItemsTableSeeder extends Seeder
      */
     public function run()
     {
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-        $reader->setSheetIndex(0);
-        $catalogPath = Storage::disk('public')->path('templates\cse_items.csv');
-        $spreadsheet = $reader->load($catalogPath);
+        // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+        // $reader->setSheetIndex(0);
+        // $catalogPath = Storage::disk('public')->path('templates\cse_items.csv');
+        // $spreadsheet = $reader->load($catalogPath);
 
-        $items = $spreadsheet->getActiveSheet()->toArray();
-        foreach($items as $item){
-            CommonUseItem::create([
-                "code" => $item[0],
-                "description" => $item[1],
-                "uom" => $item[2],
-                "price" => (is_string($item[3])) ? (float)str_replace(",", "", $item[3]): $item[3]
-            ]);
-        }
+        // $items = $spreadsheet->getActiveSheet()->toArray();
+        // foreach($items as $item){
+        //     CommonUseItem::create([
+        //         "code" => $item[0],
+        //         "description" => $item[1],
+        //         "uom" => $item[2],
+        //         "price" => (is_string($item[3])) ? (float)str_replace(",", "", $item[3]): $item[3]
+        //     ]);
+        // }
     }
 }

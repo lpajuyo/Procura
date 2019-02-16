@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommonUseItemsTable extends Migration
+class CreateNonCommonUseItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCommonUseItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('common_use_items', function (Blueprint $table) {
+        Schema::create('non_common_use_items', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('item_type_id');
-            $table->string('code');
             $table->string('description');
             $table->string('uom');
             $table->unsignedDecimal('price', 11, 2);
@@ -31,6 +30,6 @@ class CreateCommonUseItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('common_use_items');
+        Schema::dropIfExists('non_common_use_items');
     }
 }
