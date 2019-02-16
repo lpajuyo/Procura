@@ -23,7 +23,7 @@ class DepartmentBudget extends Pivot
     }
 
     public function getRemainingAttribute(){
-        $approvedProjects = $this->projects()->get(); //where('is_approved', true)->get();
+        $approvedProjects = $this->projects()->where('is_approved', '!=', 0)->get(); //where('is_approved', true)->get();
         
         $allocated = 0;
         foreach($approvedProjects as $project){
