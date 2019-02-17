@@ -114,11 +114,13 @@
           </li>
           @endcan
           @can('administer')
-          <li>
-            <a href="#">
-              <i class="nc-icon nc-bag-16"></i>
-              <p>Administration</p>
-            </a>
+          <li class="sb-content @yield('admin-active')">
+            <a data-toggle="collapse" href="#collapseItem3" aria-expanded="false" aria-controls="collapseItem3">
+            <i class="nc-icon nc-money-coins"></i>
+            <p>ADMINISTRATION</p> </a>
+            <ul class="collapse @yield('admin-dropdown-show')" id="collapseItem3">
+              <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
+            </ul>
           </li>
           @endcan
 

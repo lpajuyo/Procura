@@ -59,5 +59,5 @@ Route::delete('approved_purchase_requests/{purchase_request}', 'ApprovedPurchase
 Route::get('app_cse/{budget_year?}', 'AppCseController')->name('app_cse');
 Route::get('app_non_cse/{budget_year?}', 'AppNonCseController')->name('app_non_cse');
 
+Route::resource('cse_items', 'CseController');
 //
-Route::get('test', 'CseController');

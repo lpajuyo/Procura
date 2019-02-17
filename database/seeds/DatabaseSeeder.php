@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             SectorHeadsTableSeeder::class,
             SchedulesTableSeeder::class,
             CommonUseItemsTableSeeder::class,
+            ItemTypesTableSeeder::class,
         ]);
     }
 }

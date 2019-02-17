@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CommonUseItem extends Model
+class ItemType extends Model
 {
-    protected $guarded = [];
+    //
 }

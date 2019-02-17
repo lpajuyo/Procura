@@ -15,7 +15,7 @@ class CommonUseItemsTableSeeder extends Seeder
     {
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
         $reader->setSheetIndex(0);
-        $catalogPath = Storage::disk('public')->path('templates\cse_items.csv');
+        $catalogPath = Storage::disk('public')->path('templates\cse_items_seed.csv');
         $spreadsheet = $reader->load($catalogPath);
 
         $items = $spreadsheet->getActiveSheet()->toArray();
@@ -24,7 +24,8 @@ class CommonUseItemsTableSeeder extends Seeder
                 "code" => $item[0],
                 "description" => $item[1],
                 "uom" => $item[2],
-                "price" => (is_string($item[3])) ? (float)str_replace(",", "", $item[3]): $item[3]
+                "price" => (is_string($item[3])) ? (float)str_replace(",", "", $item[3]): $item[3],
+                "item_type_id" => $item[4]
             ]);
         }
     }
