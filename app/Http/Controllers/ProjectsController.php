@@ -32,15 +32,19 @@ class ProjectsController extends Controller
             abort(497, "There is no Active Budget Year set. Please wait until one is set.");
 
         if($user->type->name == "Sector Head"){
-            $projects = Project::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
-                                    ->latest('created_at')
+            $projects = Project::whereNotNull('submitted_at')
+                                    ->orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                    ->oldest('submitted_at')
                                     ->get();
             $projects = $projects->filter(function($project){
                 return $project->approver->id == Auth::user()->id;
             });
         }
         else if($user->type->name == "Department Head"){
-            $projects = $user->projects;
+            $projects = $user->projects()
+                                ->orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                ->orderBy('submitted_at', 'asc')
+                                ->get();
 
             if($user->userable->department->isUnallocated($activeYear))
                 request()->session()->flash('dept_budget_error', 'There is no allocated budget for your department at this time. You can\'t create PPMPs yet.');
@@ -104,6 +108,12 @@ class ProjectsController extends Controller
         $spreadsheet->getActiveSheet()->setCellValue('D9', $project->user->name . ' / ' . $project->department->name)
                                         ->setCellValue('D10', $project->title)
                                         ->setCellValue('B30', $project->user->name);
+
+        if(is_null($project->submitted_at) || is_null($project->is_approved) || $project->is_approved == false){
+            $spreadsheet->getActiveSheet()->setCellValue('A28', 'NOTE:');
+            $spreadsheet->getActiveSheet()->setCellValue('B28', 'This is not the official PPMP.');
+        }
+
         if($project->is_approved == true){
             $spreadsheet->getActiveSheet()->setCellValue('O30', $project->approver->name);
         }

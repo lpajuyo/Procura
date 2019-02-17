@@ -21,6 +21,7 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->boolean('is_approved')->nullable();
             $table->text('remarks')->nullable();
+            $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
         });
     }

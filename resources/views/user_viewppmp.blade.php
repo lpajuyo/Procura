@@ -64,7 +64,6 @@
                 <th>Department</th>
                 @endcan
                 <th>Date Submitted</th>
-                <th>Due Date</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -78,12 +77,27 @@
                 @elsecan('approveProjects', App\Project::class)
                 <td>{{ $project->department->name }}</td>
                 @endcan
-                <td>{{ $project->created_at }}</td>
-                <td>//24/11/2019</td>
-                <td>{{ (is_null($project->is_approved)) ? 'Pending' : (($project->is_approved == true) ? 'Approved' : 'Rejected'
-                  )}}
+                <td>{{ ($project->submitted_at) ? $project->submitted_at : '--' }}</td>
+                <td>{{ (is_null($project->submitted_at)) ? 'Waiting Submission' : ((is_null($project->is_approved)) ? 'Pending' : (($project->is_approved == true) ? 'Approved' : 'Rejected')) }}
                 </td>
                 <td>
+                  @can('submit', $project)
+                  <button form="submit-{{ $project->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-default btn-simple btn-xs">
+                                <i class="fa fa-upload"></i>
+                            </button>
+                  <form id="submit-{{ $project->id }}" style="display: none;" method="POST" action="{{ route('projects.submit', ['project' => $project->id]) }}">
+                    @csrf
+                  </form>
+                  @elsecan('unsubmit', $project)
+                  <button form="unsubmit-{{ $project->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-danger btn-simple btn-xs">
+                                <i class="fa fa-upload"></i>
+                            </button>
+                  <form id="unsubmit-{{ $project->id }}" style="display: none;" method="POST" action="{{ route('projects.cancel_submit', ['project' => $project->id]) }}">
+                    @csrf
+                    @method('DELETE')
+                  </form>
+                  @endcan
+
                   <button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
   					                    <i class="fa fa-eye"></i>
   					                </button>
@@ -92,7 +106,8 @@
                         <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
   					            	<i class="far fa-file"></i>
   					            </button>
-                        </a> @can('delete', $project)
+                        </a> 
+                  @can('delete', $project)
                   <button type="submit" form="{{ 'del-proj-' . $project->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
                           <i class="fa fa-times"></i>
                         </button>
@@ -239,8 +254,8 @@
           TOTAL: &nbsp; &#8369;<span id="total" style="color: black;"></span></p>
         <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
           TOTAL WITH CONTINGENCY(+20%): &nbsp; &#8369;<span id="total-contingency" style="color: black;"></span></p>
-        <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
-          REMARKS: <span id="remarks" style="color: black;"></span></p>
+        <p id="remarks" style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
+          REMARKS: <span style="color: black;"></span></p>
         @can('approveProjects', App\Project::class)
         
         @include('errors')
@@ -297,7 +312,11 @@
       $("#title").html(project.title);
       $("#total").html(project.total_budget);
       $("#total-contingency").html(project.total_budget_with_contingency);
-      $("#remarks").html(project.remarks);
+
+      if(project.remarks)
+        $("#remarks span").html(project.remarks);
+      else
+        $("#remarks").hide();
 
       $("#viewdets tbody").empty();
       $.each(project.items, function (indexInArray, item) { 
@@ -343,7 +362,7 @@
     $('table.display').DataTable({
         "columnDefs": [{ 
           "orderable": false, 
-          "targets": [4,5] 
+          "targets": [4] 
           }]
     });
   });
@@ -353,7 +372,7 @@
   function filterTableByStatus(status){
     var table = $('table.display').DataTable();
 
-    table.column(4).search(status).draw();
+    table.column(3).search(status).draw();
   }
 
 </script>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SubmittedProjectsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,11 +39,13 @@ Route::get('budget_proposals/{budget_proposal}/file', 'BudgetProposalsController
 Route::post('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@store')->name('approve_proposal');
 Route::delete('approved_proposals/{budgetProposal}', 'ApprovedProposalsController@destroy')->name('reject_proposal');
 
+Route::post('submitted_projects/{project}', 'SubmittedProjectsController@store')->name('projects.submit');
+Route::delete('submitted_projects/{project}', 'SubmittedProjectsController@destroy')->name('projects.cancel_submit');
 Route::get('projects/{project}/file', 'ProjectsController@generateFile')->name('projects.generateFile');
-Route::resource('projects', 'ProjectsController');
-Route::resource('projects/{project}/items', 'ProjectItemsController');
 Route::post('approved_projects/{project}', 'ApprovedProjectsController@store')->name('approve_project');
 Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy')->name('reject_project');
+Route::resource('projects', 'ProjectsController');
+Route::resource('projects/{project}/items', 'ProjectItemsController');
 
 Route::get('purchase_requests/{purchase_request}/file', 'PurchaseRequestsController@showFile')->name('purchase_requests.showFile');
 Route::resource('purchase_requests', 'PurchaseRequestsController');

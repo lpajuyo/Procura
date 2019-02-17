@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Project extends Model
 {
-    protected $fillable = ['budget_year_id', 'title', 'user_id', 'department_budget_id', 'is_approved', 'remarks'];
+    protected $guarded = ['id'];
 
     protected $appends = ['total_budget', 'total_budget_with_contingency'];
 
@@ -66,5 +67,13 @@ class Project extends Model
 
     public function reject($remarks){
         $this->approve($remarks, false);
+    }
+
+    public function submit(){
+        $this->update(['submitted_at' => Carbon::now()]);
+    }
+
+    public function unsubmit(){
+        $this->update(['submitted_at' => null]);
     }
 }

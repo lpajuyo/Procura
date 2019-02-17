@@ -82,7 +82,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $user->id == $project->user_id;
+        return $user->id == $project->user_id && is_null($project->submitted_at);
     }
 
     /**
@@ -115,5 +115,13 @@ class ProjectPolicy
 
     public function approveProject(User $user, Project $project){
         return $user->type->name == "Sector Head" && is_null($project->is_approved);
+    }
+
+    public function submit(User $user, Project $project){
+        return $user->id == $project->user_id && is_null($project->submitted_at);
+    }
+
+    public function unsubmit(User $user, Project $project){
+        return $user->id == $project->user_id && !is_null($project->submitted_at) && is_null($project->is_approved);
     }
 }
