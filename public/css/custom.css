@@ -696,3 +696,34 @@
 #activities{
   padding: 8px;
 }
+
+/********* SCROLLBAR ********/
+.sidebar-wrapper{
+  overflow: hidden !important;
+}
+
+.sidebar-wrapper:hover{
+  overflow-y: auto !important;
+}
+
+.sidebar{
+  display: flex !important;
+  flex-direction: column;
+}
+
+.sidebar-wrapper::-webkit-scrollbar {
+  width: .7em; 
+}
+
+/*.sidebar-wrapper::-webkit-scrollbar-track {
+  background: #f4f3ef;
+}*/
+
+.sidebar-wrapper::-webkit-scrollbar,
+.sidebar-wrapper::-webkit-scrollbar-thumb {
+  overflow:visible;
+  border-radius: 4px;
+}
+.sidebar-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2); 
+}
