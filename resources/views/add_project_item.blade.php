@@ -61,14 +61,28 @@
 
 								<div class="col-lg-7">
 									<div class="form-group">
+										<label for="exampleFormControlSelect1">Item Type:</label>
+										<select class="form-control" id="type-dropdown" name="item_type_id">
+											<option selected disabled value="0">--Select Item Type--</option>
+											@foreach($itemTypes as $type)
+											<option value="{{ $type->id }}" {{ ($type->id == old('type_id') ? "selected" : "") }}>{{ $type->name }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="padding:0px 30px 5px 30px;">
+								<div class="col-lg-4"></div>
+								<div class="col-lg-7">
+									<div class="form-group">
 										<label for="exampleFormControlSelect1">Common Use Items:</label>
 										<select class="form-control" id="cse-dropdown">
-											@if(old('description') == null)
+											{{-- @if(old('description') == null)
 											<option selected disabled value="0">--Select an Item--</option>
 											@endif
 											@foreach($cseItems as $cseItem)
 											<option value="{{ $cseItem->id }}" {{ ($cseItem->description == old('description') ? "selected" : "") }}>{{ $cseItem->description }}</option>
-											@endforeach
+											@endforeach --}}
 										</select>
 									</div>
 								</div>
@@ -561,10 +575,11 @@
 });
 
 </script>
-<!-- CSE related scripts -->
+<!-- CSE and item dropdown related scripts -->
 <script>
 	$(document).ready(function(){
 		// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", true);
+		window.items = @json($cseItems);
 
 		$(":checkbox").filter(function(){
 			return $(this).prop("checked")
@@ -581,18 +596,22 @@
 		if(id == "cse-radio"){
 			$("#cse-dropdown").prop("disabled", false);
 			$("#cse-dropdown").val(0);
+			$("#type-dropdown").val(0);
+			$("#cse-dropdown").html('');
+			
 			// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", true);
 		}
 		else if(id == "non-cse-radio"){
 			$("#cse-dropdown").prop("disabled", true);
 			$("#cse-dropdown").val(0);
+			$("#type-dropdown").val(0);
+			$("#cse-dropdown").html('');
 			// $("#Code,#Description,#Uom,#UPrice,#Total").prop("readonly", false);
 			$("#Code,#Description,#Uom,#UPrice,#Total").val("");
 		}
 	});
 
 	$("#cse-dropdown").change(function(){
-		var items = @json($cseItems);
 		var val = $(this).val();
 
 		$("#Code").val(items[val-1].code);
@@ -608,6 +627,28 @@
 			$(this).parent().next(":text").prop("disabled", true);
 	})
 
+	$("#type-dropdown").change(function(){
+		var typeId = $(this).val();
+
+		$("#Code").val('');
+		$("#Description").val('');
+		$("#Uom").val('');
+		$("#UPrice").val('');
+
+		$("#cse-dropdown").html('<option selected disabled value="0">--Select Item--</option>');
+
+		var filteredItems = $.grep(items, function(elem, index){
+			if(elem.item_type_id == typeId)
+				return true;
+		})
+
+		$.each(filteredItems, function(index, val){
+			console.log(val.description);
+			$("#cse-dropdown").append('<option value=' + val.id + '>' + val.description + '</option>');
+		});
+
+		console.log(filteredItems);
+	});
 </script>
 {{-- warning when clicking done while having inputs --}}
 <script>

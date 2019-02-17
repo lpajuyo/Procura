@@ -16,6 +16,7 @@ class CreateProjectItemsTable extends Migration
         Schema::create('project_items', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('project_id');
+            $table->unsignedInteger('item_type_id');
             $table->string('code')->nullable();
             $table->string('description');
             $table->unsignedInteger('quantity')->nullable();

@@ -8,6 +8,7 @@ use App\CommonUseItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
+use App\ItemType;
 
 class ProjectItemsController extends Controller
 {
@@ -32,8 +33,9 @@ class ProjectItemsController extends Controller
         $this->authorize('update', $project);
 
         $cseItems = CommonUseItem::all();
+        $itemTypes = ItemType::all();
 
-        return view('add_project_item', compact('project', 'cseItems'));
+        return view('add_project_item', compact('project', 'cseItems', 'itemTypes'));
     }
 
     /**
@@ -49,6 +51,7 @@ class ProjectItemsController extends Controller
         // dd($request->all());
         // $attributes = $request->all();
         $attributes = $request->validate([
+            'item_type_id' => 'required|exists:item_types,id',
             'code' => 'nullable|string',
             'description' => 'required|string',
             'quantity' => 'bail|required_if:is_cse,1|nullable|numeric|min:1', //gte:schedules
