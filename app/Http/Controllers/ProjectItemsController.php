@@ -29,6 +29,7 @@ class ProjectItemsController extends Controller
     public function create(Project $project)
     {
         $this->authorize('create', Project::class);
+        $this->authorize('update', $project);
 
         $cseItems = CommonUseItem::all();
 
@@ -98,9 +99,13 @@ class ProjectItemsController extends Controller
      * @param  \App\ProjectItem  $projectItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProjectItem $projectItem)
+    public function edit(Project $project, ProjectItem $projectItem)
     {
-        //
+        $this->authorize('update', $project);
+
+        $cseItems = CommonUseItem::all();
+
+        return view('edit_project_item', compact('project', 'projectItem', 'cseItems'));
     }
 
     /**
@@ -110,9 +115,46 @@ class ProjectItemsController extends Controller
      * @param  \App\ProjectItem  $projectItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProjectItem $projectItem)
+    public function update(Request $request, Project $project, ProjectItem $projectItem)
     {
-        //
+        $this->authorize('update', $project);
+        
+        // dd($request->all());
+        $origTotalBudget = $project->total_budget_with_contingency;
+        $project->total_budget -= $projectItem->estimated_budget;
+        $itemTotalWithContingency = bcsub($origTotalBudget, $project->total_budget_with_contingency);
+        $remaining = bcadd($project->department_budget->remaining, $itemTotalWithContingency);
+        
+        $attributes = $request->validate([
+            'code' => 'nullable|string',
+            'description' => 'required|string',
+            'quantity' => 'bail|required_if:is_cse,1|nullable|numeric|min:1', //gte:schedules
+            'uom' => 'nullable|string', // exists? || in:array?
+            'unit_cost' => 'nullable|numeric|min:1|', //lte:estimated_budget',  
+            'estimated_budget' => 'required|numeric|min:1', //between 0 and dept budget
+            'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
+            'schedules' => [
+                'required', 
+                'array', 
+                function($attr, $val, $fail){
+                    if(!Collection::wrap($val)->sum('quantity') == request()->quantity)
+                        $fail('Total schedules quantity should be equal to the quantity field.');
+                },
+                function($attr, $val, $fail){
+                    $val = collect($val);
+                    // dd($val->keys()->max());
+                    if(!($val->keys()->unique()->count() == $val->keys()->count() && ($val->keys()->min() >= 1 && $val->keys()->max() <= 12)))
+                        $fail("Invalid schedule/s.");
+                }
+            ],
+            'schedules.*.quantity' => 'nullable|numeric',
+            'total_ppmp_budget' => 'required|numeric|between:'.$project->total_budget_with_contingency.','.$remaining,
+            'is_cse' => 'required|boolean'
+        ]);
+
+        $project->updateItem($projectItem, $attributes);
+
+        return redirect()->route('project_items.create', ['project' => $project->id]);
     }
 
     /**
@@ -121,8 +163,10 @@ class ProjectItemsController extends Controller
      * @param  \App\ProjectItem  $projectItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProjectItem $projectItem)
+    public function destroy(Project $project, ProjectItem $projectItem)
     {
-        //
+        $projectItem->delete();
+
+        return back();
     }
 }

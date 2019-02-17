@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ProjectItem;
+use Carbon\Carbon;
 
 class Project extends Model
 {
-    protected $fillable = ['budget_year_id', 'title', 'user_id', 'department_budget_id', 'is_approved'];
+    protected $guarded = ['id'];
 
     protected $appends = ['total_budget', 'total_budget_with_contingency'];
 
@@ -34,7 +36,14 @@ class Project extends Model
         return $this->department_budget->department;
     }
 
+    public function setTotalBudgetAttribute($value){
+        $this->attributes['total_budget'] = $value;
+    }
+
     public function getTotalBudgetAttribute(){
+        if(isset($this->attributes['total_budget']))
+            return $this->attributes['total_budget'];
+
         $items = $this->items;
 
         $total=0;
@@ -60,17 +69,25 @@ class Project extends Model
         $project_item->addSchedules($attributes['schedules']);
     }
 
-    public function approve($approved = true){ //public function approve($remarks, $approved = true){
-        $this->update(["is_approved" => $approved]);
-        // $this->addRemarks($remarks);
+    public function updateItem(ProjectItem $projectItem, $attributes){
+        // dd($attributes);
+        $projectItem->update($attributes);
+        $projectItem->addSchedules($attributes['schedules']);
     }
 
-    public function reject(){ //    public function reject($remarks){
-        // $this->approve($remarks, false);
-        $this->approve(false);
+    public function approve($remarks, $approved = true){
+        $this->update(["is_approved" => $approved, "remarks" => $remarks]);
     }
 
-    // public function addRemarks($remarks){
-    //     $this->update(compact("remarks"));
-    // }
+    public function reject($remarks){
+        $this->approve($remarks, false);
+    }
+
+    public function submit(){
+        $this->update(['submitted_at' => Carbon::now()]);
+    }
+
+    public function unsubmit(){
+        $this->update(['submitted_at' => null]);
+    }
 }

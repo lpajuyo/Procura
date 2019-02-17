@@ -21,8 +21,8 @@ class ApprovedProjectsController extends Controller
     {
         $this->authorize('approveProject', $project);
 
-        // $project->approve($request->remarks);
-        $project->approve();
+        $project->approve($request->remarks);
+        // $project->approve();
 
         return redirect()->route('projects.index');
     }
@@ -37,8 +37,8 @@ class ApprovedProjectsController extends Controller
     {
         $this->authorize('approveProject', $project);
 
-        // $project->reject($request->remarks);
-        $project->reject();
+        $project->reject($request->remarks);
+        // $project->reject();
 
         return redirect()->route('projects.index');
     }
