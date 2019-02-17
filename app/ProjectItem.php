@@ -8,6 +8,8 @@ class ProjectItem extends Model
 {
     protected $fillable = ['project_id', 'code', 'description', 'quantity', 'uom', 'unit_cost', 'estimated_budget', 'procurement_mode', 'is_cse'];
 
+    protected $touches = ['project'];
+
     public function project(){
         return $this->belongsTo('App\Project');
     }

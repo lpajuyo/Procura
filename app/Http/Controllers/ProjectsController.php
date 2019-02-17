@@ -94,7 +94,7 @@ class ProjectsController extends Controller
         // dd($attributes);
         $project = Project::create($attributes);
 
-        return redirect(route('items.create', ["project" => $project->id]));
+        return redirect(route('project_items.create', ["project" => $project->id]));
     }
 
     public function generateFile(Project $project){

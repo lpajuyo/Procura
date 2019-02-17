@@ -45,7 +45,7 @@ Route::get('projects/{project}/file', 'ProjectsController@generateFile')->name('
 Route::post('approved_projects/{project}', 'ApprovedProjectsController@store')->name('approve_project');
 Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy')->name('reject_project');
 Route::resource('projects', 'ProjectsController');
-Route::resource('projects/{project}/items', 'ProjectItemsController');
+Route::resource('projects/{project}/project_items', 'ProjectItemsController');
 
 Route::get('purchase_requests/{purchase_request}/file', 'PurchaseRequestsController@showFile')->name('purchase_requests.showFile');
 Route::resource('purchase_requests', 'PurchaseRequestsController');

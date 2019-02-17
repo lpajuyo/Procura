@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ProjectItem;
 use Carbon\Carbon;
 
 class Project extends Model
@@ -35,7 +36,14 @@ class Project extends Model
         return $this->department_budget->department;
     }
 
+    public function setTotalBudgetAttribute($value){
+        $this->attributes['total_budget'] = $value;
+    }
+
     public function getTotalBudgetAttribute(){
+        if(isset($this->attributes['total_budget']))
+            return $this->attributes['total_budget'];
+
         $items = $this->items;
 
         $total=0;
@@ -59,6 +67,12 @@ class Project extends Model
         // dd($attributes);
         $project_item = $this->items()->create($attributes);
         $project_item->addSchedules($attributes['schedules']);
+    }
+
+    public function updateItem(ProjectItem $projectItem, $attributes){
+        // dd($attributes);
+        $projectItem->update($attributes);
+        $projectItem->addSchedules($attributes['schedules']);
     }
 
     public function approve($remarks, $approved = true){

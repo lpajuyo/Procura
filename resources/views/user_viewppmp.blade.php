@@ -100,8 +100,12 @@
 
                   <button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
   					                    <i class="fa fa-eye"></i>
-  					                </button>
-
+                              </button>
+                  @can('update', $project)
+                  <a href="{{ route('project_items.create', ['project' => $project->id]) }}" rel="tooltip" title="Edit Project" class="btn btn-default btn-simple btn-xs">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </a>
+                  @endcan
                   <a href="{{ route('projects.generateFile', ['project' => $project->id]) }}">
                         <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
   					            	<i class="far fa-file"></i>

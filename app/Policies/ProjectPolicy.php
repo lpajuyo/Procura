@@ -70,7 +70,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        //
+        return $user->id == $project->user_id && is_null($project->submitted_at);
     }
 
     /**
