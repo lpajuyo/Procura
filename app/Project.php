@@ -29,8 +29,8 @@ class Project extends Model
     }
 
     public function getApproverAttribute(){
-        // return $this->department_budget->department->sector->head->user;
-        return User::find(setting()->get('pr_approver_id', 8));
+        return $this->department_budget->department->sector->head->user;
+        // return User::find(setting()->get('pr_approver_id', 8));
     }
     
     public function getDepartmentAttribute(){

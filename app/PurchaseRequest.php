@@ -22,7 +22,7 @@ class PurchaseRequest extends Model
     }
 
     public function getApproverAttribute(){
-        return $this->project->approver;
+        return User::find(setting()->get('pr_approver_id', 8));
     }
 
     public function getDepartmentAttribute(){
