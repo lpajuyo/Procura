@@ -152,12 +152,43 @@
             <tbody style="font-size: 12px;">
 						<!-- populated by script -->
             </tbody>
-          </table>
+					</table>
+					<p id="remarks" style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
+							REMARKS: <span style="color: black;"></span></p>
 					@can('approvePurchaseRequests', App\PurchaseRequest::class)
+					@include('errors')
           <div id="pr-approval" class="row">
             <div class="col-lg-3"></div>
 
-            <div class="col-lg-3">
+						<div id="approve-dropdown" class="col-lg-3 dropdown">
+								<button type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown"> APPROVE</button>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form class="px-2 py-1" id="approve-pr" method="POST" action="">
+										@csrf
+										<div class="form-group">
+											<label for="Remarks">Remarks:</label>
+											<textarea class="form-control" name="remarks" cols="100"></textarea>
+										</div>
+		
+										<button type="submit" class="float-right btn btn-default btn-sm">Submit</button>
+									</form>
+								</div>
+							</div>
+							<div id="reject-dropdown" class="col-lg-3 dropdown">
+								<button type="button" class="btn btn-block btn-danger dropdown-toggle" data-toggle="dropdown"> REJECT </button>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form class="px-2 py-1" id="reject-pr" method="POST" action="">
+										@csrf @method('DELETE')
+										<div class="form-group">
+											<label for="Remarks">Remarks:</label>
+											<textarea class="form-control" name="remarks" cols="100"></textarea>
+										</div>
+		
+										<button type="submit" class="float-right btn btn-default btn-sm">Submit</button>
+									</form>
+								</div>
+							</div>
+            {{-- <div class="col-lg-3">
 							<form id="approve-pr" method="POST" action="">
 							@csrf
 								<button type="submit" class="btn btn-block btn-success"> APPROVE &nbsp;
@@ -174,7 +205,7 @@
 								<button type="submit" class="btn btn-block btn-danger" > REJECT &nbsp;
 								<i class="fa fa-thumbs-down"></i> </button>
 							</form>
-            </div>
+            </div> --}}
           </div>
           @endcan
           </div>
@@ -194,7 +225,12 @@ $(".view-pr-btn").click(function(){
       url: "{{ route('purchase_requests.index') }}/" + id,
       dataType: "json"
     }).done(function(pr){
-      $("#pr-no").html(pr.pr_number);
+			$("#pr-no").html(pr.pr_number);
+			
+			if(pr.remarks)
+        $("#remarks span").html(pr.remarks);
+      else
+        $("#remarks").hide();
 
       $("#prdetails tbody").empty();
 			var n = 1;

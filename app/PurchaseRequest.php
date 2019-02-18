@@ -29,19 +29,13 @@ class PurchaseRequest extends Model
         return $this->project->department;
     }
 
-    public function approve($approved = true){ //public function approve($remarks, $approved = true){
-        $this->update(["is_approved" => $approved]);
-        // $this->addRemarks($remarks);
+    public function approve($remarks, $approved = true){
+        $this->update(["is_approved" => $approved, "remarks" => $remarks]);
     }
 
-    public function reject(){ //    public function reject($remarks){
-        // $this->approve($remarks, false);
-        $this->approve(false);
+    public function reject($remarks){
+        $this->approve($remarks, false);
     }
-
-    // public function addRemarks($remarks){
-    //     $this->update(compact("remarks"));
-    // }
 
     public function submit(){
         $this->update(['submitted_at' => Carbon::now()]);
