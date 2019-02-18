@@ -47,7 +47,7 @@
 												<th>Department</th>
 												@endcan
 				                <th>Date Submitted</th>
-				                <th>Due Date</th>
+				                {{-- <th>Due Date</th> --}}
 				                <th>Status</th>
 				                <th>Action</th>
 				            </tr>
@@ -61,10 +61,26 @@
 												@elsecan('approvePurchaseRequests', App\PurchaseRequest::class)
 												<td>{{ $pr->department->name }}</td>
 												@endcan
-				                <td>24/10/2019</td>
-				                <td>//24/11/2019</td>
-				                <td>{{ (is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
+				                <td>{{ ($pr->submitted_at) ? $pr->submitted_at : '--' }}</td>
+												<td>{{ (is_null($pr->submitted_at)) ? 'Waiting Submission' : ((is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected')) }}
+												</td>
 				                <td>
+														@can('submit', $pr)
+														<button form="submit-{{ $pr->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-default btn-simple btn-xs">
+																					<i class="fa fa-upload"></i>
+																			</button>
+														<form id="submit-{{ $pr->id }}" style="display: none;" method="POST" action="{{ route('pr.submit', ['purchase_request' => $pr->id]) }}">
+															@csrf
+														</form>
+														@elsecan('unsubmit', $pr)
+														<button form="unsubmit-{{ $pr->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-danger btn-simple btn-xs">
+																					<i class="fa fa-upload"></i>
+																			</button>
+														<form id="unsubmit-{{ $pr->id }}" style="display: none;" method="POST" action="{{ route('pr.cancel_submit', ['purchase_request' => $pr->id]) }}">
+															@csrf
+															@method('DELETE')
+														</form>
+														@endcan
 				                	<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
 
 													<a href="{{ route('purchase_requests.showFile', ['purchase_request' => $pr->id]) }}">

@@ -106,4 +106,12 @@ class PurchaseRequestPolicy
     public function approve(User $user, PurchaseRequest $purchaseRequest){
         return $user->type->name == "Sector Head" && is_null($purchaseRequest->is_approved);
     }
+
+    public function submit(User $user, PurchaseRequest $purchaseRequest){
+        return $user->id == $purchaseRequest->requestor->id && is_null($purchaseRequest->submitted_at);
+    }
+
+    public function unsubmit(User $user, PurchaseRequest $purchaseRequest){
+        return $user->id == $purchaseRequest->requestor->id && !is_null($purchaseRequest->submitted_at) && is_null($purchaseRequest->is_approved);
+    }
 }

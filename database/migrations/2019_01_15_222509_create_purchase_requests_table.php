@@ -20,6 +20,8 @@ class CreatePurchaseRequestsTable extends Migration
             $table->string('pr_number')->nullable();
             $table->string('purpose')->nullable();
             $table->boolean('is_approved')->nullable();
+            $table->text('remarks')->nullable();
+            $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
         });
     }

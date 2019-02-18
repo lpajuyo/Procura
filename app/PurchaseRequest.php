@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class PurchaseRequest extends Model
 {
@@ -41,4 +42,12 @@ class PurchaseRequest extends Model
     // public function addRemarks($remarks){
     //     $this->update(compact("remarks"));
     // }
+
+    public function submit(){
+        $this->update(['submitted_at' => Carbon::now()]);
+    }
+
+    public function unsubmit(){
+        $this->update(['submitted_at' => null]);
+    }
 }

@@ -47,6 +47,8 @@ Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy
 Route::resource('projects', 'ProjectsController');
 Route::resource('projects/{project}/project_items', 'ProjectItemsController');
 
+Route::post('submitted_pr/{purchase_request}', 'SubmittedPurchaseRequestsController@store')->name('pr.submit');
+Route::delete('submitted_pr/{purchase_request}', 'SubmittedPurchaseRequestsController@destroy')->name('pr.cancel_submit');
 Route::get('purchase_requests/{purchase_request}/file', 'PurchaseRequestsController@showFile')->name('purchase_requests.showFile');
 Route::resource('purchase_requests', 'PurchaseRequestsController');
 Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestItemsController')->names([

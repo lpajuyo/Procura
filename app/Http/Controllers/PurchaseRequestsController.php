@@ -22,9 +22,10 @@ class PurchaseRequestsController extends Controller
 
         $user = Auth::user();
         if($user->type->name == "Sector Head"){
-            $purchaseRequests = PurchaseRequest::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
-                                ->latest('created_at')
-                                ->get();
+            $purchaseRequests = PurchaseRequest::whereNotNull('submitted_at')
+                                                ->orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                                ->oldest('submitted_at')
+                                                ->get();
             $purchaseRequests = $purchaseRequests->filter(function($purchaseRequest){
                 return $purchaseRequest->approver->id == Auth::user()->id;
             });
