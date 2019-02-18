@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\User;
 use App\PurchaseRequest;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Setting;
 
 class PurchaseRequestPolicy
 {
@@ -27,15 +28,15 @@ class PurchaseRequestPolicy
         if($user->type->name == "Department Head"){
             return $purchaseRequest->requestor->id == $user->id;
         }
-        else if($user->type->name == "Sector Head"){
+        else if($user->id == setting()->get('pr_approver_id', 8)){
             return true;
         }
     }
 
     public function viewPurchaseRequests(User $user){
-        $allowedUserTypes = ['Department Head', 'Sector Head'];
+        $allowedUserTypes = ['Department Head'];
 
-        return in_array($user->type->name, $allowedUserTypes);
+        return in_array($user->type->name, $allowedUserTypes) || $user->id == setting()->get('pr_approver_id', 8);
     }
 
     /**
@@ -100,11 +101,13 @@ class PurchaseRequestPolicy
     }
 
     public function approvePurchaseRequests(User $user){
-        return $user->type->name == "Sector Head";
+    // return $user->type->name == "Sector Head";
+    return $user->id == setting()->get('pr_approver_id', 8);
     }
 
     public function approve(User $user, PurchaseRequest $purchaseRequest){
-        return $user->type->name == "Sector Head" && is_null($purchaseRequest->is_approved);
+        // return $user->type->name == "Sector Head" && is_null($purchaseRequest->is_approved);
+        return $user->id == setting()->get('pr_approver_id', 8) && is_null($purchaseRequest->is_approved);
     }
 
     public function submit(User $user, PurchaseRequest $purchaseRequest){

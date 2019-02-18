@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SubmittedProjectsController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,4 +63,9 @@ Route::get('app_cse/{budget_year?}', 'AppCseController')->name('app_cse');
 Route::get('app_non_cse/{budget_year?}', 'AppNonCseController')->name('app_non_cse');
 
 Route::resource('cse_items', 'CseController');
+Route::post('set_pr_approver', function (Request $request) {
+    Setting::set('pr_approver_id', $request->pr_approver_id);
+    Setting::save();
+    return back();
+})->name('pr_approver.set');
 //

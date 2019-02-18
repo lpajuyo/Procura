@@ -225,5 +225,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+<<<<<<< HEAD
 
+=======
+>>>>>>> added set pr approver function
 ];

@@ -21,7 +21,7 @@ class PurchaseRequestsController extends Controller
         $this->authorize('viewPurchaseRequests', PurchaseRequest::class);
 
         $user = Auth::user();
-        if($user->type->name == "Sector Head"){
+        if($user->id == setting()->get('pr_approver_id', 8)){
             $purchaseRequests = PurchaseRequest::whereNotNull('submitted_at')
                                                 ->orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
                                                 ->oldest('submitted_at')
