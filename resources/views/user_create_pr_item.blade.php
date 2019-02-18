@@ -110,6 +110,7 @@
 							<td rowspan="2">QTY</td>
 							<td rowspan="2">UNIT PRICE</td>
 							<td rowspan="2">TOTAL PRICE</td>
+							<td rowspan="2">ACTION</td>
 						</tr>
 					</thead>
 					<tbody style="font-size: 12px;">
@@ -124,6 +125,17 @@
 							<td>{{ $item->quantity }}</td>
 							<td>{{ $item->project_item->unit_cost }}</td>
 							<td>{{ $item->total_cost }}</td>
+							<td>
+								{{-- <a href="{{ route('project_items.edit', ['project' => $project->id, 'project_item' => $item->id]) }}" class="edit-proj-item-btn btn btn-default btn-sm" title="Edit Item">
+									<i class="fa fa-pencil-square-o"></i>
+								</a> --}}
+								<button type="submit" form="del-item-{{ $item->id }}" class="btn btn-danger btn-sm" title="Delete Item">
+									<i class="fa fa-times"></i>
+								</button>
+								<form id="del-item-{{ $item->id }}" method="POST" action="{{ route('items.destroy', ['purchase_request' => $purchaseRequest->id, 'item' => $item->id]) }}">
+									@csrf @method('DELETE')
+								</form>
+							</td>
 						</tr><br> 
 						@endforeach
 					</tbody>

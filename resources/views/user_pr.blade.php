@@ -81,17 +81,31 @@
 															@method('DELETE')
 														</form>
 														@endcan
-				                	<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
+													<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
+													
+													@can('update', $pr)
+													<a href="{{ route('pr_items.create', ['purchase_request' => $pr->id]) }}" rel="tooltip" title="Edit Purchase Request" class="btn btn-default btn-simple btn-xs">
+														<i class="fa fa-pencil-square-o"></i>
+													</a>
+													@endcan
 
 													<a href="{{ route('purchase_requests.showFile', ['purchase_request' => $pr->id]) }}">
 							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
 													</a>
+													@can('delete', $pr)
+													<button type="submit" form="{{ 'del-proj-' . $pr->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+																	<i class="fa fa-times"></i>
+																</button>
+													<form style="display: none;" id="{{ 'del-proj-' . $pr->id }}" method="POST" action="{{ route('purchase_requests.destroy', ['purchase_request' => $pr->id]) }}">
+														@csrf @method('DELETE')
+													</form>
+													@endcan
 
-													@can('approvePurchaseRequests', App\PurchaseRequest::class)
+													{{-- @can('approvePurchaseRequests', App\PurchaseRequest::class)
 													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
 						            	<i class="fas fa-pencil-alt"></i>
 						            	</button>
-													@endcan
+													@endcan --}}
 				                </td>
 				            </tr>
 				    				@endforeach

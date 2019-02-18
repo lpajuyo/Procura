@@ -187,6 +187,10 @@ class PurchaseRequestsController extends Controller
      */
     public function destroy(PurchaseRequest $purchaseRequest)
     {
-        //
+        $this->authorize('delete', $purchaseRequest);
+
+        $purchaseRequest->delete();
+
+        return back();
     }
 }

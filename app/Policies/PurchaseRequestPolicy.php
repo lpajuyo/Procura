@@ -60,7 +60,7 @@ class PurchaseRequestPolicy
      */
     public function update(User $user, PurchaseRequest $purchaseRequest)
     {
-        //
+        return $user->id == $purchaseRequest->requestor->id && is_null($purchaseRequest->submitted_at);
     }
 
     /**
@@ -72,7 +72,7 @@ class PurchaseRequestPolicy
      */
     public function delete(User $user, PurchaseRequest $purchaseRequest)
     {
-        //
+        return $user->id == $purchaseRequest->requestor->id && is_null($purchaseRequest->submitted_at);
     }
 
     /**

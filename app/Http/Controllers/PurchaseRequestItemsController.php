@@ -91,8 +91,12 @@ class PurchaseRequestItemsController extends Controller
      * @param  \App\PurchaseRequestItem  $purchaseRequestItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PurchaseRequestItem $purchaseRequestItem)
+    public function destroy(PurchaseRequest $purchaseRequest, PurchaseRequestItem $item)
     {
-        //
+        // dd($item);
+
+        $item->delete();
+
+        return back();
     }
 }
