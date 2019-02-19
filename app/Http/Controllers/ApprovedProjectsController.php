@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Notifications\ProjectApproved;
+use App\Notifications\ProjectRejected;
 
 class ApprovedProjectsController extends Controller
 {
@@ -24,6 +26,8 @@ class ApprovedProjectsController extends Controller
         $project->approve($request->remarks);
         // $project->approve();
 
+        $project->user->notify(new ProjectApproved());
+
         return redirect()->route('projects.index');
     }
 
@@ -39,6 +43,8 @@ class ApprovedProjectsController extends Controller
 
         $project->reject($request->remarks);
         // $project->reject();
+
+        $project->user->notify(new ProjectRejected());
 
         return redirect()->route('projects.index');
     }

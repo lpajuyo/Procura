@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use Illuminate\Http\Request;
+use App\Notifications\ProjectSubmitted;
 
 class SubmittedProjectsController extends Controller
 {
@@ -19,6 +20,8 @@ class SubmittedProjectsController extends Controller
         $this->authorize('submit', $project);
 
         $project->submit();
+
+        $project->approver->notify(new ProjectSubmitted());
 
         return back();
     }
