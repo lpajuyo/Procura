@@ -107,15 +107,28 @@ class ProjectsController extends Controller
         $spreadsheet = $reader->load($templatePath);
         $spreadsheet->getActiveSheet()->setCellValue('D9', $project->user->name . ' / ' . $project->department->name)
                                         ->setCellValue('D10', $project->title)
-                                        ->setCellValue('B30', $project->user->name);
+                                        ->setCellValue('B30', $project->user->name)
+                                        ->setCellValue('B31', $project->user->position);
 
         if(is_null($project->submitted_at) || is_null($project->is_approved) || $project->is_approved == false){
             $spreadsheet->getActiveSheet()->setCellValue('A28', 'NOTE:');
             $spreadsheet->getActiveSheet()->setCellValue('B28', 'This is not the official PPMP.');
         }
 
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $drawing->setPath(storage_path('app/public/'.$project->user->user_signature));
+        $drawing->setCoordinates('B28');
+        $drawing->setWidthAndHeight(143, 75);
+        $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
         if($project->is_approved == true){
             $spreadsheet->getActiveSheet()->setCellValue('O30', $project->approver->name);
+            $spreadsheet->getActiveSheet()->setCellValue('O31', $project->approver->position);
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setPath(storage_path('app/public/'.$project->approver->user_signature));
+            $drawing->setCoordinates('O28');
+            $drawing->setWidthAndHeight(143, 75);
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
         }
 
         if($project->items->count() > 7)

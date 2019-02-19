@@ -116,13 +116,30 @@ class PurchaseRequestsController extends Controller
         $worksheet->setCellValue('C52', $purchaseRequest->purpose);
         // $worksheet->setCellValue('C55', $purchaseRequest->purpose); //requestor signature
         $worksheet->setCellValue('C57', $purchaseRequest->requestor->name);
-        // $worksheet->setCellValue('C58', $purchaseRequest->requestor->name); //requestor designation
+        $worksheet->setCellValue('C58', $purchaseRequest->requestor->position); //requestor designation
+
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $drawing->setPath(storage_path('app/public/'.$purchaseRequest->requestor->user_signature));
+        $drawing->setCoordinates('C55');
+        $drawing->setOffsetX(120);
+        $drawing->setOffsetY(-12);
+        $drawing->setWidthAndHeight(143, 75);
+        $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
         if($purchaseRequest->is_approved){
             // $worksheet->setCellValue('E55', $purchaseRequest->purpose); //approver signature
             $worksheet->setCellValue('E57', $purchaseRequest->approver->name); //approver signature
-            // $worksheet->setCellValue('E58', $purchaseRequest->purpose); //approver designation
+            $worksheet->setCellValue('E58', $purchaseRequest->approver->position); //approver designation
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setPath(storage_path('app/public/'.$purchaseRequest->approver->user_signature));
+            $drawing->setCoordinates('E55');
+            $drawing->setOffsetX(40);
+            $drawing->setOffsetY(-12);
+            $drawing->setWidthAndHeight(143, 75);
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
         }
+
+        
 
         $row = 12;
         $n = 1;
