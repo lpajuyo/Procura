@@ -68,14 +68,11 @@ Route::post('set_pr_approver', function (Request $request) {
     Setting::save();
     return back();
 })->name('pr_approver.set');
+Route::patch('users/{user}/picture', 'UsersController@updatePicture')->name('users.update_picture');
+Route::patch('users/{user}/password', 'UsersController@updatePassword')->name('users.update_password');
+Route::resource('users', 'UsersController');
+
+Route::get('/settings', 'AccountSettingsController');
 
 //
-
-Route::get('/settings', function () {
-    return view('settings');
-});
-
-// Route::get('/register', function () {
-//     return view('register');
-// });
 

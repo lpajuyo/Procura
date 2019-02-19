@@ -15,12 +15,12 @@
               <div class="card-body profile-body">
                 <div class="author">
                   <a class="user-account">
-                    <img src="{{ asset('/images/user4.jpg') }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture" style="width: 250px; height: 250px;"> <br><br>
+                    <img src="{{ asset('storage/'.$user->user_image) }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture" style="width: 250px; height: 250px;"> <br><br>
                     <img src="{{ asset('/images/3.14.png') }}" style="width: 50%; height: 50%;">
-                    <h5 class="title text-primary" style="margin-bottom: 0px; padding-bottom: 0px;">GEISHER G. BERNABE</h5>
+                    <h5 class="title text-primary" style="margin-bottom: 0px; padding-bottom: 0px;">{{ $user->name }}</h5>
                     <hr>
                   </a>
-                  <p class="description"> Department Head </p>
+                  <p class="description"> {{ $user->position }} </p>
                   <!-- <p class="text-left description">
                   	SECTOR: <span> academic affairs</span><br>
                   	DEPARTMENT: <span> mathematics </span><br>
@@ -40,18 +40,20 @@
                 <span class="card-title" style="font-size:18px; font-weight:bold;"> EDIT PROFILE</span>
               </div>
               <div class="card-body edit-profile">
-                <form>
+                <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}">
+                @csrf
+                @method('PATCH')
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Full Name</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control" placeholder="" value="{{ $user->name }}" name="name">
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control" placeholder="" value="{{ $user->username }}" name="username">
                       </div>
                     </div>
                   </div>
@@ -67,7 +69,7 @@
 
                   	<div class="col-md-3 pl-1">
                   	   <div class="update ml-auto mr-auto">
-                      	<button type="submit" class="btn btn-danger btn-round">Discard Changes</button>
+                      	<button type="button" class="btn btn-danger btn-round">Discard Changes</button>
                       </div>
                   	</div>
 
@@ -93,12 +95,14 @@
 	                <span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
 	              </div> -->
 	              <div class="card-body">
-	              	<form>
+                  <form method="POST" action="{{ route('users.update_picture', ['user' => $user->id]) }}" enctype="multipart/form-data">
+                  @csrf
+                  @method('PATCH')
 	              			<span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
 	              			<button type="submit" class="btn btn-success btn-sm btn-round" style="float: right;">Save</button>
 
 	              		<div>
-		                  <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg">
+		                  <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg" name="user_image">
 		                </div>
 	              	</form>
 	              </div>
@@ -123,15 +127,22 @@
           </div>
 
           <div class="modal-body">
-            <form>
+            <form method="POST" action="{{ route('users.update_password', ['user' => $user->id]) }}">
+                @csrf
+                @method('PATCH')
+                  <div class="form-group">
+                    <label for="newpass">Current Password:</label>
+                    <input type="text" class="form-control" id="newpass" name="current_password">
+                  </div>
+
                   <div class="form-group">
                     <label for="newpass">New Password:</label>
-                    <input type="text" class="form-control" id="newpass">
+                    <input type="text" class="form-control" id="newpass" name="password">
                   </div>
                   
                   <div class="form-group" style="margin-bottom: 20px;">
                     <label for="confirm">Confirm Password:</label>
-                    <input type="text" class="form-control" id="confirm">
+                    <input type="text" class="form-control" id="confirm" name="password_confirmation">
                   </div>
 
                  <button type="submit" class="btn btn-success btn-block">CHANGE</button>
