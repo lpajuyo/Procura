@@ -70,6 +70,7 @@ Route::post('set_pr_approver', function (Request $request) {
 })->name('pr_approver.set');
 Route::patch('users/{user}/picture', 'UsersController@updatePicture')->name('users.update_picture');
 Route::patch('users/{user}/password', 'UsersController@updatePassword')->name('users.update_password');
+Route::patch('users/{user}/signature', 'UsersController@updateSignature')->name('users.update_signature');
 Route::resource('users', 'UsersController');
 
 Route::get('/settings', 'AccountSettingsController');

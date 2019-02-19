@@ -91,6 +91,14 @@ class UsersController extends Controller
         return back();
     }
 
+    public function updateSignature(Request $request, User $user){
+        $path = Storage::disk('public')->putFile('user_signatures', $request->file('user_image'));
+
+        $user->update(['user_signature' => $path]);
+
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
