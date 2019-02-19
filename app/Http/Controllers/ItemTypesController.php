@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ItemType;
 use Illuminate\Http\Request;
 
-class ItemTypeController extends Controller
+class ItemTypesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,9 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        //
+        $itemTypes = ItemType::all();
+
+        return view('item_types_index', compact('itemTypes'));
     }
 
     /**
@@ -35,7 +37,9 @@ class ItemTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ItemType::create($request->all());
+
+        return back();
     }
 
     /**
@@ -80,6 +84,8 @@ class ItemTypeController extends Controller
      */
     public function destroy(ItemType $itemType)
     {
-        //
+        $itemType->delete();
+
+        return back();
     }
 }

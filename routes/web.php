@@ -72,6 +72,7 @@ Route::patch('users/{user}/picture', 'UsersController@updatePicture')->name('use
 Route::patch('users/{user}/password', 'UsersController@updatePassword')->name('users.update_password');
 Route::patch('users/{user}/signature', 'UsersController@updateSignature')->name('users.update_signature');
 Route::resource('users', 'UsersController');
+Route::resource('item_types', 'ItemTypesController');
 
 Route::get('/settings', 'AccountSettingsController');
 
