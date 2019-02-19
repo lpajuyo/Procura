@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DepartmentBudget;
 use App\BudgetYear;
+use App\Department;
+use App\Notifications\DepartmentBudgetAllocated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Validator;
 
 class DepartmentBudgetsController extends Controller
@@ -58,6 +61,9 @@ class DepartmentBudgetsController extends Controller
                     ->allocatedDepartments()
                     ->attach($validated["department_id"], 
                             ["fund_101" => $validated["fund_101"], "fund_164" => $validated["fund_164"]]);
+
+        if($budgetYear->is(BudgetYear::active()->first()))
+            Notification::send(Department::find($validated['department_id'])->head->user, new DepartmentBudgetAllocated());
 
         return back();
     }

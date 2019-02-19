@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PurchaseRequest;
 use Illuminate\Http\Request;
+use App\Notifications\PurchaseRequestSubmitted;
 
 class SubmittedPurchaseRequestsController extends Controller
 {
@@ -19,6 +20,8 @@ class SubmittedPurchaseRequestsController extends Controller
         $this->authorize('submit', $purchaseRequest);
 
         $purchaseRequest->submit();
+
+        $purchaseRequest->approver->notify(new PurchaseRequestSubmitted());
 
         return back();
     }

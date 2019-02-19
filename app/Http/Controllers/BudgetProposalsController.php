@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\BudgetProposal;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BudgetProposalSubmitted;
 
 class BudgetProposalsController extends Controller
 {
@@ -74,6 +77,8 @@ class BudgetProposalsController extends Controller
         $attributes = $validator->valid();
         $attributes['proposal_file'] = $attributes['proposal_file']->store('proposal_files');
         Auth::user()->addProposal($attributes);
+
+        Notification::send(User::where('user_type_id', 2)->get(), new BudgetProposalSubmitted());
 
         return redirect('budget_proposals');
     }
