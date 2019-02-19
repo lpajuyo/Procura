@@ -41,7 +41,7 @@ class BudgetYearActivated extends Notification
     public function toArray($notifiable)
     {
         return [
-            "message" => "An Active Budget Year has been set."
+            "message" => "A new Active Budget Year has been set."
         ];
     }
 }

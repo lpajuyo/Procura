@@ -18,7 +18,7 @@ class ActiveBudgetYearController extends Controller
 
         BudgetYear::where('id', '!=', $budgetYear->id)->update(['is_active' => false]);
 
-        Notification::send(User::all(), new BudgetYearActivated());
+        Notification::send(User::where('id', '!=', request()->user()->id)->get(), new BudgetYearActivated());
 
         return redirect()->route('budget_years.index');
     }

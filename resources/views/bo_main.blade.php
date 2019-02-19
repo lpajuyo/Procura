@@ -172,7 +172,7 @@
             <ul class="navbar-nav">
 
               <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
                   <i class="nc-icon nc-bell-55 navicons"></i>
                   <span class="badge1" data-badge="3"></span>
 
@@ -185,34 +185,19 @@
                 </div>
               </li>
 
-<<<<<<< HEAD
               <span class="navline"></span>
 
               <li class="nav-item btn-rotate dropdown" style="padding-right: 0px;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="nc-icon nc-tap-01 navicons"></i> quicklinks
-=======
-              <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
-                  <i class="nc-icon nc-bell-55 navicons"></i>
->>>>>>> initial notifications setup (BudgetYearActivated notif)
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </a>
-<<<<<<< HEAD
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 40px;">
                   <a class="dropdown-item" href="#" data-toggle="modal">Create Budget Proposal</a>
                   <a class="dropdown-item" href="#">Create PPMP</a>
                   <a class="dropdown-item" href="#">Create Purchase Request</a>
-=======
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 20px;">
-                  @foreach(Auth::user()->notifications as $notif)
-                  <a class="dropdown-item" href="#">{{ $notif->data['message'] }}</a>
-                  @endforeach
-                  {{-- <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a> --}}
->>>>>>> initial notifications setup (BudgetYearActivated notif)
                 </div>
               </li>
 
@@ -289,6 +274,10 @@
 
       Echo.private('App.User.' + {{ Auth::user()->id }})
         .notification((notification) => {
+          //append to notifs dropdown
+          
+
+          // show floating notif
           $.notify({
             message: notification.message
           },{
