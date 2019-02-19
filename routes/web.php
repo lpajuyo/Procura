@@ -33,6 +33,7 @@ Route::resource('department_budgets', 'DepartmentBudgetsController');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 
 Route::resource('sectors', 'SectorsController');
+Route::resource('departments', 'DepartmentsController');
 
 Route::resource('budget_proposals', 'BudgetProposalsController');
 Route::get('budget_proposals/{budget_proposal}/file', 'BudgetProposalsController@showFile')->name('budget_proposals.showFile');

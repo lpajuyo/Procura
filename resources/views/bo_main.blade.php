@@ -128,7 +128,7 @@
               <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
               <li class="@yield('type-active')"> <a href="{{ route('item_types.index') }}"> <p> ITEM TYPES </p> </a> </li>
               <li class="@yield('sector-active')"> <a href="{{ route('sectors.index') }}"> <p> SECTORS </p> </a> </li>
-              <li class="@yield('dept-active')"> <a href=""> <p> DEPARTMENTS </p> </a> </li>
+              <li class="@yield('dept-active')"> <a href="{{ route('departments.index') }}"> <p> DEPARTMENTS </p> </a> </li>
               <li class=""> <a data-toggle="modal" data-target="#pr-approver-modal"> <p> SET PR APPROVER </p> </a> </li>
             </ul>
           </li>

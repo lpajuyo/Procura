@@ -1,11 +1,11 @@
 @extends('bo_main') 
-@section('title', 'Sectors')
+@section('title', 'Departments')
 
 <!-- 
 @section('brand', 'Budget Year') -->
 
 
-@section('sector-active', 'active') 
+@section('dept-active', 'active') 
 @section('admin-dropdown-show', 'show')
 @section('content')
 <!-- 
@@ -16,37 +16,39 @@
 		<div class="card">
 			<div class="card-body" style="margin-top: 5px;">
 				<div>
-					<p style="position: absolute; font-size: 25px;"> Sector List </p>
+					<p style="position: absolute; font-size: 25px;"> Department List </p>
 					<button class="btn btn-default" style="right: 30px; position: absolute !important;" data-toggle="modal" data-target="#addyear">
-				  <i class="fa fa-plus"></i> &nbsp;Add Sector
+				  <i class="fa fa-plus"></i> &nbsp;Add Department
 				</button>
 				</div><br><br><br>
 				<div class="table-responsive" style="overflow: visible;">
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr class=" text-primary">
+								<th>Department Name</th>
 								<th>Sector Name</th>
 								<th class="text-center">Action</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							@foreach ($sectors as $sector)
+							@foreach ($departments as $department)
 							<tr>
-								<td>{{ $sector->name }}</td>
+								<td>{{ $department->name }}</td>
+								<td>{{ $department->sector->name }}</td>
 								<td class="td-actions text-center">
-									{{-- @can('update', $sector)
+									{{-- @can('update', $department)
 									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear"
-									 data-year-id="{{ $sector->id }}">
+									 data-year-id="{{ $department->id }}">
 					                    <i class="fa fa-edit"></i>
 													</button>
 									@endcan				 --}}
 
-									{{-- @can('delete', $sector) --}}
-									<button type="submit" form="{{ 'del-type-' . $sector->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+									{{-- @can('delete', $department) --}}
+									<button type="submit" form="{{ 'del-type-' . $department->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
 										<i class="fa fa-times"></i>
 									</button>
-									<form style="display: none;" id="{{ 'del-type-' . $sector->id }}" method="POST" action="{{ route('sectors.destroy', ['sector' => $sector->id]) }}">
+									<form style="display: none;" id="{{ 'del-type-' . $department->id }}" method="POST" action="{{ route('departments.destroy', ['department' => $department->id]) }}">
 											@csrf @method('DELETE')
 									</form>
 									{{-- @endcan --}}
@@ -73,15 +75,24 @@
 
 			<div class="modal-header" style="background-color: #f4f3ef;">
 				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
-					Add Sector</p>
+					Add New Department</p>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
 			<div class="modal-body">
-				<form method="POST" action="{{ route('sectors.store') }}">
+				<form method="POST" action="{{ route('departments.store') }}">
 					@csrf
+
 					<div class="form-group">
-						<label for="Sector Name">Sector Name:</label>
+						<label for="Status">Sector:</label>
+						<select name="sector_id" class="form-control" id="Status">
+							@foreach($sectors as $sector)
+							<option value="{{ $sector->id }}">{{ $sector->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="Department Name">Department Name:</label>
 						<input type="text" class="form-control" name="name" value="{{ old('name') }}">
 					</div><br>
 
