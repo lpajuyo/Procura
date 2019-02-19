@@ -21,16 +21,21 @@ class PurchaseRequestsController extends Controller
         $this->authorize('viewPurchaseRequests', PurchaseRequest::class);
 
         $user = Auth::user();
-        if($user->type->name == "Sector Head"){
-            $purchaseRequests = PurchaseRequest::orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
-                                ->latest('created_at')
-                                ->get();
+        if($user->id == setting()->get('pr_approver_id', 8)){
+            $purchaseRequests = PurchaseRequest::whereNotNull('submitted_at')
+                                                ->orderByRaw('IF(is_approved IS NULL, 0, 1), is_approved DESC')
+                                                ->oldest('submitted_at')
+                                                ->get();
             $purchaseRequests = $purchaseRequests->filter(function($purchaseRequest){
                 return $purchaseRequest->approver->id == Auth::user()->id;
             });
         }
         else if($user->type->name == "Department Head"){
             $purchaseRequests = $user->purchase_requests;
+
+            $projects = Auth::user()->projects()->where('is_approved', 1)->get();
+            if($projects->count() == 0)
+                request()->session()->flash('approved_proj_error', 'You have no approve PPMPs at this time. You can\'t create Purchase Requests yet.');
         }
         return view('user_pr', compact('purchaseRequests'));
     }
@@ -182,6 +187,10 @@ class PurchaseRequestsController extends Controller
      */
     public function destroy(PurchaseRequest $purchaseRequest)
     {
-        //
+        $this->authorize('delete', $purchaseRequest);
+
+        $purchaseRequest->delete();
+
+        return back();
     }
 }

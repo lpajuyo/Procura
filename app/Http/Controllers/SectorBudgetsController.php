@@ -7,6 +7,8 @@ use App\BudgetYear;
 use App\Sector;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\SectorBudgetAllocated;
 
 class SectorBudgetsController extends Controller
 {
@@ -57,7 +59,10 @@ class SectorBudgetsController extends Controller
                     ->withInput();
         }
 
-        SectorBudget::create($validator->valid());
+        $sectorBudget = SectorBudget::create($validator->valid());
+
+        if($budgetYear->is(BudgetYear::active()->first()))
+            Notification::send($sectorBudget->sector->head->user, new SectorBudgetAllocated());
 
         return back();
     }

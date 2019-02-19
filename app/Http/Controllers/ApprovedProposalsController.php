@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\BudgetProposal;
 use Illuminate\Http\Request;
+use App\Notifications\BudgetProposalApproved;
+use App\Notifications\BudgetProposalRejected;
 
 class ApprovedProposalsController extends Controller
 {
@@ -19,6 +21,8 @@ class ApprovedProposalsController extends Controller
 
         $budgetProposal->approve($request->remarks);
 
+        $budgetProposal->submitter->notify(new BudgetProposalApproved);
+
         return redirect('/budget_proposals');
     }
 
@@ -33,6 +37,8 @@ class ApprovedProposalsController extends Controller
         $this->authorize('approve',$budgetProposal);
 
         $budgetProposal->reject($request->remarks);
+
+        $budgetProposal->submitter->notify(new BudgetProposalRejected);
 
         return redirect('budget_proposals');
     }

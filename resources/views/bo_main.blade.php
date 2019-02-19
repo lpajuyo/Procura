@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="{{ asset('/images/logo.png') }}">
   <title> @yield('title', 'Procura')</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/fonts.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('font-awesome-4.7.0/css/font-awesome.css') }}">
@@ -24,11 +25,12 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('/datatables/responsive.bootstrap4.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('/css/sweetalert2.css') }}">
     <!--   Core JS Files   -->
-  <script src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/pd/js/core/jquery.min.js') }}"></script>
+  <script src="{{ asset('/js/app.js') }}"></script>
   <script src="{{ asset('/js/sweetalert2.js') }}"></script>
   <script src="{{ asset('/pd/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
-  <!-- <script src="{{'public/js/plugins/perfect-scrollbar.jquery.min.js'}}"></script> -->
+  {{-- <!-- <script src="{{'public/js/plugins/perfect-scrollbar.jquery.min.js'}}"></script> --> --}}
   <!--  Google Maps Plugin    -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chart JS -->
@@ -69,7 +71,7 @@
             <a href="/home">
               <i class="nc-icon nc-layout-11"></i>
               <p>Dashboard</p>
-            </a>
+            </a>  
           </li>
           @if(Auth::user()->can('viewBudgetProposals', App\BudgetProposal::class) || Auth::user()->can('viewBudgetYears', App\BudgetYear::class) || Auth::user()->can('viewBudgetAlloc'))
           <li class="sb-content @yield('budget-active')">
@@ -123,8 +125,8 @@
             <p>ADMINISTRATION</p> </a>
             <ul class="collapse @yield('admin-dropdown-show')" id="collapseItem3">
               <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
-
               <li class="@yield('register')"> <a href="/register"> <p> REGISTER </p> </a> </li>
+              <li class=""> <a data-toggle="modal" data-target="#pr-approver-modal"> <p> SET PR APPROVER </p> </a> </li>
             </ul>
           </li>
           @endcan
@@ -174,7 +176,7 @@
             <ul class="navbar-nav">
 
               <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
                   <i class="nc-icon nc-bell-55 navicons"></i>
                   <span class="badge1" data-badge="3"></span>
 
@@ -182,7 +184,7 @@
                     <span class="d-lg-none d-md-block">Notification</span>
                   </p>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 9px;">
+                <div id="notif-dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 9px;">
                   <a class="dropdown-item" href="#">No new notification</a>
                 </div>
               </li>
@@ -190,7 +192,7 @@
               <span class="navline"></span>
 
               <li class="nav-item btn-rotate dropdown" style="padding-right: 0px;">
-                <a class="nav-link" href="# id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="nc-icon nc-tap-01 navicons"></i> quicklinks
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
@@ -236,11 +238,59 @@
 <!-- ALLLLLLLLLLL MODALSSSSSSSSSS -->
 
 @yield('modals')
+<div id="pr-approver-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+
+			<div class="modal-header" style="background-color: #f4f3ef;">
+				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+					Set Purchase Request Approver</p>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<form method="POST" action="{{ route('pr_approver.set') }}">
+          @csrf
+          <div class="form-group">
+            <label for="Current Approver">Current Approver:</label>
+            <input type="text" class="form-control" value="{{ App\User::find(Setting::get('pr_approver_id', 8))->name . ', ' . App\User::find(Setting::get('pr_approver_id', 8))->position }}" readonly>
+          </div>
+					<div class="form-group">
+            <label for="Users">Users:</label>
+            <select class="form-control" name="pr_approver_id">
+              @foreach (App\User::all()->keyBy('id')->forget(1)->forget(Setting::get('pr_approver_id', 8)) as $user)
+              <option value="{{ $user->id }}">{{ $user->name . ', ' . $user->position}}</option>
+              @endforeach
+            </select>
+          </div>
+
+					<button type="submit" class="btn btn-success btn-block">Save</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
   <script>
     $(document).ready(function() {
       // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
+      // demo.initChartsPages();
+
+      Echo.private('App.User.' + {{ Auth::user()->id }})
+        .notification((notification) => {
+          //append to notifs dropdown
+          $("#notif-dropdown").prepend('<a class="dropdown-item" href="#">'+ notification.message +'</a>');
+
+          // show floating notif
+          $.notify({
+            message: notification.message
+          },{
+            placement: {
+              from: "bottom",
+              align: "right"
+            }
+          });
+        });
     });
   </script>
   @yield('scripts')

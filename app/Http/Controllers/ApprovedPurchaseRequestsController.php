@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PurchaseRequest;
+use App\Notifications\PurchaseRequestApproved;
+use App\Notifications\PurchaseRequestRejected;
 
 class ApprovedPurchaseRequestsController extends Controller
 {
@@ -21,8 +23,10 @@ class ApprovedPurchaseRequestsController extends Controller
     {
         $this->authorize('approve', $purchaseRequest);
 
-        // $PurchaseRequest->approve($request->remarks);
-        $purchaseRequest->approve();
+        $purchaseRequest->approve($request->remarks);
+        // $purchaseRequest->approve();
+
+        $purchaseRequest->requestor->notify(new PurchaseRequestApproved());
 
         return redirect()->route('purchase_requests.index');
     }
@@ -37,8 +41,10 @@ class ApprovedPurchaseRequestsController extends Controller
     {
         $this->authorize('approve', $purchaseRequest);
 
-        // $PurchaseRequest->reject($request->remarks);
-        $purchaseRequest->reject();
+        $purchaseRequest->reject($request->remarks);
+        // $purchaseRequest->reject();
+
+        $purchaseRequest->requestor->notify(new PurchaseRequestRejected());
 
         return redirect()->route('purchase_requests.index');
     }
