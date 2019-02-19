@@ -75,7 +75,7 @@ Route::get('/settings', function () {
     return view('settings');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+// Route::get('/register', function () {
+//     return view('register');
+// });
 

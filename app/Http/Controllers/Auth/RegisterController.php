@@ -7,6 +7,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use App\UserType;
+use App\Sector;
+use App\Department;
+use App\DepartmentHead;
+use App\SectorHead;
 
 class RegisterController extends Controller
 {
@@ -37,7 +44,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -50,8 +57,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'position' => 'required',
+            'username' => 'required|unique:users,username',
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'user_type_id' => 'required|exists:user_types,id',
+            'sector_id' => 'required_if:user_type_id,3|exists:sectors,id',
+            'department_id' => 'required_if:user_type_id,1|exists:departments,id',
         ]);
     }
 
@@ -63,10 +75,53 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'username' => $data['username'],
+            'user_type_id' => $data['user_type_id'],
+            'position' => $data['position'],
+            // 'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if($user->type->name == "Department Head"){
+            $deptHead = DepartmentHead::create(['department_id' => $data['department_id']]);
+            $deptHead->user()->save($user);
+        }
+        else if($user->type->name == "Sector Head"){
+            $sectorHead = SectorHead::create(['sector_id' => $data['sector_id']]);
+            $sectorHead->user()->save($user);
+        }
+        else if($user->type->name == "BAC Secretariat"){
+            $deptHead = DepartmentHead::create(['department_id' => 1]);
+            $deptHead->user()->save($user);
+        }
+
+        return $user;
+    }
+
+    public function showRegistrationForm()
+    {
+        $sectors = Sector::all();
+
+        $availSectors = Sector::doesntHave('head')->get();
+
+        $departments = Department::doesntHave('head')->get();
+
+        $userTypes = UserType::all()->whereNotIn('id', 4);
+
+        return view('auth.register', compact('userTypes', 'departments', 'sectors', 'availSectors'));
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: back();
     }
 }
