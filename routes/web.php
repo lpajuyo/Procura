@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SubmittedProjectsController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,8 @@ Route::delete('approved_projects/{project}', 'ApprovedProjectsController@destroy
 Route::resource('projects', 'ProjectsController');
 Route::resource('projects/{project}/project_items', 'ProjectItemsController');
 
+Route::post('submitted_pr/{purchase_request}', 'SubmittedPurchaseRequestsController@store')->name('pr.submit');
+Route::delete('submitted_pr/{purchase_request}', 'SubmittedPurchaseRequestsController@destroy')->name('pr.cancel_submit');
 Route::get('purchase_requests/{purchase_request}/file', 'PurchaseRequestsController@showFile')->name('purchase_requests.showFile');
 Route::resource('purchase_requests', 'PurchaseRequestsController');
 Route::resource('purchase_requests/{purchase_request}/items', 'PurchaseRequestItemsController')->names([
@@ -60,4 +63,9 @@ Route::get('app_cse/{budget_year?}', 'AppCseController')->name('app_cse');
 Route::get('app_non_cse/{budget_year?}', 'AppNonCseController')->name('app_non_cse');
 
 Route::resource('cse_items', 'CseController');
+Route::post('set_pr_approver', function (Request $request) {
+    Setting::set('pr_approver_id', $request->pr_approver_id);
+    Setting::save();
+    return back();
+})->name('pr_approver.set');
 //

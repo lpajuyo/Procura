@@ -21,8 +21,8 @@ class ApprovedPurchaseRequestsController extends Controller
     {
         $this->authorize('approve', $purchaseRequest);
 
-        // $PurchaseRequest->approve($request->remarks);
-        $purchaseRequest->approve();
+        $purchaseRequest->approve($request->remarks);
+        // $purchaseRequest->approve();
 
         return redirect()->route('purchase_requests.index');
     }
@@ -37,8 +37,8 @@ class ApprovedPurchaseRequestsController extends Controller
     {
         $this->authorize('approve', $purchaseRequest);
 
-        // $PurchaseRequest->reject($request->remarks);
-        $purchaseRequest->reject();
+        $purchaseRequest->reject($request->remarks);
+        // $purchaseRequest->reject();
 
         return redirect()->route('purchase_requests.index');
     }

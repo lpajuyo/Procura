@@ -29,6 +29,11 @@
 				<!-- </p><br> -->
 				
 				<div id="All" class="tabcontent">
+					@if(session('approved_proj_error'))
+					<div class="alert alert-danger" role="alert">
+						{{ session('approved_proj_error') }}
+					</div>
+					@endif
 					<p class="text-info" style="position: absolute; font-size: 22px;">PURCHASE REQUESTS 
          			 <i class="fas fa-list-ul fa-sm" style="margin-left: 10px; color:black;"></i> </p> <br><br><br>
 
@@ -42,7 +47,7 @@
 												<th>Department</th>
 												@endcan
 				                <th>Date Submitted</th>
-				                <th>Due Date</th>
+				                {{-- <th>Due Date</th> --}}
 				                <th>Status</th>
 				                <th>Action</th>
 				            </tr>
@@ -56,21 +61,51 @@
 												@elsecan('approvePurchaseRequests', App\PurchaseRequest::class)
 												<td>{{ $pr->department->name }}</td>
 												@endcan
-				                <td>24/10/2019</td>
-				                <td>//24/11/2019</td>
-				                <td>{{ (is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
+				                <td>{{ ($pr->submitted_at) ? $pr->submitted_at : '--' }}</td>
+												<td>{{ (is_null($pr->submitted_at)) ? 'Waiting Submission' : ((is_null($pr->is_approved)) ? 'Pending' : (($pr->is_approved == true) ? 'Approved' : 'Rejected')) }}
+												</td>
 				                <td>
-				                	<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
+														@can('submit', $pr)
+														<button form="submit-{{ $pr->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-default btn-simple btn-xs">
+																					<i class="fa fa-upload"></i>
+																			</button>
+														<form id="submit-{{ $pr->id }}" style="display: none;" method="POST" action="{{ route('pr.submit', ['purchase_request' => $pr->id]) }}">
+															@csrf
+														</form>
+														@elsecan('unsubmit', $pr)
+														<button form="unsubmit-{{ $pr->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-danger btn-simple btn-xs">
+																					<i class="fa fa-upload"></i>
+																			</button>
+														<form id="unsubmit-{{ $pr->id }}" style="display: none;" method="POST" action="{{ route('pr.cancel_submit', ['purchase_request' => $pr->id]) }}">
+															@csrf
+															@method('DELETE')
+														</form>
+														@endcan
+													<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
+													
+													@can('update', $pr)
+													<a href="{{ route('pr_items.create', ['purchase_request' => $pr->id]) }}" rel="tooltip" title="Edit Purchase Request" class="btn btn-default btn-simple btn-xs">
+														<i class="fa fa-pencil-square-o"></i>
+													</a>
+													@endcan
 
 													<a href="{{ route('purchase_requests.showFile', ['purchase_request' => $pr->id]) }}">
 							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
 													</a>
+													@can('delete', $pr)
+													<button type="submit" form="{{ 'del-proj-' . $pr->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+																	<i class="fa fa-times"></i>
+																</button>
+													<form style="display: none;" id="{{ 'del-proj-' . $pr->id }}" method="POST" action="{{ route('purchase_requests.destroy', ['purchase_request' => $pr->id]) }}">
+														@csrf @method('DELETE')
+													</form>
+													@endcan
 
-													@can('approvePurchaseRequests', App\PurchaseRequest::class)
+													{{-- @can('approvePurchaseRequests', App\PurchaseRequest::class)
 													<button type="button" rel="tooltip" title="Sign PPMP Document" class="btn btn-success btn-simple btn-xs" >
 						            	<i class="fas fa-pencil-alt"></i>
 						            	</button>
-													@endcan
+													@endcan --}}
 				                </td>
 				            </tr>
 				    				@endforeach
@@ -131,12 +166,43 @@
             <tbody style="font-size: 12px;">
 						<!-- populated by script -->
             </tbody>
-          </table>
+					</table>
+					<p id="remarks" style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
+							REMARKS: <span style="color: black;"></span></p>
 					@can('approvePurchaseRequests', App\PurchaseRequest::class)
+					@include('errors')
           <div id="pr-approval" class="row">
             <div class="col-lg-3"></div>
 
-            <div class="col-lg-3">
+						<div id="approve-dropdown" class="col-lg-3 dropdown">
+								<button type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown"> APPROVE</button>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form class="px-2 py-1" id="approve-pr" method="POST" action="">
+										@csrf
+										<div class="form-group">
+											<label for="Remarks">Remarks:</label>
+											<textarea class="form-control" name="remarks" cols="100"></textarea>
+										</div>
+		
+										<button type="submit" class="float-right btn btn-default btn-sm">Submit</button>
+									</form>
+								</div>
+							</div>
+							<div id="reject-dropdown" class="col-lg-3 dropdown">
+								<button type="button" class="btn btn-block btn-danger dropdown-toggle" data-toggle="dropdown"> REJECT </button>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form class="px-2 py-1" id="reject-pr" method="POST" action="">
+										@csrf @method('DELETE')
+										<div class="form-group">
+											<label for="Remarks">Remarks:</label>
+											<textarea class="form-control" name="remarks" cols="100"></textarea>
+										</div>
+		
+										<button type="submit" class="float-right btn btn-default btn-sm">Submit</button>
+									</form>
+								</div>
+							</div>
+            {{-- <div class="col-lg-3">
 							<form id="approve-pr" method="POST" action="">
 							@csrf
 								<button type="submit" class="btn btn-block btn-success"> APPROVE &nbsp;
@@ -153,7 +219,7 @@
 								<button type="submit" class="btn btn-block btn-danger" > REJECT &nbsp;
 								<i class="fa fa-thumbs-down"></i> </button>
 							</form>
-            </div>
+            </div> --}}
           </div>
           @endcan
           </div>
@@ -173,7 +239,12 @@ $(".view-pr-btn").click(function(){
       url: "{{ route('purchase_requests.index') }}/" + id,
       dataType: "json"
     }).done(function(pr){
-      $("#pr-no").html(pr.pr_number);
+			$("#pr-no").html(pr.pr_number);
+			
+			if(pr.remarks)
+        $("#remarks span").html(pr.remarks);
+      else
+        $("#remarks").hide();
 
       $("#prdetails tbody").empty();
 			var n = 1;

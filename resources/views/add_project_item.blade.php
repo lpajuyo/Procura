@@ -436,66 +436,6 @@
 @endsection
  
 @section('modals')
-<!-- MODAL FOR ADD ITEM -->
-<div id="edit-proj-item" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="modal-header" style="background-color: #f4f3ef;">
-				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
-					Edit Project Item</p>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-
-			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<label for="Product Type">Product Description:</label>
-						<input type="text" class="form-control" id="Type" name="description" disabled>
-					</div><br>
-
-					<div class="form-group">
-						<label for="Description">Product Description:</label>
-						<input type="text" class="form-control" id="Desc">
-					</div><br>
-
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label for="Quantity">Quantity:</label>
-								<input type="text" class="form-control" id="UOM">
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label for="Uom">Unit of Measurement:</label>
-								<input type="number" class="form-control" id="Price">
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label for="UOM">Unit Of Measurement:</label>
-								<input type="text" class="form-control" id="UOM">
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label for="Price">Price:</label>
-								<input type="number" class="form-control" id="Price">
-							</div>
-						</div>
-					</div>
-
-					<br>
-					<button type="submit" class="btn btn-success btn-block">Submit</button>
-				</form>
-			</div>
-
-		</div>
-	</div>
-</div>
 {{--
 <!-- MODAL FOR ADD ITEM -->
 <div id="additem" class="modal fade" role="dialog">
