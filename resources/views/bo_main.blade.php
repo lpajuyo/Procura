@@ -56,8 +56,11 @@
     -->
       <div class="logo">
         <div class="user-account">
-          <img src="{{ asset('/images/user.png') }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture"> 
-          <h6 class="user-name"> Hello <strong> {{ Auth::user()->name }} </strong> </h6>   
+          <img src="{{ asset('/images/user.png') }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture">
+          <br>
+          <h6 class="user-name" style="margin-bottom: 0px; padding-bottom: 0px; margin-top: 10px; padding-top: 10px;"> 
+            <strong> {{ Auth::user()->name }} </strong> </h6>  
+          <span> Department Head</span>
         </div>
       </div>
       <div class="sidebar-wrapper">
@@ -116,10 +119,12 @@
           @can('administer')
           <li class="sb-content @yield('admin-active')">
             <a data-toggle="collapse" href="#collapseItem3" aria-expanded="false" aria-controls="collapseItem3">
-            <i class="nc-icon nc-money-coins"></i>
+            <i class="nc-icon nc-single-02"></i>
             <p>ADMINISTRATION</p> </a>
             <ul class="collapse @yield('admin-dropdown-show')" id="collapseItem3">
               <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
+
+              <li class="@yield('register')"> <a href="/register"> <p> REGISTER </p> </a> </li>
             </ul>
           </li>
           @endcan
@@ -201,7 +206,7 @@
               <span class="navline"></span>
 
               <li class="nav-item" style="padding-left: 0px;">
-                <a class="nav-link btn-rotate" href="#" rel="tooltip" title="Settings">
+                <a href="/settings" class="nav-link btn-rotate" href="#" rel="tooltip" title="Settings">
                   <i class="nc-icon nc-settings-gear-65 navicons"></i> settings
                   <p>
                     <span class="d-lg-none d-md-block">Account</span>

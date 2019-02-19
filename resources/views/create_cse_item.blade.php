@@ -8,11 +8,11 @@
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 30px; padding-right: 20px;">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-body" style="margin-top: 10px; margin-left: 10px; ">
-				<p style="font-size: 23px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> IMPORT COMMON SUPPLIES AND EQUIPTMENT CATALOG
+				<p style="font-size: 21px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> IMPORT COMMON SUPPLIES AND EQUIPTMENT CATALOG
 					<i class="fas fa-box" style="margin-left: 10px; "></i><br>
 					<!-- <span style="font-size: 15px;">Project Procurement Management Plan</span> -->
 					<!-- <a href="" data-toggle="modal" data-target="#additem" id="create2"><span class="fas fa-plus fa-xs"></span> </a> -->

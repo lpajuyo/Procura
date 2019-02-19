@@ -61,3 +61,11 @@ Route::get('app_non_cse/{budget_year?}', 'AppNonCseController')->name('app_non_c
 
 Route::resource('cse_items', 'CseController');
 //
+
+Route::get('/settings', function () {
+    return view('settings');
+});
+
+Route::get('/register', function () {
+    return view('register');
+});
