@@ -125,6 +125,7 @@
             <p>ADMINISTRATION</p> </a>
             <ul class="collapse @yield('admin-dropdown-show')" id="collapseItem3">
               <li class="@yield('register')"> <a href="/register"> <p> REGISTER </p> </a> </li>
+              <li class="@yield('register')"> <a href="{{ route('users.index') }}"> <p> USERS </p> </a> </li>
               <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
               <li class="@yield('type-active')"> <a href="{{ route('item_types.index') }}"> <p> ITEM TYPES </p> </a> </li>
               <li class="@yield('sector-active')"> <a href="{{ route('sectors.index') }}"> <p> SECTORS </p> </a> </li>
