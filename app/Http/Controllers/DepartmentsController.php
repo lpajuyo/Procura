@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ItemType;
+use App\Department;
 use Illuminate\Http\Request;
+use App\Sector;
 
-class ItemTypeController extends Controller
+class DepartmentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,11 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        //
+        $departments = Department::all();
+
+        $sectors = Sector::all();
+
+        return view('departments_index', compact('departments', 'sectors'));
     }
 
     /**
@@ -35,16 +40,18 @@ class ItemTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Department::create($request->all());
+
+        return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ItemType  $itemType
+     * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function show(ItemType $itemType)
+    public function show(Department $department)
     {
         //
     }
@@ -52,10 +59,10 @@ class ItemTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ItemType  $itemType
+     * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(ItemType $itemType)
+    public function edit(Department $department)
     {
         //
     }
@@ -64,10 +71,10 @@ class ItemTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ItemType  $itemType
+     * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ItemType $itemType)
+    public function update(Request $request, Department $department)
     {
         //
     }
@@ -75,11 +82,13 @@ class ItemTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ItemType  $itemType
+     * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemType $itemType)
+    public function destroy(Department $department)
     {
-        //
+        $department->delete();
+
+        return back();
     }
 }

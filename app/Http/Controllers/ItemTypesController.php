@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Sector;
+use App\ItemType;
 use Illuminate\Http\Request;
 
-class SectorsController extends Controller
+class ItemTypesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class SectorsController extends Controller
      */
     public function index()
     {
-        $sectors = Sector::all();
+        $itemTypes = ItemType::all();
 
-        return view('sectors_index', compact('sectors'));
+        return view('item_types_index', compact('itemTypes'));
     }
 
     /**
@@ -37,7 +37,7 @@ class SectorsController extends Controller
      */
     public function store(Request $request)
     {
-        Sector::create($request->all());
+        ItemType::create($request->all());
 
         return back();
     }
@@ -45,21 +45,21 @@ class SectorsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Sector  $sector
+     * @param  \App\ItemType  $itemType
      * @return \Illuminate\Http\Response
      */
-    public function show(Sector $sector)
+    public function show(ItemType $itemType)
     {
-         return $sector->load('departments')->toJson();
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Sector  $sector
+     * @param  \App\ItemType  $itemType
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sector $sector)
+    public function edit(ItemType $itemType)
     {
         //
     }
@@ -68,10 +68,10 @@ class SectorsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sector  $sector
+     * @param  \App\ItemType  $itemType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sector $sector)
+    public function update(Request $request, ItemType $itemType)
     {
         //
     }
@@ -79,12 +79,12 @@ class SectorsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sector  $sector
+     * @param  \App\ItemType  $itemType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sector $sector)
+    public function destroy(ItemType $itemType)
     {
-        $sector->delete();
+        $itemType->delete();
 
         return back();
     }

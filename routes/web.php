@@ -33,6 +33,7 @@ Route::resource('department_budgets', 'DepartmentBudgetsController');
 // Route::post('sector_budgets', 'SectorBudgetsController@store');
 
 Route::resource('sectors', 'SectorsController');
+Route::resource('departments', 'DepartmentsController');
 
 Route::resource('budget_proposals', 'BudgetProposalsController');
 Route::get('budget_proposals/{budget_proposal}/file', 'BudgetProposalsController@showFile')->name('budget_proposals.showFile');
@@ -68,14 +69,13 @@ Route::post('set_pr_approver', function (Request $request) {
     Setting::save();
     return back();
 })->name('pr_approver.set');
+Route::patch('users/{user}/picture', 'UsersController@updatePicture')->name('users.update_picture');
+Route::patch('users/{user}/password', 'UsersController@updatePassword')->name('users.update_password');
+Route::patch('users/{user}/signature', 'UsersController@updateSignature')->name('users.update_signature');
+Route::resource('users', 'UsersController');
+Route::resource('item_types', 'ItemTypesController');
+
+Route::get('/settings', 'AccountSettingsController');
 
 //
-
-Route::get('/settings', function () {
-    return view('settings');
-});
-
-Route::get('/register', function () {
-    return view('register');
-});
 

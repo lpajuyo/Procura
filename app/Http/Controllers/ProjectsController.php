@@ -39,6 +39,8 @@ class ProjectsController extends Controller
             $projects = $projects->filter(function($project){
                 return $project->approver->id == Auth::user()->id;
             });
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot approve PPMPs. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         else if($user->type->name == "Department Head"){
             $projects = $user->projects()
@@ -48,9 +50,13 @@ class ProjectsController extends Controller
 
             if($user->userable->department->isUnallocated($activeYear))
                 request()->session()->flash('dept_budget_error', 'There is no allocated budget for your department at this time. You can\'t create PPMPs yet.');
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot submit PPMPs. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         
         $projects = $projects->where('budget_year_id', $activeYear->id);
+
+        
 
         return view("user_viewppmp", compact('projects', 'activeYear'));
     }
@@ -107,15 +113,28 @@ class ProjectsController extends Controller
         $spreadsheet = $reader->load($templatePath);
         $spreadsheet->getActiveSheet()->setCellValue('D9', $project->user->name . ' / ' . $project->department->name)
                                         ->setCellValue('D10', $project->title)
-                                        ->setCellValue('B30', $project->user->name);
+                                        ->setCellValue('B30', $project->user->name)
+                                        ->setCellValue('B31', $project->user->position);
 
         if(is_null($project->submitted_at) || is_null($project->is_approved) || $project->is_approved == false){
             $spreadsheet->getActiveSheet()->setCellValue('A28', 'NOTE:');
             $spreadsheet->getActiveSheet()->setCellValue('B28', 'This is not the official PPMP.');
         }
 
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $drawing->setPath(storage_path('app/public/'.$project->user->user_signature));
+        $drawing->setCoordinates('B28');
+        $drawing->setWidthAndHeight(143, 75);
+        $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
         if($project->is_approved == true){
             $spreadsheet->getActiveSheet()->setCellValue('O30', $project->approver->name);
+            $spreadsheet->getActiveSheet()->setCellValue('O31', $project->approver->position);
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setPath(storage_path('app/public/'.$project->approver->user_signature));
+            $drawing->setCoordinates('O28');
+            $drawing->setWidthAndHeight(143, 75);
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
         }
 
         if($project->items->count() > 7)

@@ -29,13 +29,18 @@ class PurchaseRequestsController extends Controller
             $purchaseRequests = $purchaseRequests->filter(function($purchaseRequest){
                 return $purchaseRequest->approver->id == Auth::user()->id;
             });
+
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot approve Purchase Requests. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         else if($user->type->name == "Department Head"){
             $purchaseRequests = $user->purchase_requests;
 
             $projects = Auth::user()->projects()->where('is_approved', 1)->get();
             if($projects->count() == 0)
-                request()->session()->flash('approved_proj_error', 'You have no approve PPMPs at this time. You can\'t create Purchase Requests yet.');
+                request()->session()->flash('approved_proj_error', 'You have no approved PPMPs at this time. You can\'t create Purchase Requests yet.');
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot submit Purchase Requests. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         return view('user_pr', compact('purchaseRequests'));
     }
@@ -116,13 +121,30 @@ class PurchaseRequestsController extends Controller
         $worksheet->setCellValue('C52', $purchaseRequest->purpose);
         // $worksheet->setCellValue('C55', $purchaseRequest->purpose); //requestor signature
         $worksheet->setCellValue('C57', $purchaseRequest->requestor->name);
-        // $worksheet->setCellValue('C58', $purchaseRequest->requestor->name); //requestor designation
+        $worksheet->setCellValue('C58', $purchaseRequest->requestor->position); //requestor designation
+
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $drawing->setPath(storage_path('app/public/'.$purchaseRequest->requestor->user_signature));
+        $drawing->setCoordinates('C55');
+        $drawing->setOffsetX(120);
+        $drawing->setOffsetY(-12);
+        $drawing->setWidthAndHeight(143, 75);
+        $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
         if($purchaseRequest->is_approved){
             // $worksheet->setCellValue('E55', $purchaseRequest->purpose); //approver signature
             $worksheet->setCellValue('E57', $purchaseRequest->approver->name); //approver signature
-            // $worksheet->setCellValue('E58', $purchaseRequest->purpose); //approver designation
+            $worksheet->setCellValue('E58', $purchaseRequest->approver->position); //approver designation
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setPath(storage_path('app/public/'.$purchaseRequest->approver->user_signature));
+            $drawing->setCoordinates('E55');
+            $drawing->setOffsetX(40);
+            $drawing->setOffsetY(-12);
+            $drawing->setWidthAndHeight(143, 75);
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
         }
+
+        
 
         $row = 12;
         $n = 1;
