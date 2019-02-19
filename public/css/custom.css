@@ -727,3 +727,34 @@
 .sidebar-wrapper::-webkit-scrollbar-thumb {
   background: rgba(0,0,0,.2); 
 }
+
+
+.profile-body{
+  z-index: 1 !important;
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+}
+
+.author{
+  padding-top: -130px !important;
+  margin-top: -130px !important;
+}
+
+/*.description{ 
+  padding-left: 20px;
+  font-size: 14px !important;
+}
+
+.description > span {
+  color: #424949;
+  text-transform: capitalize;
+}*/
+
+.card-user > .image{
+  height: 200px !important;
+  margin-bottom: 0px;
+}
+
+ .edit-profile {
+  min-height: 170px !important;
+  }

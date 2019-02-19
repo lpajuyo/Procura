@@ -68,4 +68,14 @@ Route::post('set_pr_approver', function (Request $request) {
     Setting::save();
     return back();
 })->name('pr_approver.set');
+
 //
+
+Route::get('/settings', function () {
+    return view('settings');
+});
+
+Route::get('/register', function () {
+    return view('register');
+});
+
