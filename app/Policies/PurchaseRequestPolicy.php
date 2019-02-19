@@ -102,16 +102,16 @@ class PurchaseRequestPolicy
 
     public function approvePurchaseRequests(User $user){
     // return $user->type->name == "Sector Head";
-    return $user->id == setting()->get('pr_approver_id', 8);
+    return $user->id == setting()->get('pr_approver_id', 8) && !is_null($user->user_signature);
     }
 
     public function approve(User $user, PurchaseRequest $purchaseRequest){
         // return $user->type->name == "Sector Head" && is_null($purchaseRequest->is_approved);
-        return $user->id == setting()->get('pr_approver_id', 8) && is_null($purchaseRequest->is_approved);
+        return $user->id == setting()->get('pr_approver_id', 8) && is_null($purchaseRequest->is_approved) && !is_null($user->user_signature);
     }
 
     public function submit(User $user, PurchaseRequest $purchaseRequest){
-        return $user->id == $purchaseRequest->requestor->id && is_null($purchaseRequest->submitted_at);
+        return $user->id == $purchaseRequest->requestor->id && is_null($purchaseRequest->submitted_at) && !is_null($user->user_signature);
     }
 
     public function unsubmit(User $user, PurchaseRequest $purchaseRequest){

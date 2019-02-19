@@ -29,13 +29,18 @@ class PurchaseRequestsController extends Controller
             $purchaseRequests = $purchaseRequests->filter(function($purchaseRequest){
                 return $purchaseRequest->approver->id == Auth::user()->id;
             });
+
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot approve Purchase Requests. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         else if($user->type->name == "Department Head"){
             $purchaseRequests = $user->purchase_requests;
 
             $projects = Auth::user()->projects()->where('is_approved', 1)->get();
             if($projects->count() == 0)
-                request()->session()->flash('approved_proj_error', 'You have no approve PPMPs at this time. You can\'t create Purchase Requests yet.');
+                request()->session()->flash('approved_proj_error', 'You have no approved PPMPs at this time. You can\'t create Purchase Requests yet.');
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot submit Purchase Requests. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         return view('user_pr', compact('purchaseRequests'));
     }

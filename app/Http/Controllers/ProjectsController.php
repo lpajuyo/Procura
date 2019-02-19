@@ -39,6 +39,8 @@ class ProjectsController extends Controller
             $projects = $projects->filter(function($project){
                 return $project->approver->id == Auth::user()->id;
             });
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot approve PPMPs. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         else if($user->type->name == "Department Head"){
             $projects = $user->projects()
@@ -48,9 +50,13 @@ class ProjectsController extends Controller
 
             if($user->userable->department->isUnallocated($activeYear))
                 request()->session()->flash('dept_budget_error', 'There is no allocated budget for your department at this time. You can\'t create PPMPs yet.');
+            if($user->user_signature == null)
+                request()->session()->flash('signature_error', 'Error: Cannot submit PPMPs. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
         
         $projects = $projects->where('budget_year_id', $activeYear->id);
+
+        
 
         return view("user_viewppmp", compact('projects', 'activeYear'));
     }

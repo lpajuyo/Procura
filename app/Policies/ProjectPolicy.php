@@ -110,15 +110,15 @@ class ProjectPolicy
     }
 
     public function approveProjects(User $user){
-        return $user->type->name == "Sector Head";
+        return $user->type->name == "Sector Head" && !is_null($user->user_signature);
     }
 
     public function approveProject(User $user, Project $project){
-        return $user->type->name == "Sector Head" && is_null($project->is_approved);
+        return $user->type->name == "Sector Head" && is_null($project->is_approved) && !is_null($user->user_signature);
     }
 
     public function submit(User $user, Project $project){
-        return $user->id == $project->user_id && is_null($project->submitted_at);
+        return $user->id == $project->user_id && is_null($project->submitted_at) && !is_null($user->user_signature);
     }
 
     public function unsubmit(User $user, Project $project){
