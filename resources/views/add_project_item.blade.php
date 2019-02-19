@@ -65,7 +65,7 @@
 										<select class="form-control" id="type-dropdown" name="item_type_id">
 											<option selected disabled value="0">--Select Item Type--</option>
 											@foreach($itemTypes as $type)
-											<option value="{{ $type->id }}" {{ ($type->id == old('type_id') ? "selected" : "") }}>{{ $type->name }}</option>
+											<option value="{{ $type->id }}" {{ ($type->id == old('item_type_id') ? "selected" : "") }}>{{ $type->name }}</option>
 											@endforeach
 										</select>
 									</div>
