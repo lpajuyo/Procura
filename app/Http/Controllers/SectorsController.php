@@ -14,7 +14,9 @@ class SectorsController extends Controller
      */
     public function index()
     {
-        //
+        $sectors = Sector::all();
+
+        return view('sectors_index', compact('sectors'));
     }
 
     /**
@@ -35,7 +37,9 @@ class SectorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Sector::create($request->all());
+
+        return back();
     }
 
     /**
@@ -80,6 +84,8 @@ class SectorsController extends Controller
      */
     public function destroy(Sector $sector)
     {
-        //
+        $sector->delete();
+
+        return back();
     }
 }

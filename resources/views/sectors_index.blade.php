@@ -1,11 +1,11 @@
 @extends('bo_main') 
-@section('title', 'Item Types')
+@section('title', 'Sectors')
 
 <!-- 
 @section('brand', 'Budget Year') -->
 
 
-@section('type-active', 'active') 
+@section('sector-active', 'active') 
 @section('admin-dropdown-show', 'show')
 @section('content')
 <!-- 
@@ -16,37 +16,37 @@
 		<div class="card">
 			<div class="card-body" style="margin-top: 5px;">
 				<div>
-					<p style="position: absolute; font-size: 25px;"> Item Type List </p>
+					<p style="position: absolute; font-size: 25px;"> Sector List </p>
 					<button class="btn btn-default" style="right: 30px; position: absolute !important;" data-toggle="modal" data-target="#addyear">
-				  <i class="fa fa-plus"></i> &nbsp;Add Item Type
+				  <i class="fa fa-plus"></i> &nbsp;Add Sector
 				</button>
 				</div><br><br><br>
 				<div class="table-responsive" style="overflow: visible;">
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr class=" text-primary">
-								<th>Type Name</th>
+								<th>Sector Name</th>
 								<th class="text-center">Action</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							@foreach ($itemTypes as $type)
+							@foreach ($sectors as $sector)
 							<tr>
-								<td>{{ $type->name }}</td>
+								<td>{{ $sector->name }}</td>
 								<td class="td-actions text-center">
-									{{-- @can('update', $type)
+									{{-- @can('update', $sector)
 									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear"
-									 data-year-id="{{ $type->id }}">
+									 data-year-id="{{ $sector->id }}">
 					                    <i class="fa fa-edit"></i>
 													</button>
 									@endcan				 --}}
 
-									{{-- @can('delete', $type) --}}
-									<button type="submit" form="{{ 'del-type-' . $type->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+									{{-- @can('delete', $sector) --}}
+									<button type="submit" form="{{ 'del-type-' . $sector->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
 										<i class="fa fa-times"></i>
 									</button>
-									<form style="display: none;" id="{{ 'del-type-' . $type->id }}" method="POST" action="{{ route('item_types.destroy', ['item_type' => $type->id]) }}">
+									<form style="display: none;" id="{{ 'del-type-' . $sector->id }}" method="POST" action="{{ route('sectors.destroy', ['sector' => $sector->id]) }}">
 											@csrf @method('DELETE')
 									</form>
 									{{-- @endcan --}}
@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="modal-body">
-				<form method="POST" action="{{ route('item_types.store') }}">
+				<form method="POST" action="{{ route('sectors.store') }}">
 					@csrf
 					<div class="form-group">
 						<label for="Item Type Name">Item Type Name:</label>
