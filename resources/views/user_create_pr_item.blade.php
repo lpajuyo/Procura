@@ -1,5 +1,5 @@
 @extends('bo_main') 
-@section('title', 'View PPMP') 
+@section('title', 'View Purchase Request') 
 @section('pr-active', 'active') 
 @section('content')
 <div class="row">
@@ -114,10 +114,8 @@
 						</tr>
 					</thead>
 					<tbody style="font-size: 12px;">
-						@php 
-							$n=1; 
-						@endphp
-						@foreach($purchaseRequest->items as $item)
+						@php $n=1; 
+@endphp @foreach($purchaseRequest->items as $item)
 						<tr class="text-center" style="line-height: 10px;">
 							<td>{{ $n++ }}</td>
 							<td>{{ $item->project_item->uom }}</td>
@@ -126,9 +124,9 @@
 							<td>{{ $item->project_item->unit_cost }}</td>
 							<td>{{ $item->total_cost }}</td>
 							<td>
-								{{-- <a href="{{ route('project_items.edit', ['project' => $project->id, 'project_item' => $item->id]) }}" class="edit-proj-item-btn btn btn-default btn-sm" title="Edit Item">
+								<button class="edit-pr-item-btn btn btn-default btn-sm" data-pr-item-id="{{ $item->id }}" title="Edit Item">
 									<i class="fa fa-pencil-square-o"></i>
-								</a> --}}
+								</button>
 								<button type="submit" form="del-item-{{ $item->id }}" class="btn btn-danger btn-sm" title="Delete Item">
 									<i class="fa fa-times"></i>
 								</button>
@@ -136,8 +134,7 @@
 									@csrf @method('DELETE')
 								</form>
 							</td>
-						</tr><br> 
-						@endforeach
+						</tr><br> @endforeach
 					</tbody>
 				</table>
 				<br>
@@ -147,6 +144,78 @@
 </div>
 @endsection
  
+@section('modals')
+<div id="edit-pr-item-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #f4f3ef;">
+				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
+					Edit Project Item</p>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<form method="POST" action="">
+				@csrf	
+				@method('PATCH')
+					<div class="form-group">
+						<label for="Product Type">Product Description:</label>
+						<input type="text" class="form-control" id="edit-description" disabled>
+					</div><br>
+
+					<div class="form-group">
+						<label for="Description">Specifications:</label>
+						<textarea class="form-control" id="Desc" name="specifications"></textarea>
+					</div><br>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="Quantity">Quantity:</label>
+								<input type="text" class="form-control" id="edit-quantity" name="quantity">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="Uom">Unit of Measurement:</label>
+								<input type="text" class="form-control" id="edit-uom">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="UOM">Unit Cost:</label>
+								<input type="number" min="0" step=".01" class="form-control" id="edit-unit-cost">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="Price">Price:</label>
+								<input type="number" min="0" step=".01" class="form-control" id="edit-price" name="total_cost">
+							</div>
+						</div>
+					</div>
+
+					@if ($errors->edit->any())
+					<div class="alert alert-danger" role="alert">
+						@foreach ($errors->edit->all() as $error)
+						<p>{{ $error }}</p>
+						@endforeach
+					</div>
+					@endif
+
+					<br>
+					<button type="submit" class="btn btn-success btn-block">Submit</button>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
 @section('scripts')
 <script>
 	$("#item-dropdown").change(function(){
@@ -158,11 +227,41 @@
 		$("#UPrice").val(items[val].unit_cost);
 		$("#Total").val(items[val].estimated_budget);
 	});
+
 </script>
 <script>
 	$(document).ready(function(){
 		$("#Qty,#UPrice").on("input", function(e){
 			$("#Total").val(($("#Qty").val() * $("#UPrice").val()).toFixed(2));
+		});
+	});
+</script>
+{{-- edit pr item scripts --}}
+<script>
+	$(document).ready(function(){
+		$("#edit-quantity,#edit-unit-cost").on("input", function(e){
+			$("#edit-price").val(($("#edit-quantity").val() * $("#edit-unit-cost").val()).toFixed(2));
+		});
+	});
+
+	$('.edit-pr-item-btn').click(function(){
+		var id = $(this).attr('data-pr-item-id');
+		var url = "{{ route('items.index', ['purchase_request' => $purchaseRequest]) }}" + "/" + id + "/edit";
+
+		$.ajax({
+			url: url, 
+			dataType: "json"
+		}).done(function(prItem){
+			$("#edit-pr-item-modal [role=alert]").remove();
+			$("#edit-pr-item-modal form").attr('action', url.replace("/edit", "")); 
+			$("#edit-pr-item-modal #edit-description").val(prItem.project_item.description);
+			$("#edit-pr-item-modal [name=specifications]").val(prItem.specifications);
+			$("#edit-pr-item-modal [name=quantity]").val(prItem.quantity);
+			$("#edit-pr-item-modal #edit-uom").val(prItem.project_item.uom);
+			$("#edit-pr-item-modal #edit-unit-cost").val(prItem.project_item.unit_cost);
+			$("#edit-pr-item-modal #edit-price").val(prItem.total_cost);
+			
+			$('#edit-pr-item-modal').modal();
 		});
 	});
 </script>

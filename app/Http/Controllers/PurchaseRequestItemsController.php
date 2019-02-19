@@ -68,9 +68,9 @@ class PurchaseRequestItemsController extends Controller
      * @param  \App\PurchaseRequestItem  $purchaseRequestItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(PurchaseRequestItem $purchaseRequestItem)
+    public function edit(PurchaseRequest $purchaseRequest, PurchaseRequestItem $item)
     {
-        //
+        return $item->load('project_item')->toJson();
     }
 
     /**
@@ -80,9 +80,11 @@ class PurchaseRequestItemsController extends Controller
      * @param  \App\PurchaseRequestItem  $purchaseRequestItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PurchaseRequestItem $purchaseRequestItem)
+    public function update(Request $request, PurchaseRequest $purchaseRequest, PurchaseRequestItem $item)
     {
-        //
+        $item->update($request->all());
+
+        return back();
     }
 
     /**
