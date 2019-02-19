@@ -287,7 +287,6 @@
             }
           });
         });
-      // $.notify("Hello World");
     });
   </script>
   @yield('scripts')
