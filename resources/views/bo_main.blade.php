@@ -180,7 +180,7 @@
                     <span class="d-lg-none d-md-block">Notification</span>
                   </p>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 9px;">
+                <div id="notif-dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 9px;">
                   <a class="dropdown-item" href="#">No new notification</a>
                 </div>
               </li>
@@ -275,7 +275,7 @@
       Echo.private('App.User.' + {{ Auth::user()->id }})
         .notification((notification) => {
           //append to notifs dropdown
-          
+          $("#notif-dropdown").prepend('<a class="dropdown-item" href="#">'+ notification.message +'</a>');
 
           // show floating notif
           $.notify({

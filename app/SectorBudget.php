@@ -21,6 +21,10 @@ class SectorBudget extends Pivot
                     ->withTimestamps();
     }
 
+    public function sector(){
+        return $this->belongsTo('App\Sector');
+    }
+
     public function getRemainingFund101Attribute(){
         $allocatedDepts = $this->allocatedDepartments;
 
