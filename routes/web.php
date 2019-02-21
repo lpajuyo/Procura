@@ -80,6 +80,10 @@ Route::get('/settings', 'AccountSettingsController');
 //mobile
 Route::get('mobile/projects/{project}/file', 'MobileController@showPpmpFile');
 Route::get('mobile/purchase_requests/{purchase_request}/file', 'MobileController@showPrFile');
+Route::post('mobile/approved_purchase_requests/{purchase_request}', 'MobileController@approvePr');
+Route::delete('mobile/approved_purchase_requests/{purchase_request}', 'MobileController@rejectPr');
+Route::post('mobile/approved_projects/{project}', 'MobileController@approvePpmp');
+Route::delete('mobile/approved_projects/{project}', 'MobileController@rejectPpmp');
 
 
 //
