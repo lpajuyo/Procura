@@ -28,6 +28,10 @@ class Project extends Model
         return $this->belongsTo('App\DepartmentBudget');
     }
 
+    public function purchase_requests(){
+        return $this->hasMany('App\PurchaseRequest');
+    }
+
     public function getApproverAttribute(){
         return $this->department_budget->department->sector->head->user;
         // return User::find(setting()->get('pr_approver_id', 8));
@@ -58,6 +62,17 @@ class Project extends Model
     public function getTotalBudgetWithContingencyAttribute(){
         $total = bcadd($this->total_budget, bcmul($this->total_budget, "0.20", 5), 5);
         return number_format($total, 2, ".", "");
+    }
+
+    public function getRemainingBudgetAttribute(){
+        $allocatedPurchaseRequests = $this->purchase_requests()->where('is_approved', '1')->orWhereNull('is_approved')->get();
+
+        $allocated = 0;
+        foreach($allocatedPurchaseRequests as $pr){
+            $allocated = bcadd($allocated, $pr->total_cost);
+        }
+
+        return bcsub($this->total_budget_with_contingency, $allocated);
     }
 
     public function scopeApproved($query){

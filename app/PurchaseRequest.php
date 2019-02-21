@@ -29,6 +29,15 @@ class PurchaseRequest extends Model
         return $this->project->department;
     }
 
+    public function getTotalCostAttribute(){
+        $totalPrCost = 0;
+        foreach($this->items as $item){
+            $totalPrCost = bcadd($item->total_cost, $totalPrCost);
+        }
+        
+        return $totalPrCost;
+    }
+
     public function approve($remarks, $approved = true){
         $this->update(["is_approved" => $approved, "remarks" => $remarks]);
     }
