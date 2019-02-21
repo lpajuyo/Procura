@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PurchaseRequest;
 use App\Project;
+use App\Notifications\PurchaseRequestApproved;
+use App\Notifications\PurchaseRequestRejected;
+use App\Notifications\ProjectApproved;
+use App\Notifications\ProjectRejected;
 use Illuminate\Support\Facades\Storage;
 
 class MobileController extends Controller
@@ -154,5 +158,54 @@ class MobileController extends Controller
 
         $spreadsheet->disconnectWorksheets();
         unset($spreadsheet);
+    }
+
+    public function approvePpmp(Request $request, Project $project)
+    {
+        // $this->authorize('approveProject', $project);
+
+        $project->approve($request->remarks);
+        // $project->approve();
+
+        $project->user->notify(new ProjectApproved());
+
+        // return redirect()->route('projects.index');
+    }
+
+    public function rejectPpmp(Request $request, Project $project)
+    {
+        // $this->authorize('approveProject', $project);
+
+        $project->reject($request->remarks);
+        // $project->reject();
+
+        $project->user->notify(new ProjectRejected());
+
+        // return redirect()->route('projects.index');
+        // return 'Success';
+    }
+
+    public function approvePr(Request $request, PurchaseRequest $purchaseRequest)
+    {
+        // $this->authorize('approve', $purchaseRequest);
+
+        $purchaseRequest->approve($request->remarks);
+        // $purchaseRequest->approve();
+
+        $purchaseRequest->requestor->notify(new PurchaseRequestApproved());
+
+        // return redirect()->route('purchase_requests.index');
+    }
+
+    public function rejectPr(Request $request, PurchaseRequest $purchaseRequest)
+    {
+        // $this->authorize('approve', $purchaseRequest);
+
+        $purchaseRequest->reject($request->remarks);
+        // $purchaseRequest->reject();
+
+        $purchaseRequest->requestor->notify(new PurchaseRequestRejected());
+
+        // return redirect()->route('purchase_requests.index');
     }
 }
