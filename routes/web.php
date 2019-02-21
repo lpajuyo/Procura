@@ -77,5 +77,10 @@ Route::resource('item_types', 'ItemTypesController');
 
 Route::get('/settings', 'AccountSettingsController');
 
+//mobile
+Route::get('mobile/projects/{project}/file', 'MobileController@showPpmpFile');
+Route::get('mobile/purchase_requests/{purchase_request}/file', 'MobileController@showPrFile');
+
+
 //
 
