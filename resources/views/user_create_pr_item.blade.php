@@ -59,8 +59,20 @@
 									</div>
 								</div>
 
-								<div class="col"></div>
+								{{-- <div class="col"></div> --}}
 
+								<div class="col-lg-4">
+									<div class="form-group">
+										<label for="Total Price">PPMP Remaining Budget:</label>
+									</div>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label for="Total Price">&#8369; <span>{{ $purchaseRequest->project->remaining_budget }}</span></label>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="col-lg-2">
 									<div class="form-group">
 										<label for="Total Price">Item Total Cost:</label>
@@ -201,7 +213,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="Price">Price:</label>
+								<label for="Price">Item Total Cost:<span id="edit-rem-span"></span></label>
 								<input type="number" min="0" step=".01" class="form-control" id="edit-price" name="total_cost" value="{{ old('total_cost') }}">
 							</div>
 						</div>
@@ -277,6 +289,7 @@
 			$("#edit-pr-item-modal #edit-uom").val(prItem.project_item.uom);
 			$("#edit-pr-item-modal #edit-unit-cost").val(prItem.project_item.unit_cost);
 			$("#edit-pr-item-modal #edit-price").val(prItem.total_cost);
+			$("#edit-pr-item-modal #edit-rem-span").html(Number(prItem.total_cost) + Number({{ $purchaseRequest->project->remaining_budget }}));
 			$("#edit-pr-item-modal [name='is_cse']").val(prItem.project_item.is_cse);
 			
 			$('#edit-pr-item-modal').modal();

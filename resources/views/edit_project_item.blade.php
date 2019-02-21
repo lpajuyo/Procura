@@ -109,9 +109,9 @@
 										<input name="quantity" min="0" type="number" class="form-control" id="Qty" value="{{ old('quantity') ? old('quantity') : $projectItem->quantity }}">
 									</div>
 								</div>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<div class="form-group">
-										<label for="Unit of Measurement">Unit of Measurement:</label>
+										<label for="Unit of Measurement">Unit:</label>
 										<input name="uom" type="text" class="form-control" id="Uom" value="{{ ($projectItem->is_cse) ? $projectItem->uom : (old('uom') ? old('uom') : $projectItem->uom) }}" {{ $projectItem->is_cse ? 'readonly' : '' }}>
 									</div>
 								</div>
@@ -122,9 +122,9 @@
 										 id="UPrice">
 									</div>
 								</div>
-								<div class="col-lg-4">
+								<div class="col-lg-5">
 									<div class="form-group">
-										<label for="Estimated Budget">Estimated Budget:</label>
+										<label for="Estimated Budget">Estimated Budget: (Remaining:<span>{{ $remaining }}</span>)</label>
 										<input name="estimated_budget" min="0" step=".01" value="{{ old('estimated_budget') ? old('estimated_budget') : $projectItem->estimated_budget }}" type="number" min="0" step=".01"
 										 class="form-control" id="Total">
 									</div>

@@ -108,7 +108,12 @@ class ProjectItemsController extends Controller
 
         $cseItems = CommonUseItem::all();
 
-        return view('edit_project_item', compact('project', 'projectItem', 'cseItems'));
+        $origTotalBudget = $project->total_budget_with_contingency;
+        $project->total_budget -= $projectItem->estimated_budget;
+        $itemTotalWithContingency = bcsub($origTotalBudget, $project->total_budget_with_contingency);
+        $remaining = bcadd($project->department_budget->remaining, $itemTotalWithContingency);
+
+        return view('edit_project_item', compact('project', 'projectItem', 'cseItems', 'remaining'));
     }
 
     /**

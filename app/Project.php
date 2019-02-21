@@ -29,7 +29,7 @@ class Project extends Model
     }
 
     public function purchase_requests(){
-        return $this->hasMany('App\PurchaseRequest');
+        return $this->hasMany('App\PurchaseRequest', 'project_id');
     }
 
     public function getApproverAttribute(){
@@ -65,7 +65,8 @@ class Project extends Model
     }
 
     public function getRemainingBudgetAttribute(){
-        $allocatedPurchaseRequests = $this->purchase_requests()->where('is_approved', '1')->orWhereNull('is_approved')->get();
+        $allocatedPurchaseRequests = $this->purchase_requests->whereIn('is_approved', [1, null]);
+        dump($allocatedPurchaseRequests);
 
         $allocated = 0;
         foreach($allocatedPurchaseRequests as $pr){
