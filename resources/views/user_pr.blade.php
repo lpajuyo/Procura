@@ -29,18 +29,19 @@
 				<!-- </p><br> -->
 				
 				<div id="All" class="tabcontent">
-					@if(session('approved_proj_error'))
-					<div class="alert alert-danger" role="alert">
-						{{ session('approved_proj_error') }}
-					</div>
-					@endif
-					@if(session('signature_error'))
-          <div class="alert alert-danger" role="alert">
-            {{ session('signature_error') }}
-          </div>
-          @endif
 					<p class="text-info" style="position: absolute; font-size: 22px;">PURCHASE REQUESTS 
          			 <i class="fas fa-list-ul fa-sm" style="margin-left: 10px; color:black;"></i> </p> <br><br><br>
+
+         			 @if(session('approved_proj_error'))
+					<div class="alert alert-danger notifpr" role="alert" style="margin-bottom: 15px!important;">
+						{{ session('approved_proj_error') }}
+					</div><br>
+					@endif
+					@if(session('signature_error'))
+		            <div class="alert alert-danger notifpr" role="alert" style="margin-bottom: 110px;">
+		              {{ session('signature_error') }}
+		            </div>
+		            @endif
 
 					<table class="table table-striped table-bordered display" style="width:100%">
 				        <thead>
@@ -57,7 +58,7 @@
 				                <th>Action</th>
 				            </tr>
 				        </thead>
-				        <tbody>
+				        <tbody class="minrow">
 										@foreach($purchaseRequests as $pr)
 				            <tr>
 				                <td>{{ $pr->pr_number }}</td>
@@ -71,14 +72,14 @@
 												</td>
 				                <td>
 														@can('submit', $pr)
-														<button form="submit-{{ $pr->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-default btn-simple btn-xs">
+														<button form="submit-{{ $pr->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-success btn-simple btn-sm">
 																					<i class="fa fa-upload"></i>
 																			</button>
 														<form id="submit-{{ $pr->id }}" style="display: none;" method="POST" action="{{ route('pr.submit', ['purchase_request' => $pr->id]) }}">
 															@csrf
 														</form>
 														@elsecan('unsubmit', $pr)
-														<button form="unsubmit-{{ $pr->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-danger btn-simple btn-xs">
+														<button form="unsubmit-{{ $pr->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-default btn-simple btn-sm">
 																					<i class="fa fa-upload"></i>
 																			</button>
 														<form id="unsubmit-{{ $pr->id }}" style="display: none;" method="POST" action="{{ route('pr.cancel_submit', ['purchase_request' => $pr->id]) }}">
@@ -86,19 +87,19 @@
 															@method('DELETE')
 														</form>
 														@endcan
-													<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-warning btn-simple btn-xs" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
+													<button type="button" rel="tooltip" title="View Full Details" class="view-pr-btn btn btn-primary btn-simple btn-sm" data-id="{{ $pr->id }}"> <i class="fa fa-eye"></i> </button>
 													
 													@can('update', $pr)
-													<a href="{{ route('pr_items.create', ['purchase_request' => $pr->id]) }}" rel="tooltip" title="Edit Purchase Request" class="btn btn-default btn-simple btn-xs">
+													<a href="{{ route('pr_items.create', ['purchase_request' => $pr->id]) }}" rel="tooltip" title="Edit Purchase Request" class="btn btn-warning btn-simple btn-sm">
 														<i class="fa fa-pencil-square-o"></i>
 													</a>
 													@endcan
 
 													<a href="{{ route('purchase_requests.showFile', ['purchase_request' => $pr->id]) }}">
-							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-success btn-simple btn-xs" > <i class="far fa-file"></i> </button>
+							        		<button type="button" rel="tooltip" title="Generate PR Document" class="btn btn-info btn-simple btn-sm" > <i class="far fa-file"></i> </button>
 													</a>
 													@can('delete', $pr)
-													<button type="submit" form="{{ 'del-proj-' . $pr->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+													<button type="submit" form="{{ 'del-proj-' . $pr->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-sm">
 																	<i class="fa fa-times"></i>
 																</button>
 													<form style="display: none;" id="{{ 'del-proj-' . $pr->id }}" method="POST" action="{{ route('purchase_requests.destroy', ['purchase_request' => $pr->id]) }}">
@@ -303,5 +304,14 @@ function openFilter(evt, filterName) {
   document.getElementById(filterName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.notifpr').toggleClass('showpr');
+    setTimeout(function(){
+      $('.notifpr').removeClass('showpr');
+    }, 9000);
+  });
 </script>
 @endsection

@@ -383,6 +383,33 @@
   margin-top: 0px;
 }
 
+.notif{
+  opacity: 0;
+  margin-top: -90px;
+  transition: all 0.8s ease-in-out;
+  padding: 10px 10px 10px 18px!important;
+}
+
+.notif.show{
+  opacity: 0.8;
+  margin-top: 0px;
+  padding: 10px 10px 10px 18px!important;
+}
+
+.notifpr{
+  opacity: 0;
+  margin-top: -120px;
+  transition: all 0.8s ease-in-out;
+  padding: 10px 10px 10px 18px!important;
+}
+
+.showpr{
+  opacity: 0.8;
+  margin-top: 0px;
+  margin-bottom: 10px!important;
+  padding: 10px 10px 10px 18px!important;
+}
+
 .cardmod{
   border-radius: 5px !important;
 }
@@ -758,3 +785,17 @@
  .edit-profile {
   min-height: 170px !important;
   }
+
+.card-title{
+  font-size: 25px;
+}
+
+.minrow tr td{
+  padding: 8px !important;
+  margin: 8px !important;
+  font-size: 13px;
+}
+
+.minrow {
+  border-collapse: collapse !important;
+}

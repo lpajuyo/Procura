@@ -1,9 +1,6 @@
 @extends('bo_main') 
 @section('title', 'Budget Year')
 
-<!-- 
-@section('brand', 'Budget Year') -->
-
 
 @section('budget-active', 'active') 
 @section('budget-dropdown-show', 'show') 
@@ -11,7 +8,7 @@
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 7px; padding-right: 15px;">
 
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
@@ -23,7 +20,7 @@
 				</button>
 				</div><br><br><br>
 				<div class="table-responsive" style="overflow: visible;">
-					<table class="table table-striped table-bordered">
+					<table class="table table-striped table-bordered datatable">
 						<thead>
 							<tr class=" text-primary">
 								<th>Budget Year</th>
@@ -34,7 +31,7 @@
 							</tr>
 						</thead>
 
-						<tbody>
+						<tbody class="minrow">
 							@foreach ($budgetYears as $budgetYear)
 							<tr>
 								<td>{{ $budgetYear->budget_year }}</td>
@@ -43,20 +40,20 @@
 								<td>{{ ($budgetYear->is_active) ? "Active" : "Inactive" }}</td>
 								<td class="td-actions text-center">
 									@can('update', $budgetYear)
-									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear"
+									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-sm btnEditBudgetYear"
 									 data-year-id="{{ $budgetYear->id }}">
 					                    <i class="fa fa-edit"></i>
 													</button>
 									@endcan				
 
 									<a href="{{ route('budget_alloc', ['budgetYear' => $budgetYear->id]) }}">
-									<button type="button" rel="tooltip" title="Proceed to Budget Allocation" class="btn btn-success btn-simple btn-xs btnEditBudgetYear"> 
+									<button type="button" rel="tooltip" title="Proceed to Budget Allocation" class="btn btn-success btn-simple btn-sm btnEditBudgetYear"> 
 										<i class="nc-icon nc-money-coins"></i>
 					                </button>
 									</a>
 
 									@can('activate', $budgetYear)
-									<button type="submit" form="{{ 'active-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Set as Active" class="btn btn-success btn-simple btn-xs">
+									<button type="submit" form="{{ 'active-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Set as Active" class="btn btn-primary btn-simple btn-sm">
 										<i class="fa fa-check"></i>
 									</button>
 									<form style="display: none;" id="{{ 'active-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_year.activate', ['budget_year' => $budgetYear->id]) }}">
@@ -65,7 +62,7 @@
 									@endcan
 
 									@can('delete', $budgetYear)
-									<button type="submit" form="{{ 'del-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+									<button type="submit" form="{{ 'del-year-' . $budgetYear->budget_year }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-sm">
 										<i class="fa fa-times"></i>
 									</button>
 									<form style="display: none;" id="{{ 'del-year-' . $budgetYear->budget_year }}" method="POST" action="{{ route('budget_years.destroy', ['budget_year' => $budgetYear->id]) }}">
