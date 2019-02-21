@@ -9,7 +9,7 @@
    <div class="col-lg-12">
       <div class="card card-user">
          <div class="card-body" style="margin-top: 10px; margin-left: 10px; ">
-            <p style="font-size: 21px; margin-bottom: 10px; padding-bottom: 0px; bottom: 0;"> REGISTER NEW USER
+            <p style="font-size: 21px; margin-bottom: 0px; padding-bottom: 0px; bottom: 0;"> REGISTER NEW USER
                <i class="fas fa-user-plus" style="margin-left: 10px; "></i><br>
             </p><br>
    @include('errors')
@@ -49,17 +49,7 @@
 
                <div class="row">
                   <div class="col-md-1"></div>
-                  <div class="col-md-8 pr-2">
-                     <div class="form-group">
-                        <label>Position:</label>
-                        <input type="text" class="form-control" placeholder="" value="{{ old('position') }}" name="position">
-                     </div>
-                  </div>
-               </div>
-
-               <div class="row">
-                  <div class="col-md-1"></div>
-                  <div class="col-md-4 pr-1" style="margin-right: 50px;">
+                  <div class="col-md-4 pr-1" style="margin-right: 40px;">
                      <div class="form-group">
                         <label>User Type:</label>
                         <select class="form-control" id="" name="user_type_id">
@@ -67,6 +57,12 @@
                               <option value="{{ $type->id }}" {{ $type->id == old('user_type_id') ? 'selected' : '' }}>{{ $type->name }}</option>
                            @endforeach
                         </select>
+                     </div>
+                  </div>
+                  <div class="col-md-4 pr-1">
+                     <div class="form-group">
+                        <label>Position:</label>
+                        <input type="text" class="form-control" placeholder="" value="{{ old('position') }}" name="position">
                      </div>
                   </div>
                </div>

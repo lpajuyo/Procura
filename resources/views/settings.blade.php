@@ -85,7 +85,7 @@
 
 
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
         <div class="card card-user">
           <!-- <div class="card-header">
 	                <span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
@@ -93,20 +93,19 @@
           <div class="card-body">
             <form method="POST" action="{{ route('users.update_picture', ['user' => $user->id]) }}" enctype="multipart/form-data">
               @csrf @method('PATCH')
-              <span class="card-title" style="font-size:18px; font-weight:bold;"> UPLOAD PROFILE PICTURE</span>
-              <button type="submit" class="btn btn-success btn-sm btn-round" style="float: right;">Save</button>
+              <span class="card-title" style="font-size:17px; font-weight:bold;"> UPLOAD PROFILE PICTURE</span>
 
               <div>
                 <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg" name="user_image">
               </div>
+
+              <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
             </form>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-12">
+      <div class="col-lg-6">
           <div class="card card-user">
             <!-- <div class="card-header">
                     <span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
@@ -114,18 +113,18 @@
             <div class="card-body">
               <form method="POST" action="{{ route('users.update_signature', ['user' => $user->id]) }}" enctype="multipart/form-data">
                 @csrf @method('PATCH')
-                <span class="card-title" style="font-size:18px; font-weight:bold;"> UPLOAD SIGNATURE</span>
-                <button type="submit" class="btn btn-success btn-sm btn-round" style="float: right;">Save</button>
+                <span class="card-title" style="font-size:17px; font-weight:bold;"> UPLOAD SIGNATURE</span>
   
                 <div>
                   <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg" name="user_image">
                 </div>
+
+                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
               </form>
             </div>
           </div>
         </div>
-      </div>
-
+    </div>
 
   </div>
   <!----- END COL-LG-8--------->

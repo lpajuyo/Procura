@@ -56,7 +56,7 @@
 					        </tr>
 					    </thead>
 
-					    <tbody>
+					    <tbody class="minrow">
 							@foreach($budgetProposals as $proposal)
 					        <tr>
 					        	<td>{{ $proposal->for_year }}</td>
@@ -69,25 +69,25 @@
 					            <td>{{ (is_null($proposal->is_approved)) ? 'Pending' : (($proposal->is_approved == true) ? 'Approved' : 'Rejected' )}}</td>
 					            <td class="td-actions text-center">
 									@can('view', $proposal)
-									<button type="button" rel="tooltip" title="View Details" class="viewProposalbtn btn btn-info btn-simple btn-xs" data-id="{{ $proposal->id }}">
+									<button type="button" rel="tooltip" title="View Details" class="viewProposalbtn btn btn-info btn-simple btn-sm" data-id="{{ $proposal->id }}">
 					                    <i class="fa fa-eye"></i>
 					                </button>
 									@endcan
 
 									@can('viewFile', App\BudgetProposal::class)
 									<a href="{{ route('budget_proposals.showFile', ['budget_proposal' => $proposal->id]) }}">
-					                <button type="button" rel="tooltip" title="View File" class="btn btn-success btn-simple btn-xs">
+					                <button type="button" rel="tooltip" title="View File" class="btn btn-info btn-simple btn-sm">
 					                    <i class="fa fa-eye"></i>
 					                </button>
 									</a>
 									@endcan
 
 									@can('approve', $proposal)
-					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="approve-btn btn btn-success btn-simple btn-xs">
-					                    <i class="fa fa-edit"></i>
+					                <button type="submit" form="approve-{{ $proposal->id }}" rel="tooltip" title="Approve" class="approve-btn btn btn-success btn-simple btn-sm">
+					                    <i class="fa fa-check"></i>
 					                </button>
-					                <button type="submit" form="reject-{{ $proposal->id }}" rel="tooltip" title="Reject" class="reject-btn btn btn-danger btn-simple btn-xs">
-					                    <i class="fa fa-edit"></i>
+					                <button type="submit" form="reject-{{ $proposal->id }}" rel="tooltip" title="Reject" class="reject-btn btn btn-danger btn-simple btn-sm">
+					                    <i class="fa fa-times"></i>
 					                </button>
 
 									<form id="approve-{{ $proposal->id }}" method="POST" action="{{ route('approve_proposal', ['budgetProposal' => $proposal->id]) }}">

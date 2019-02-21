@@ -6,7 +6,7 @@
 @section('budget-dropdown-show', 'show') 
 @section('bAlloc-active', 'active') 
 @section('content')
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 8px; padding-right: 10px;">
 
   <div class="col-lg-4 col-md-6 col-sm-6">
     <div class="card card-stats">
@@ -14,13 +14,13 @@
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-money-coins text-success"></i>
+              <i class="nc-icon nc-calendar-60 text-success"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
               @if(Auth::user()->type->name == "Sector Head")
-              <p class="card-category">Sector's Total Budget</p>
+              <p class="card-category">Sector's Annual Total Budget</p>
               <p class="card-title">
                 @if(Auth::user()->userable->sector->isAllocated($budgetYear)) &#8369;{{ number_format(Auth::user()->userable->sector->isAllocated($budgetYear)->budget->total(),
                 2) }} @else {{ "--" }} @endif
@@ -54,7 +54,7 @@
         <div class="row">
           <div class="col-3">
             <div class="icon-big text-center icon-warning">
-              <i class="lnr lnr-cart text-primary"></i>
+              <i class="nc-icon nc-money-coins text-primary"></i>
             </div>
           </div>
           <div class="col-9">
@@ -96,7 +96,7 @@
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="lnr lnr-cart text-danger"></i>
+              <i class="nc-icon nc-money-coins text-danger"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
@@ -135,21 +135,12 @@
 
 <!-- 
   <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 8px; padding-right: 10px;">
 
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="card-body" style="margin-top: 5px;">
-        <div>
-          @if(session('active_year_error'))
-          <div class="alert alert-danger" role="alert">
-            {{ session('active_year_error') }}
-          </div>
-          @elseif(session('active_year'))
-          <div class="alert alert-success" role="alert">
-            Showing current active budget year
-          </div>
-          @endif
+        <div >
           <p style="position: absolute; font-size: 25px;"> Budget Allocation for {{ $budgetYear->budget_year }} </p>
           {{-- @can('createBudgetAlloc', $budgetYear) --}} @if(Auth::user()->can('create', [App\SectorBudget::class, $budgetYear])
           || Auth::user()->can('create', [App\DepartmentBudget::class, $budgetYear]))
@@ -157,7 +148,19 @@
             <i class="fa fa-plus"></i> &nbsp;New Budget Allocation
           </button> @endif {{-- @endcan --}}
         </div><br><br><br>
-        <div class="table-responsive" style="overflow: visible;">
+
+        @if(session('active_year_error'))
+          <div class="alert alert-danger notif" role="alert">
+            {{ session('active_year_error') }}
+          </div>
+          @elseif(session('active_year'))
+          <div class="alert alert-success notif" role="alert">
+
+            Showing current active budget year
+          </div>
+          @endif
+
+        <div class="table-responsive" style="overflow: visible; margin-top: 35px;">
           <table class="table">
             <thead>
               <tr class=" text-primary">
@@ -410,4 +413,13 @@
       });
     }
   </script>
+
+  <script>
+  $(document).ready(function() {
+    $('.notif').toggleClass('show');
+    setTimeout(function(){
+      $('.notif').removeClass('show');
+    }, 5000);
+  });
+</script>
 @endsection

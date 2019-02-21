@@ -45,20 +45,21 @@
         <a href="#" class="circle tablinks" id="rejected" onclick="openFilter(event, 'Rejected')" rel="tooltip" title="Rejected"> <span class="far fa-thumbs-down fa-xs"></span> </a>        --}}
 
         <div id="All" class="tabcontent">
-          @if(session('dept_budget_error'))
-          <div class="alert alert-danger" role="alert">
-            {{ session('dept_budget_error') }}
-          </div>
-          @endif
-          @if(session('signature_error'))
-          <div class="alert alert-danger" role="alert">
-            {{ session('signature_error') }}
-          </div>
-          @endif
           <p class="text-info" style="position: absolute; font-size: 22px;">LIST OF ALL PPMP FOR {{ $activeYear->budget_year }}
             <i class="fas fa-list-ul fa-sm" style="margin-left: 10px; color:black;"></i> </p>
           <br><br><br>
 
+          @if(session('dept_budget_error'))
+          <div class="alert alert-danger notif" role="alert" style="margin-bottom: 20px;">
+            {{ session('dept_budget_error') }}
+          </div>
+          @endif
+          @if(session('signature_error'))
+          <div class="alert alert-danger notif" role="alert" style="margin-bottom: 60px;">
+            {{ session('signature_error') }}
+          </div>
+          @endif
+          
           <table id="example" class="table table-striped table-bordered display" style="width:100%">
             <thead>
               <tr class=" text-primary">
@@ -73,7 +74,7 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="minrow">
               @foreach($projects as $project)
               <tr>
                 <td>{{ $project->title }}</td>
@@ -87,14 +88,14 @@
                 </td>
                 <td>
                   @can('submit', $project)
-                  <button form="submit-{{ $project->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-default btn-simple btn-xs">
+                  <button form="submit-{{ $project->id }}" type="submit" rel="tooltip" title="Submit" class="btn btn-success btn-simple btn-sm">
                                 <i class="fa fa-upload"></i>
                             </button>
                   <form id="submit-{{ $project->id }}" style="display: none;" method="POST" action="{{ route('projects.submit', ['project' => $project->id]) }}">
                     @csrf
                   </form>
                   @elsecan('unsubmit', $project)
-                  <button form="unsubmit-{{ $project->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-danger btn-simple btn-xs">
+                  <button form="unsubmit-{{ $project->id }}" type="submit" rel="tooltip" title="Cancel Submission" class="btn btn-default btn-simple btn-sm">
                                 <i class="fa fa-upload"></i>
                             </button>
                   <form id="unsubmit-{{ $project->id }}" style="display: none;" method="POST" action="{{ route('projects.cancel_submit', ['project' => $project->id]) }}">
@@ -103,21 +104,21 @@
                   </form>
                   @endcan
 
-                  <button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-warning btn-simple btn-xs" data-id="{{ $project->id }}">
+                  <button type="button" rel="tooltip" title="View Full Details" class="view-ppmp-btn btn btn-primary btn-simple btn-sm" data-id="{{ $project->id }}">
   					                    <i class="fa fa-eye"></i>
                               </button>
                   @can('update', $project)
-                  <a href="{{ route('project_items.create', ['project' => $project->id]) }}" rel="tooltip" title="Edit Project" class="btn btn-default btn-simple btn-xs">
+                  <a href="{{ route('project_items.create', ['project' => $project->id]) }}" rel="tooltip" title="Edit Project" class="btn btn-warning btn-simple btn-sm">
                     <i class="fa fa-pencil-square-o"></i>
                   </a>
                   @endcan
                   <a href="{{ route('projects.generateFile', ['project' => $project->id]) }}">
-                        <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-success btn-simple btn-xs" >
+                        <button type="button" rel="tooltip" title="Generate PPMP Document" class="btn btn-info btn-simple btn-sm" >
   					            	<i class="far fa-file"></i>
   					            </button>
                         </a> 
                   @can('delete', $project)
-                  <button type="submit" form="{{ 'del-proj-' . $project->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                  <button type="submit" form="{{ 'del-proj-' . $project->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-sm">
                           <i class="fa fa-times"></i>
                         </button>
                   <form style="display: none;" id="{{ 'del-proj-' . $project->id }}" method="POST" action="{{ route('projects.destroy', ['project' => $project->id]) }}">
@@ -259,12 +260,12 @@
             <!-- populated by script -->
           </tbody>
         </table>
-        <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
-          TOTAL: &nbsp; &#8369;<span id="total" style="color: black;"></span></p>
-        <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
-          TOTAL WITH CONTINGENCY(+20%): &nbsp; &#8369;<span id="total-contingency" style="color: black;"></span></p>
-        <p id="remarks" style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-primary">
-          REMARKS: <span style="color: black;"></span></p>
+        <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-success"><strong>
+          TOTAL: </strong> &nbsp; <span style="color: black;">&#8369;</span> <span id="total" style="color: black;"></span></p>
+        <p style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-danger"><strong>
+          TOTAL WITH CONTINGENCY(+20%): </strong> &nbsp; <span style="color: black;">&#8369;</span> <span id="total-contingency" style="color: black;"></span></p>
+        <p id="remarks" style="font-family: Montserrat; font-size: 18px; margin-top: 2%; margin-left: 5px;" class="text-warning">
+          <strong> REMARKS: </strong> <span style="color: black;"></span></p>
         @can('approveProjects', App\Project::class)
         
         @include('errors')
@@ -402,4 +403,13 @@
 }
 
 </script> --}}
+
+<script>
+  $(document).ready(function() {
+    $('.notif').toggleClass('show');
+    setTimeout(function(){
+      $('.notif').removeClass('show');
+    }, 9000);
+  });
+</script>
 @endsection

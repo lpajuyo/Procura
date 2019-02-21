@@ -10,7 +10,7 @@
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 10px; padding-right: 10px;">
 
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
@@ -31,21 +31,21 @@
 							</tr>
 						</thead>
 
-						<tbody>
+						<tbody class="minrow">
 							@foreach ($departments as $department)
 							<tr>
 								<td>{{ $department->name }}</td>
 								<td>{{ $department->sector->name }}</td>
 								<td class="td-actions text-center">
 									{{-- @can('update', $department)
-									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear"
+									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-sm btnEditBudgetYear"
 									 data-year-id="{{ $department->id }}">
 					                    <i class="fa fa-edit"></i>
 													</button>
 									@endcan				 --}}
 
 									{{-- @can('delete', $department) --}}
-									<button type="submit" form="{{ 'del-type-' . $department->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+									<button type="submit" form="{{ 'del-type-' . $department->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-sm">
 										<i class="fa fa-times"></i>
 									</button>
 									<form style="display: none;" id="{{ 'del-type-' . $department->id }}" method="POST" action="{{ route('departments.destroy', ['department' => $department->id]) }}">

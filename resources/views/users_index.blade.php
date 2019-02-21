@@ -10,7 +10,7 @@
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
-<div class="row" style="padding-left: 35px; padding-right: 20px;">
+<div class="row" style="padding-left: 10px; padding-right: 10px;">
 
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
@@ -33,7 +33,7 @@
 							</tr>
 						</thead>
 
-						<tbody>
+						<tbody class="minrow">
 							@foreach ($users as $user)
 							<tr>
 								<td>{{ $user->username }}</td>
@@ -42,14 +42,14 @@
 								<td>{{ $user->userable->sector->name ?? $user->userable->department->name ?? '' }}</td>
 								<td class="td-actions text-center">
 									{{-- @can('update', $user)
-									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-xs btnEditBudgetYear"
+									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-sm btnEditBudgetYear"
 									 data-year-id="{{ $user->id }}">
 					                    <i class="fa fa-edit"></i>
 													</button>
 									@endcan				 --}}
 
 									{{-- @can('delete', $user) --}}
-									<button type="submit" form="{{ 'del-type-' . $user->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+									<button type="submit" form="{{ 'del-type-' . $user->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-sm">
 										<i class="fa fa-times"></i>
 									</button>
 									<form style="display: none;" id="{{ 'del-type-' . $user->id }}" method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
