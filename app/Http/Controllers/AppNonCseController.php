@@ -19,6 +19,8 @@ class AppNonCseController extends Controller
     {
         $this->authorize('view-APP');
     
+        set_time_limit(0);
+
         if($budgetYear == null)
             $budgetYear = BudgetYear::active()->first();
 
