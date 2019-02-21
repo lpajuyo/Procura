@@ -526,7 +526,8 @@
 		}).parent().next(":text").prop("disabled", false);
 
 		@if(old('is_cse') === "0")
-		$("#non-cse-radio").click();
+			$("#non-cse-radio").prop('checked', true);
+			$("#cse-dropdown").prop('disabled', true);
 		@endif
 	});
 
@@ -570,6 +571,7 @@
 	$("#type-dropdown").change(function(){
 		var typeId = $(this).val();
 
+		if($('input[type=radio]:checked').val() == 1){
 		$("#Code").val('');
 		$("#Description").val('');
 		$("#Uom").val('');
@@ -588,6 +590,7 @@
 		});
 
 		console.log(filteredItems);
+		}
 	});
 </script>
 {{-- warning when clicking done while having inputs --}}

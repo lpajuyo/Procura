@@ -54,10 +54,10 @@ class ProjectItemsController extends Controller
             'item_type_id' => 'required|exists:item_types,id',
             'code' => 'nullable|string',
             'description' => 'required|string',
-            'quantity' => 'bail|required_if:is_cse,1|nullable|numeric|min:1', //gte:schedules
+            'quantity' => 'bail|required|numeric|min:1', //gte:schedules
             'uom' => 'nullable|string', // exists? || in:array?
-            'unit_cost' => 'nullable|numeric|min:1|', //lte:estimated_budget',  
-            'estimated_budget' => 'required|numeric|min:1', //between 0 and dept budget
+            'unit_cost' => 'bail|required|numeric|min:1',  
+            'estimated_budget' => 'bail|required|numeric|min:1|gte:unit_cost', //between 0 and dept budget
             'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
             'schedules' => [
                 'required', 
@@ -131,16 +131,17 @@ class ProjectItemsController extends Controller
         $attributes = $request->validate([
             'code' => 'nullable|string',
             'description' => 'required|string',
-            'quantity' => 'bail|required_if:is_cse,1|nullable|numeric|min:1', //gte:schedules
+            'quantity' => 'bail|required|numeric|min:1', //gte:schedules
             'uom' => 'nullable|string', // exists? || in:array?
-            'unit_cost' => 'nullable|numeric|min:1|', //lte:estimated_budget',  
-            'estimated_budget' => 'required|numeric|min:1', //between 0 and dept budget
+            'unit_cost' => 'bail|required|numeric|min:1',  
+            'estimated_budget' => 'bail|required|numeric|min:1|gte:unit_cost', //between 0 and dept budget
             'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
             'schedules' => [
                 'required', 
                 'array', 
                 function($attr, $val, $fail){
-                    if(!Collection::wrap($val)->sum('quantity') == request()->quantity)
+                    // dump(Collection::wrap($val)->sum('quantity'));
+                    if(Collection::wrap($val)->sum('quantity') != request()->quantity)
                         $fail('Total schedules quantity should be equal to the quantity field.');
                 },
                 function($attr, $val, $fail){
