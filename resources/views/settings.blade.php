@@ -37,6 +37,9 @@
             <span class="card-title" style="font-size:18px; font-weight:bold;"> EDIT PROFILE</span>
           </div>
           <div class="card-body edit-profile">
+
+            @include('errors')
+
             <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}">
               @csrf @method('PATCH')
               <div class="row">
@@ -85,7 +88,7 @@
 
 
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-12">
         <div class="card card-user">
           <!-- <div class="card-header">
 	                <span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
@@ -105,25 +108,25 @@
         </div>
       </div>
 
-      <div class="col-lg-6">
-          <div class="card card-user">
-            <!-- <div class="card-header">
+      {{-- <div class="col-lg-6">
+        <div class="card card-user">
+          <!-- <div class="card-header">
                     <span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
                   </div> -->
-            <div class="card-body">
-              <form method="POST" action="{{ route('users.update_signature', ['user' => $user->id]) }}" enctype="multipart/form-data">
-                @csrf @method('PATCH')
-                <span class="card-title" style="font-size:17px; font-weight:bold;"> UPLOAD SIGNATURE</span>
-  
-                <div>
-                  <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg" name="user_image">
-                </div>
+          <div class="card-body">
+            <form method="POST" action="{{ route('users.update_signature', ['user' => $user->id]) }}" enctype="multipart/form-data">
+              @csrf @method('PATCH')
+              <span class="card-title" style="font-size:17px; font-weight:bold;"> UPLOAD SIGNATURE</span>
 
-                <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
-              </form>
-            </div>
+              <div>
+                <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg" name="user_image">
+              </div>
+
+              <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
+            </form>
           </div>
         </div>
+      </div> --}}
     </div>
 
   </div>
@@ -148,17 +151,17 @@
           @csrf @method('PATCH')
           <div class="form-group">
             <label for="newpass">Current Password:</label>
-            <input type="text" class="form-control" id="newpass" name="current_password">
+            <input type="password" class="form-control" id="newpass" name="current_password">
           </div>
 
           <div class="form-group">
             <label for="newpass">New Password:</label>
-            <input type="text" class="form-control" id="newpass" name="password">
+            <input type="password" class="form-control" id="newpass" name="password">
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
             <label for="confirm">Confirm Password:</label>
-            <input type="text" class="form-control" id="confirm" name="password_confirmation">
+            <input type="password" class="form-control" id="confirm" name="password_confirmation">
           </div>
 
           <button type="submit" class="btn btn-success btn-block">CHANGE</button>
@@ -175,11 +178,13 @@
   $(function() {
     $('.dropify').dropify();
   });
+
 </script>
 <script>
   function resetEditForm(){
     $("[name='name']").val('{{ $user->name }}')
     $("[name='username']").val('{{ $user->username }}')
-  }  
+  }
+
 </script>
 @endsection

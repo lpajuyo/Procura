@@ -15,6 +15,7 @@
 					<div class="col-lg-12">
 						<form method="POST" action="{{ route('pr_items.store', ['purchase_request' => $purchaseRequest->id]) }}">
 							@csrf
+							<input type="hidden" name="is_cse" value="">  {{-- value inserted by script --}}
 							<div class="row">
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
@@ -22,7 +23,7 @@
 										<select name="project_item_id" class="form-control" id="item-dropdown">
 									<option disabled selected>--Select an Item--</option>
 									@foreach($projectItems as $item)
-									<option value="{{ $item->id }}">{{ $item->description }}</option>
+									<option value="{{ $item->id }}" {{ $item->remaining_quantity == 0 && $item->quantity != null ? 'disabled' : '' }} {{ $item->id == old('project_item_id') ? 'selected' : '' }}>{{ $item->description }}</option>
 									@endforeach
 								</select>
 									</div>
@@ -31,21 +32,21 @@
 								<div class="col-lg-2">
 									<div class="form-group">
 										<label for="Quantity">Quantity:</label>
-										<input name="quantity" min="0" value="" type="number" class="form-control" id="Qty">
+										<input name="quantity" min="0" value="{{ ($errors->create->any()) ? old('quantity') : null }}" type="number" class="form-control" id="Qty">
 									</div>
 								</div>
 
 								<div class="col-lg-2">
 									<div class="form-group">
 										<label for="Unit of Measurement">Unit of Measurement:</label>
-										<input value="" type="text" class="form-control" id="Uom">
+										<input type="text" class="form-control" id="Uom" name="uom" value="{{ ($errors->create->any()) ? old('uom') : null }}" readonly>
 									</div>
 								</div>
 
 								<div class="col-lg-2">
 									<div class="form-group">
 										<label for="Unit Cost">Unit Cost:</label>
-										<input min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="UPrice">
+										<input min="0" step=".01" name="unit_cost" value="{{ ($errors->create->any()) ? old('unit_cost') : null }}" type="number" min="0" step=".01" class="form-control" id="UPrice">
 									</div>
 								</div>
 							</div>
@@ -54,20 +55,39 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="Specifications">Specifications:</label>
-										<textarea class="form-control" name="specifications" id="Specification" rows="10" style="max-height: 20vh;"></textarea>
+										<textarea class="form-control" name="specifications" id="Specification" rows="10" style="max-height: 20vh;">{{ ($errors->create->any()) ? old('specifications') : null }}</textarea>
 									</div>
 								</div>
 
-								<div class="col"></div>
+								{{-- <div class="col"></div> --}}
 
+								<div class="col-lg-4">
+									<div class="form-group">
+										<label for="Total Price">PPMP Remaining Budget:</label>
+									</div>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label for="Total Price">&#8369; <span>{{ $purchaseRequest->project->remaining_budget }}</span></label>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="col-lg-2">
 									<div class="form-group">
-										<label for="Total Price">Total Price:</label>
-										<input name="total_cost" min="0" step=".01" value="" type="number" min="0" step=".01" class="form-control" id="Total">
+										<label for="Total Price">Item Total Cost:</label>
+										<input name="total_cost" min="0" step=".01" value="{{ ($errors->create->any()) ? old('total_cost') : null }}" type="number" min="0" step=".01" class="form-control" id="Total">
 									</div>
 								</div>
 							</div><br>
 
+							@if ($errors->create->any())
+							<div class="alert alert-danger" role="alert">
+								@foreach ($errors->create->all() as $error)
+								<p>{{ $error }}</p>
+								@endforeach
+							</div>
+							@endif
 
 							<div class="row" style="margin-left:170px;">
 								<div class="col-lg-4">
@@ -158,27 +178,28 @@
 				<form method="POST" action="">
 				@csrf	
 				@method('PATCH')
+					<input type="hidden" name="is_cse" value=""> {{-- populated by script --}}
 					<div class="form-group">
 						<label for="Product Type">Product Description:</label>
-						<input type="text" class="form-control" id="edit-description" disabled>
+						<input type="text" class="form-control" id="edit-description" name="description" value="{{ old('description') }}" readonly>
 					</div><br>
 
 					<div class="form-group">
 						<label for="Description">Specifications:</label>
-						<textarea class="form-control" id="Desc" name="specifications"></textarea>
+						<textarea class="form-control" id="Desc" name="specifications">{{ old('specifications') }}</textarea>
 					</div><br>
 
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label for="Quantity">Quantity:</label>
-								<input type="text" class="form-control" id="edit-quantity" name="quantity">
+								<input type="number" class="form-control" id="edit-quantity" name="quantity" value="{{ old('quantity') }}">
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label for="Uom">Unit of Measurement:</label>
-								<input type="text" class="form-control" id="edit-uom">
+								<input type="text" class="form-control" id="edit-uom" name="uom" value="{{ old('uom') }}" readonly>
 							</div>
 						</div>
 					</div>
@@ -187,13 +208,13 @@
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label for="UOM">Unit Cost:</label>
-								<input type="number" min="0" step=".01" class="form-control" id="edit-unit-cost">
+								<input type="number" min="0" step=".01" class="form-control" id="edit-unit-cost" name="unit_cost" value="{{ old('unit_cost') }}">
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="Price">Price:</label>
-								<input type="number" min="0" step=".01" class="form-control" id="edit-price" name="total_cost">
+								<label for="Price">Item Total Cost:<span id="edit-rem-span"></span></label>
+								<input type="number" min="0" step=".01" class="form-control" id="edit-price" name="total_cost" value="{{ old('total_cost') }}">
 							</div>
 						</div>
 					</div>
@@ -226,10 +247,12 @@
 		$("#Uom").val(items[val].uom);
 		$("#UPrice").val(items[val].unit_cost);
 		$("#Total").val(items[val].estimated_budget);
+		$("[name='is_cse']").val(items[val].is_cse);
 	});
 
 </script>
 <script>
+	// auto compute of costs
 	$(document).ready(function(){
 		$("#Qty,#UPrice").on("input", function(e){
 			$("#Total").val(($("#Qty").val() * $("#UPrice").val()).toFixed(2));
@@ -239,6 +262,11 @@
 {{-- edit pr item scripts --}}
 <script>
 	$(document).ready(function(){
+		@if($errors->edit->any())
+			$("#edit-pr-item-modal form").attr('action', "{{ route('items.index', ['purchase_request' => $purchaseRequest]) . '/' . session('id') }}"); 
+			$('#edit-pr-item-modal').modal();
+		@endif
+
 		$("#edit-quantity,#edit-unit-cost").on("input", function(e){
 			$("#edit-price").val(($("#edit-quantity").val() * $("#edit-unit-cost").val()).toFixed(2));
 		});
@@ -250,7 +278,8 @@
 
 		$.ajax({
 			url: url, 
-			dataType: "json"
+			dataType: "json",
+			async: false
 		}).done(function(prItem){
 			$("#edit-pr-item-modal [role=alert]").remove();
 			$("#edit-pr-item-modal form").attr('action', url.replace("/edit", "")); 
@@ -260,6 +289,8 @@
 			$("#edit-pr-item-modal #edit-uom").val(prItem.project_item.uom);
 			$("#edit-pr-item-modal #edit-unit-cost").val(prItem.project_item.unit_cost);
 			$("#edit-pr-item-modal #edit-price").val(prItem.total_cost);
+			$("#edit-pr-item-modal #edit-rem-span").html(Number(prItem.total_cost) + Number({{ $purchaseRequest->project->remaining_budget }}));
+			$("#edit-pr-item-modal [name='is_cse']").val(prItem.project_item.is_cse);
 			
 			$('#edit-pr-item-modal').modal();
 		});

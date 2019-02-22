@@ -65,7 +65,7 @@
 										<select class="form-control" id="type-dropdown" name="item_type_id">
 											<option selected disabled value="0">--Select Item Type--</option>
 											@foreach($itemTypes as $type)
-											<option value="{{ $type->id }}" {{ ($type->id == old('type_id') ? "selected" : "") }}>{{ $type->name }}</option>
+											<option value="{{ $type->id }}" {{ ($type->id == old('item_type_id') ? "selected" : "") }}>{{ $type->name }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -125,9 +125,9 @@
 										<input name="quantity" min="0" type="number" class="form-control" id="Qty" value="{{ old('quantity') }}">
 									</div>
 								</div>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<div class="form-group">
-										<label for="Unit of Measurement">Unit of Measurement:</label>
+										<label for="Unit of Measurement">Unit:</label>
 										<input name="uom" type="text" class="form-control" id="Uom" value="{{ old('uom') }}">
 									</div>
 								</div>
@@ -138,9 +138,9 @@
 										 id="UPrice">
 									</div>
 								</div>
-								<div class="col-lg-4">
+								<div class="col-lg-5">
 									<div class="form-group">
-										<label for="Estimated Budget">Estimated Budget:</label>
+									<label for="Estimated Budget">Estimated Budget: (Remaining:<span>{{ $project->department_budget->remaining }}</span>)</label>
 										<input name="estimated_budget" min="0" step=".01" value="{{ old('estimated_budget') }}" type="number" min="0" step=".01"
 										 class="form-control" id="Total">
 									</div>
@@ -526,7 +526,8 @@
 		}).parent().next(":text").prop("disabled", false);
 
 		@if(old('is_cse') === "0")
-		$("#non-cse-radio").click();
+			$("#non-cse-radio").prop('checked', true);
+			$("#cse-dropdown").prop('disabled', true);
 		@endif
 	});
 
@@ -570,6 +571,7 @@
 	$("#type-dropdown").change(function(){
 		var typeId = $(this).val();
 
+		if($('input[type=radio]:checked').val() == 1){
 		$("#Code").val('');
 		$("#Description").val('');
 		$("#Uom").val('');
@@ -588,6 +590,7 @@
 		});
 
 		console.log(filteredItems);
+		}
 	});
 </script>
 {{-- warning when clicking done while having inputs --}}

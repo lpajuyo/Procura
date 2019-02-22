@@ -58,11 +58,11 @@
     -->
       <div class="logo">
         <div class="user-account">
-          <img src="{{ asset('/images/user.png') }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture">
+          <img src="{{ asset('storage/'.Auth::user()->user_image) }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture">
           <br>
           <h6 class="user-name" style="margin-bottom: 0px; padding-bottom: 0px; margin-top: 10px; padding-top: 10px;"> 
             <strong> {{ Auth::user()->name }} </strong> </h6>  
-          <span> Department Head</span>
+          <span> {{ Auth::user()->position }}</span>
         </div>
       </div>
       <div class="sidebar-wrapper">
@@ -125,7 +125,7 @@
             <p>ADMINISTRATION</p> </a>
             <ul class="collapse @yield('admin-dropdown-show')" id="collapseItem3">
               <li class="@yield('register')"> <a href="/register"> <p> REGISTER </p> </a> </li>
-              <li class="@yield('register')"> <a href="{{ route('users.index') }}"> <p> USERS </p> </a> </li>
+              <li class="@yield('user-active')"> <a href="{{ route('users.index') }}"> <p> USERS </p> </a> </li>
               <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
               <li class="@yield('type-active')"> <a href="{{ route('item_types.index') }}"> <p> ITEM TYPES </p> </a> </li>
               <li class="@yield('sector-active')"> <a href="{{ route('sectors.index') }}"> <p> SECTORS </p> </a> </li>
@@ -179,7 +179,7 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
 
-              <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
+              {{-- <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
                   <i class="nc-icon nc-bell-55 navicons"></i>
                   <span class="badge1" data-badge="3"></span>
@@ -209,7 +209,7 @@
                 </div>
               </li>
 
-              <span class="navline"></span>
+              <span class="navline"></span> --}}
 
               <li class="nav-item" style="padding-left: 0px;">
                 <a href="/settings" class="nav-link btn-rotate" href="#" rel="tooltip" title="Settings">
@@ -283,7 +283,7 @@
       Echo.private('App.User.' + {{ Auth::user()->id }})
         .notification((notification) => {
           //append to notifs dropdown
-          $("#notif-dropdown").prepend('<a class="dropdown-item" href="#">'+ notification.message +'</a>');
+          // $("#notif-dropdown").prepend('<a class="dropdown-item" href="#">'+ notification.message +'</a>');
 
           // show floating notif
           $.notify({

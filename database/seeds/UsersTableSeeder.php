@@ -27,6 +27,7 @@ class UsersTableSeeder extends Seeder
             "password" => Hash::make('1234'),
             "userable_id" => 1,
             "userable_type" => "App\DepartmentHead",
+            "user_signature" => "user_signatures/HIW06gCVIj5Xo34OxeknAaI6H0CdMBIAePTtg9Ze.png",
         ]);
         User::create([
             "user_type_id" => "1",
@@ -61,6 +62,7 @@ class UsersTableSeeder extends Seeder
             "password" => Hash::make('1234'),
             "userable_id" => 1,
             "userable_type" => "App\SectorHead",
+            "user_signature" => "user_signatures/ZATrht6ZH11LvZbfDjirpERCodsnZK6DbuVhYHXm.png",
         ]);
         User::create([
             "user_type_id" => "3",

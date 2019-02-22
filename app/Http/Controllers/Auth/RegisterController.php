@@ -110,6 +110,13 @@ class RegisterController extends Controller
 
         $userTypes = UserType::all()->whereNotIn('id', 4);
 
+        if(User::where('user_type_id', 2)->first()){ //if there is already a Budget Officer in users table
+            $userTypes = $userTypes->whereNotIn('id', 2);
+        }
+        if(User::where('user_type_id', 5)->first()){ //if there is already BAC Sec in users table
+            $userTypes = $userTypes->whereNotIn('id', 5);
+        }
+
         return view('auth.register', compact('userTypes', 'departments', 'sectors', 'availSectors'));
     }
 

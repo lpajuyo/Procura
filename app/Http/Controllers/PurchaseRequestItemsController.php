@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\PurchaseRequest;
 use App\PurchaseRequestItem;
 use Illuminate\Http\Request;
+use App\ProjectItem;
+use Illuminate\Support\Facades\Validator;
 
 class PurchaseRequestItemsController extends Controller
 {
@@ -15,7 +17,7 @@ class PurchaseRequestItemsController extends Controller
      */
     public function index()
     {
-        dd("test");
+        //
     }
 
     /**
@@ -42,11 +44,32 @@ class PurchaseRequestItemsController extends Controller
     {
         $this->authorize('create', PurchaseRequest::class);
 
-        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'project_item_id' => 'bail|required|exists:project_items,id',
+        ]);
 
-        $attributes = $request->all();
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator, 'create')
+                        ->withInput();
+        }
 
-        $purchaseRequest->items()->create($attributes);
+        $validator = Validator::make($request->all(), [
+            'project_item_id' => 'bail|required|exists:project_items,id',
+            'quantity' => 'bail|required_if:is_cse,1|nullable|numeric|between:1,'. ProjectItem::find(request()->project_item_id)->remaining_quantity,
+            'specifications' => 'bail|required_if:is_cse,0|nullable|string',
+            'total_cost' => 'required|numeric|between:1,'.$purchaseRequest->project->remaining_budget,
+            // 'total_pr_cost' => 'required|numeric|between:'.$purchaseRequest->total_cost.','.
+            // 'total_ppmp_budget' => 'required|numeric|between:'.$project->total_budget_with_contingency.','.$project->department_budget->remaining,
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator, 'create')
+                        ->withInput();
+        }
+        
+        $purchaseRequest->items()->create($validator->valid());
 
         return back();
     }
@@ -82,7 +105,20 @@ class PurchaseRequestItemsController extends Controller
      */
     public function update(Request $request, PurchaseRequest $purchaseRequest, PurchaseRequestItem $item)
     {
-        $item->update($request->all());
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'bail|required_if:is_cse,1|nullable|numeric|between:1,'. bcadd($item->project_item->remaining_quantity, $item->quantity),
+            'specifications' => 'bail|required_if:is_cse,0|nullable|string',
+            'total_cost' => 'required|numeric|between:1,'.bcadd($purchaseRequest->project->remaining_budget, $item->total_cost),
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator, 'edit')
+                        ->with('id', $item->id)
+                        ->withInput();
+        }
+
+        $item->update($validator->valid());
 
         return back();
     }

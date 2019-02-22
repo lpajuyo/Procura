@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -73,14 +75,33 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->all());
+        $validated = $request->validate([
+            'name' => 'required||string',
+            'username' => ['required', Rule::unique('users')->ignore($user->id)]
+        ]);
+
+        // $user->update($request->all());
+        $user->update($validated);
 
         return back();
     }
 
     public function updatePassword(Request $request, User $user)
     {
-        $user->update(['password' => Hash::make($request->password)]);
+        $validated = $request->validate([
+            'current_password' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (Hash::check($value, Auth::user()->getAuthPassword()) == false) {
+                        $fail('Current password does not match.');
+                    }
+                },
+            ],  
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        // $user->update(['password' => Hash::make($request->password)]);
+        $user->update(['password' => Hash::make($validated['password'])]);
 
         return back();
     }
