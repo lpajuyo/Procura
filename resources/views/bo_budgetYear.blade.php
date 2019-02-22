@@ -20,7 +20,7 @@
 				</button>
 				</div><br><br><br>
 				<div class="table-responsive" style="overflow: visible;">
-					<table class="table table-striped table-bordered datatable">
+					<table class="table table-striped table-bordered datatable display">
 						<thead>
 							<tr class=" text-primary">
 								<th>Budget Year</th>
@@ -175,6 +175,12 @@
 @endsection
  
 @section('scripts') 
+<script>
+  $(document).ready(function() {
+    $('table.display').DataTable()
+	});
+</script>
+
 @if ($errors->create->any())
 <script>
 	$('#addyear').modal('show')

@@ -70,7 +70,7 @@
           <li class="@yield('dashboard-active')">
             <a href="/home">
               <i class="nc-icon nc-layout-11"></i>
-              <p>Dashboard</p>
+              <p>Welcome</p>
             </a>  
           </li>
           @if(Auth::user()->can('viewBudgetProposals', App\BudgetProposal::class) || Auth::user()->can('viewBudgetYears', App\BudgetYear::class) || Auth::user()->can('viewBudgetAlloc'))

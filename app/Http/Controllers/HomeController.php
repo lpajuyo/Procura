@@ -27,11 +27,14 @@ class HomeController extends Controller
             case "Department Head":
                 return view('user_dashboard');
             case "Budget Officer":
-                return view('bo_dashboard');
+                // return view('bo_dashboard');
+                return view('user_dashboard');
             case "Sector Head":
-                return view('sector_dashboard');
+                // return view('sector_dashboard');
+                return view('user_dashboard');
             case "Admin":
-                return view('admin_dashboard');
+                // return view('admin_dashboard');
+                return view('user_dashboard');
             default:
                 return view('user_dashboard');
         }

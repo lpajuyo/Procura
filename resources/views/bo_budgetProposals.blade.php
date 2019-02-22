@@ -27,13 +27,19 @@
 				<a href="" data-toggle="modal" data-target="#makebp" id="create3" style="margin-right: 200px;"><span class="fas fa-plus fa-xs"></span> </a>
 				@endcan
 
-				<a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip" title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
-          
-		        <a href="#" class="circle tablinks" id="approved" onclick="openFilter(event, 'Approved')" style="margin-right: 100px;" rel="tooltip" title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
-		          
-		        <a href="#" class="circle tablinks" id="pending" onclick="openFilter(event, 'Pending')"  style="margin-right: 50px;" rel="tooltip" title="Pending"> <span class="far fa-file-powerpoint fa-xs"></span> </a>
-		          
-		        <a href="#" class="circle tablinks" id="rejected" onclick="openFilter(event, 'Rejected')"  rel="tooltip" title="Rejected"> <span class="far fa-thumbs-down fa-xs"></span> </a>
+				<a href="#" class="circle tablinks" id="all" onclick="filterTableByStatus('')" style="margin-right: 150px;" rel="tooltip"
+          title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
+
+        <a href="#" class="circle tablinks" id="approved" onclick="filterTableByStatus('Approved')" style="margin-right: 100px;"
+          rel="tooltip" title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
+
+        <a href="#" class="circle tablinks" id="pending" onclick="filterTableByStatus('Pending')" style="margin-right: 50px;" rel="tooltip"
+          title="Pending">
+            <span class="far fa-file-powerpoint fa-xs"></span> 
+          </a>
+
+        <a href="#" class="circle tablinks" id="rejected" onclick="filterTableByStatus('Rejected')" rel="tooltip" title="Rejected">
+          <span class="far fa-thumbs-down fa-xs"></span> </a>
 
 				<div id="All" class="tabcontent">
 
@@ -117,7 +123,7 @@
 					</div>
 				</div>
 
-					<div id="Approved" class="tabcontent hide"> 
+					{{-- <div id="Approved" class="tabcontent hide"> 
 					<p class="text-success"  style="position: absolute; font-size: 20px;"> APPROVED BUDGET PROPOSAL
 					<i class="far fa-thumbs-up fa-sm" style="margin-left: 10px; color:black;"></i> </p> 
 					<br><br><br>
@@ -136,7 +142,7 @@
 					<i class="far fa-thumbs-down fa-sm" style="margin-left: 10px; color:black;"></i>  </p>
 					<br><br><br>
 						REJECTED!
-					</div>
+					</div> --}}
 
 				</div>
 			</div>
@@ -340,10 +346,11 @@ $(".viewProposalbtn").click(function(){
 		var form = $(this).attr('form');
 		
 		$("#updateBPstatus [for=Status]").html(function(i, oldText){
-			return oldText + action;
+			return 'Update Status: ' + action;
 		});
 
-		$("#updateBPstatus textarea,button[type=submit]").attr('form', form);
+		$("#updateBPstatus textarea").attr('form', form);
+		$("#updateBPstatus [type=submit]").attr('form', form);
 
 		$("#updateBPstatus").modal("show")
 	});
@@ -351,6 +358,25 @@ $(".viewProposalbtn").click(function(){
 @endcan
 
 <script>
+  $(document).ready(function() {
+    $('table.display').DataTable({
+        "columnDefs": [{ 
+          "orderable": false, 
+          "targets": [4] 
+          }]
+    });
+  });
+
+</script>
+<script>
+  function filterTableByStatus(status){
+    var table = $('table.display').DataTable();
+
+    table.column(5).search(status).draw();
+  }
+
+</script>
+{{-- <script>
 function openFilter(evt, filterName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -364,5 +390,5 @@ function openFilter(evt, filterName) {
   document.getElementById(filterName).style.display = "block";
   evt.currentTarget.className += " active";
 }
-</script>
+</script> --}}
 @endsection

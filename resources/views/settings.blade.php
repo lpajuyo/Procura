@@ -13,7 +13,9 @@
         <div class="author">
           <a class="user-account">
                     <img src="{{ asset('storage/'.$user->user_image) }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture" style="width: 250px; height: 250px;"> <br><br>
+                    @if ($user->user_signature != null)
                     <img src="{{ asset('storage/'.$user->user_signature) }}" style="width: 50%; height: 50%;" alt="User Signature">
+                    @endif
                     <h5 class="title text-primary" style="margin-bottom: 0px; padding-bottom: 0px;">{{ $user->name }}</h5>
                     <hr>
                   </a>
