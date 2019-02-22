@@ -17,7 +17,7 @@
 					</a>
 					@endcan
 					
-					<a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip" title="All PR"> <span class="fas fa-list-ul fa-xs"></span> </a>
+					{{-- <a href="#" class="circle tablinks" id="all" onclick="openFilter(event, 'All')" style="margin-right: 150px;" rel="tooltip" title="All PR"> <span class="fas fa-list-ul fa-xs"></span> </a>
 					
 					<a href="#" class="circle tablinks" id="approved" onclick="openFilter(event, 'Approved')" style="margin-right: 100px;" rel="tooltip" title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
 					
@@ -26,7 +26,20 @@
 					</a>
 					
 					<a href="#" class="circle tablinks" id="rejected" onclick="openFilter(event, 'Rejected')"  rel="tooltip" title="Rejected"> <span class="far fa-thumbs-down fa-xs"></span> </a>
-				<!-- </p><br> -->
+				<!-- </p><br> --> --}}
+				<a href="#" class="circle tablinks" id="all" onclick="filterTableByStatus('')" style="margin-right: 150px;" rel="tooltip"
+          title="All PPMP"> <span class="fas fa-list-ul fa-xs"></span> </a>
+
+        <a href="#" class="circle tablinks" id="approved" onclick="filterTableByStatus('Approved')" style="margin-right: 100px;"
+          rel="tooltip" title="Approved"> <span class="far fa-thumbs-up fa-xs"></span> </a>
+
+        <a href="#" class="circle tablinks" id="pending" onclick="filterTableByStatus('Pending')" style="margin-right: 50px;" rel="tooltip"
+          title="Pending">
+            <span class="far fa-file-powerpoint fa-xs"></span> 
+          </a>
+
+        <a href="#" class="circle tablinks" id="rejected" onclick="filterTableByStatus('Rejected')" rel="tooltip" title="Rejected">
+          <span class="far fa-thumbs-down fa-xs"></span> </a>
 				
 				<div id="All" class="tabcontent">
 					<p class="text-info" style="position: absolute; font-size: 22px;">PURCHASE REQUESTS 
@@ -119,7 +132,7 @@
 				        </table>
 				    </div>
 
-				    <div id="Approved" class="tabcontent hide">
+				    {{-- <div id="Approved" class="tabcontent hide">
 				    	<p class="text-success"  style="position: absolute; font-size: 22px;"> APPROVED PR
            			    <i class="far fa-thumbs-up fa-sm" style="margin-left: 10px; color:black;"></i> </p> 
            			    <br><br><br>
@@ -138,7 +151,7 @@
 			            <i class="far fa-thumbs-down fa-sm" style="margin-left: 10px; color:black;"></i>  </p>
 			            <br><br><br>
 				    	REJECTED!
-				    </div>
+				    </div> --}}
 			</div>
 		</div>
 	</div>
@@ -313,5 +326,13 @@ function openFilter(evt, filterName) {
       $('.notifpr').removeClass('showpr');
     }, 9000);
   });
+</script>
+<script>
+function filterTableByStatus(status){
+	var table = $('table.display').DataTable();
+
+	table.column(3).search(status).draw();
+}
+
 </script>
 @endsection

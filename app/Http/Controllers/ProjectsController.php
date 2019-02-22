@@ -53,10 +53,10 @@ class ProjectsController extends Controller
             if($user->user_signature == null)
                 request()->session()->flash('signature_error', 'Error: Cannot submit PPMPs. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
+        else if($user->type->name == "Admin")
+             $projects = Project::all();
         
         $projects = $projects->where('budget_year_id', $activeYear->id);
-
-        
 
         return view("user_viewppmp", compact('projects', 'activeYear'));
     }

@@ -42,6 +42,8 @@ class PurchaseRequestsController extends Controller
             if($user->user_signature == null)
                 request()->session()->flash('signature_error', 'Error: Cannot submit Purchase Requests. You do not have a signature set. Please set it up through your account settings at the top right.');
         }
+        else if($user->type->name == "Admin")
+            $purchaseRequests = PurchaseRequest::all();
         return view('user_pr', compact('purchaseRequests'));
     }
 

@@ -44,7 +44,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('view-APP', function($user){
-            return $user->type->name == "BAC Secretariat";
+            return $user->type->name == "BAC Secretariat" || $user->type->name == "Admin";
         });
 
         Gate::define('administer', function($user){
