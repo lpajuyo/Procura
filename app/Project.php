@@ -66,7 +66,7 @@ class Project extends Model
 
     public function getRemainingBudgetAttribute(){
         $allocatedPurchaseRequests = $this->purchase_requests->whereIn('is_approved', [1, null]);
-        dump($allocatedPurchaseRequests);
+        // dump($allocatedPurchaseRequests);
 
         $allocated = 0;
         foreach($allocatedPurchaseRequests as $pr){
