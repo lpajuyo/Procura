@@ -68,7 +68,7 @@
 									<div class="row">
 										<div class="col">
 											<div class="form-group">
-												<label for="Total Price">&#8369; <span>{{ $purchaseRequest->project->remaining_budget }}</span></label>
+												<label for="Total Price">&#8369;<span> {{ $purchaseRequest->project->remaining_budget }}</span></label>
 											</div>
 										</div>
 									</div>
