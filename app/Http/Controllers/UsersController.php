@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +24,15 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $this->authorize('administer');
+
+        $users = User::orderByRaw("CASE user_type_id 
+                                    WHEN user_type_id = '4' THEN 1 
+                                    WHEN user_type_id = '5' THEN 2 
+                                    WHEN user_type_id = '2' THEN 3 
+                                    WHEN user_type_id = '3' THEN 4 
+                                    WHEN user_type_id = '1' THEN 5 
+                                    END ASC")->get();
 
         return view('users_index', compact('users'));
     }
@@ -63,7 +77,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $this->authorize('administer');
+
+        return $user->toJson();
     }
 
     /**
@@ -76,12 +92,34 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name' => 'required||string',
+            'name' => 'required|string',
             'username' => ['required', Rule::unique('users')->ignore($user->id)]
         ]);
 
         // $user->update($request->all());
         $user->update($validated);
+
+        return back();
+    }
+
+    public function updateByAdmin(Request $request, User $user)
+    {
+        $this->authorize('administer');
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'username' => ['required', Rule::unique('users')->ignore($user->id)],
+            'position' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return back()
+                    ->withErrors($validator, 'edit')
+                    ->withInput()
+                    ->with('id', $user->id);
+        }
+
+        $user->update($validator->valid());
 
         return back();
     }
@@ -130,6 +168,10 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('administer');
+
+        $user->userable->delete();
+
         $user->delete();
 
         return back();

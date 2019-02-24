@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SubmittedProjectsController;
 use Illuminate\Http\Request;
 
 /*
@@ -69,6 +68,7 @@ Route::post('set_pr_approver', function (Request $request) {
     Setting::save();
     return back();
 })->name('pr_approver.set');
+Route::patch('users/{user}/admin', 'UsersController@updateByAdmin')->name('users.update_by_admin');
 Route::patch('users/{user}/picture', 'UsersController@updatePicture')->name('users.update_picture');
 Route::patch('users/{user}/password', 'UsersController@updatePassword')->name('users.update_password');
 Route::patch('users/{user}/signature', 'UsersController@updateSignature')->name('users.update_signature');
