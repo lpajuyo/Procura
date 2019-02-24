@@ -84,6 +84,10 @@ Route::post('mobile/approved_purchase_requests/{purchase_request}', 'MobileContr
 Route::delete('mobile/approved_purchase_requests/{purchase_request}', 'MobileController@rejectPr');
 Route::post('mobile/approved_projects/{project}', 'MobileController@approvePpmp');
 Route::delete('mobile/approved_projects/{project}', 'MobileController@rejectPpmp');
+Route::post('mobile/approved_proposals/{budgetProposal}', 'MobileController@approveProposal');
+Route::delete('mobile/approved_proposals/{budgetProposal}', 'MobileController@rejectProposal');
+Route::get('mobile/app_cse/{budget_year?}', 'MobileController@viewAppCse');
+Route::get('mobile/app_non_cse/{budget_year?}', 'MobileController@viewAppNonCse');
 
 
 //
