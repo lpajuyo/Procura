@@ -109,26 +109,50 @@
           </div>
         </div>
       </div>
+    </div>
 
-      {{-- <div class="col-lg-6">
+    <div class="row">
+      <div class="col-lg-12">
         <div class="card card-user">
           <!-- <div class="card-header">
                     <span class="card-title" style="font-size:18px; font-weight:bold;"> CHANGE PROFILE PICTURE</span>
                   </div> -->
           <div class="card-body">
-            <form method="POST" action="{{ route('users.update_signature', ['user' => $user->id]) }}" enctype="multipart/form-data">
+            <form id="signature-form" method="POST" action="{{ route('users.update_signature', ['user' => $user->id]) }}" enctype="multipart/form-data">
               @csrf @method('PATCH')
-              <span class="card-title" style="font-size:17px; font-weight:bold;"> UPLOAD SIGNATURE</span>
-
-              <div>
+              <span class="card-title" style="font-size:17px; font-weight:bold;"> SET SIGNATURE</span>
+              <input type="hidden" name="user_signature" value="">
+              {{-- <div>
                 <input type="file" class="dropify" data-height="170" data-allowed-file-extensions="png jpg" name="user_image">
-              </div>
+              </div> --}}
+              <div id="signature-pad" class="signature-pad">
+                <div class="signature-pad--body">
+                  <canvas></canvas>
+                </div>
+                <div class="signature-pad--footer">
+                  <div class="description">Sign above</div>
+            
+                  <div class="signature-pad--actions">
+                    <div>
+                      <button type="button" class="button clear" data-action="clear">Clear</button>
+                      {{-- <button type="button" class="button" data-action="change-color">Change color</button>
+                      <button type="button" class="button" data-action="undo">Undo</button> --}}
+            
+                    </div>
+                    {{-- <div>
+                      <button type="button" class="button save" data-action="save-png">Save as PNG</button>
+                      <button type="button" class="button save" data-action="save-jpg">Save as JPG</button>
+                      <button type="button" class="button save" data-action="save-svg">Save as SVG</button>
+                    </div> --}}
+                  </div>
+                </div>
+              </div>            
 
               <button type="submit" class="btn btn-success btn-sm btn-block">Save</button>
             </form>
           </div>
         </div>
-      </div> --}}
+      </div>
     </div>
 
   </div>
@@ -153,12 +177,12 @@
           @csrf @method('PATCH')
           <div class="form-group">
             <label for="newpass">Current Password:</label>
-            <input type="password" class="form-control" id="newpass" name="current_password">
+            <input type="password" class="form-control" name="current_password">
           </div>
 
           <div class="form-group">
             <label for="newpass">New Password:</label>
-            <input type="password" class="form-control" id="newpass" name="password">
+            <input type="password" class="form-control" name="password">
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
@@ -188,5 +212,35 @@
     $("[name='username']").val('{{ $user->username }}')
   }
 
+</script>
+{{-- signature --}}
+<script>
+  $(document).ready(function(){
+    var canvas = document.querySelector("canvas");
+
+    // Make it visually fill the positioned parent
+    canvas.style.width ='100%';
+    canvas.style.height='100%';
+    // ...then set the internal size to match
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight * 2;
+ 
+    var signaturePad = new SignaturePad(canvas);
+
+    $('[data-action="clear"]').click(function(){
+      signaturePad.clear();
+    });
+
+    $('#signature-form [type="submit"]').click(function(event){
+      event.preventDefault();
+      if (signaturePad.isEmpty()) {
+        alert("Please provide a signature first.");
+      } else {
+        var dataURL = signaturePad.toDataURL();
+        $('[name="user_signature"]').val(dataURL);
+        $('#signature-form').submit();
+      }
+    });
+  });
 </script>
 @endsection
