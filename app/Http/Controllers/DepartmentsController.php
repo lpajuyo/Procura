@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Department;
 use Illuminate\Http\Request;
 use App\Sector;
+use Validator;
 
 class DepartmentsController extends Controller
 {
@@ -40,7 +41,16 @@ class DepartmentsController extends Controller
      */
     public function store(Request $request)
     {
-        Department::create($request->all());
+        $validator = Validator::make($request->all(), [
+            'sector_id' => 'required|exists:sectors,id',
+            'name' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect('/departments')->withErrors($validator, 'create')->withInput();
+        }
+
+        Department::create($validator->valid());
 
         return back();
     }

@@ -68,7 +68,7 @@
 @endsection
  
 @section('modals')
-<!-- MODAL FOR ADD ITEM TYPE -->
+<!-- MODAL FOR ADD DEPARTMENT -->
 <div id="addyear" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -156,13 +156,20 @@
 </div> --}}
 @endsection
  
-{{-- @section('scripts') 
+@section('scripts') 
+<script>
+	$(document).ready(function(){
+		$("table").DataTable({
+			"order": []
+		});
+	});
+</script> 
 @if ($errors->create->any())
 <script>
 	$('#addyear').modal('show')
 </script>
 @endif
-@if ($errors->edit->any())
+{{-- @if ($errors->edit->any())
 <script>
 	$("#editbudgetyear form").attr('action', "{{ url('/budget_years') . '/' . session('id') }}"); //form action="example.com/budget_years/{id}"
 	$('#editbudgetyear').modal('show')
@@ -230,5 +237,5 @@ el.addEventListener('keyup', function (event) {
   this.value = this.value.replace(/\D/g, '')
                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 });
-</script> -->
-@endsection --}}
+</script> --> --}}
+@endsection
