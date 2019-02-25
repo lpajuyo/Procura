@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ItemType;
 use Illuminate\Http\Request;
+use Validator;
 
 class ItemTypesController extends Controller
 {
@@ -37,7 +38,15 @@ class ItemTypesController extends Controller
      */
     public function store(Request $request)
     {
-        ItemType::create($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' =>'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect('/item_types')->withErrors($validator, 'create')->withInput();
+        }
+
+        ItemType::create($validator->valid());
 
         return back();
     }
