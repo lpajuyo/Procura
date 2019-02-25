@@ -38,6 +38,10 @@ class PurchaseRequest extends Model
         return $totalPrCost;
     }
 
+    public function scopeApproved($query){
+        return $query->where('purchase_requests.is_approved', 1); 
+    }
+
     public function approve($remarks, $approved = true){
         $this->update(["is_approved" => $approved, "remarks" => $remarks]);
     }

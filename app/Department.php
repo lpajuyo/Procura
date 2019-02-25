@@ -13,7 +13,7 @@ class Department extends Model
         return $this->belongsToMany('App\SectorBudget', 'department_budgets', 'department_id', 'sector_budget_id')
                     ->using('App\DepartmentBudget')
                     ->as('budget')
-                    ->withPivot('fund_101', 'fund_164')
+                    ->withPivot('id', 'fund_101', 'fund_164')
                     ->withTimestamps();
     }
 
