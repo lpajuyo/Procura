@@ -126,7 +126,7 @@
             <ul class="collapse @yield('admin-dropdown-show')" id="collapseItem3">
               <li class="@yield('register')"> <a href="/register"> <p> REGISTER </p> </a> </li>
               <li class="@yield('user-active')"> <a href="{{ route('users.index') }}"> <p> USERS </p> </a> </li>
-              <li class="@yield('cse-active')"> <a href="{{ route('cse_items.create') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
+              <li class="@yield('cse-active')"> <a href="{{ route('cse_items.index') }}"> <p> COMMON SUPPLIES AND EQUIPMENT </p> </a> </li>
               <li class="@yield('type-active')"> <a href="{{ route('item_types.index') }}"> <p> ITEM TYPES </p> </a> </li>
               <li class="@yield('sector-active')"> <a href="{{ route('sectors.index') }}"> <p> SECTORS </p> </a> </li>
               <li class="@yield('dept-active')"> <a href="{{ route('departments.index') }}"> <p> DEPARTMENTS </p> </a> </li>
@@ -179,7 +179,7 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
 
-              <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
+              {{-- <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
                   <i class="nc-icon nc-bell-55 navicons"></i>
                   <span class="badge1" data-badge="3"></span>
@@ -209,7 +209,7 @@
                 </div>
               </li>
 
-              <span class="navline"></span>
+              <span class="navline"></span> --}}
 
               <li class="nav-item" style="padding-left: 0px;">
                 <a href="/settings" class="nav-link btn-rotate" href="#" rel="tooltip" title="Settings">
@@ -242,6 +242,7 @@
 <!-- ALLLLLLLLLLL MODALSSSSSSSSSS -->
 
 @yield('modals')
+@can('administer')
 <div id="pr-approver-modal" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -262,7 +263,7 @@
 					<div class="form-group">
             <label for="Users">Users:</label>
             <select class="form-control" name="pr_approver_id">
-              @foreach (App\User::all()->keyBy('id')->forget(1)->forget(Setting::get('pr_approver_id', 8)) as $user)
+              @foreach (App\User::all()->keyBy('id')->forget(1)->forget(Setting::get('pr_approver_id', 8))->filter(function($user, $key){ return $user->type->name != "Department Head"; }) as $user)
               <option value="{{ $user->id }}">{{ $user->name . ', ' . $user->position}}</option>
               @endforeach
             </select>
@@ -274,6 +275,7 @@
 		</div>
 	</div>
 </div>
+@endcan
 
   <script>
     $(document).ready(function() {

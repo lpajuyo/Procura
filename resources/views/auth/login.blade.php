@@ -65,7 +65,7 @@
 
 							<div class="col-lg-7 col-md-7 rightpanel">
 								<h4><strong> Better Procurement System. <br> Better Work Place. </strong></h4> <br>
-								<p style="font-size: 13px;">Lorem ipsum dolor sit amet, consectetur <br> adipiscing elit. Cras eros sem, laoreet quis <br> mollis vel, vestibulum in arcu.</p>	
+								{{-- <p style="font-size: 13px;">Lorem ipsum dolor sit amet, consectetur <br> adipiscing elit. Cras eros sem, laoreet quis <br> mollis vel, vestibulum in arcu.</p>	 --}}
 							</div>
 						</div>
 					</div>

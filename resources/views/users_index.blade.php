@@ -1,12 +1,8 @@
 @extends('bo_main') 
-@section('title', 'Users')
-
-<!-- 
-@section('brand', 'Budget Year') -->
-
-
+@section('title', 'Users') 
 @section('user-active', 'active') 
 @section('admin-dropdown-show', 'show')
+
 @section('content')
 <!-- 
 <h3 style="font-family:Montserrat; padding-top: 0;"> Budget Proposal History &nbsp; </h3> -->
@@ -17,9 +13,9 @@
 			<div class="card-body" style="margin-top: 5px;">
 				<div>
 					<p style="position: absolute; font-size: 25px;"> User List </p>
-					{{-- <button class="btn btn-default" style="right: 30px; position: absolute !important;" data-toggle="modal" data-target="#addyear">
-				  <i class="fa fa-plus"></i> &nbsp;Add user
-				</button> --}}
+					<a href="{{ route('register') }}" class="btn btn-default" style="right: 30px; position: absolute !important;">
+				  	<i class="fa fa-plus"></i> &nbsp;Add user
+					</a>
 				</div><br><br><br>
 				<div class="table-responsive" style="overflow: visible;">
 					<table class="table table-striped table-bordered">
@@ -27,8 +23,10 @@
 							<tr class=" text-primary">
 								<th>Username</th>
 								<th>Full Name</th>
+								<th>Position</th>
+								<th>Sector</th>
+								<th>Department</th>
 								<th>User Type</th>
-								<th>Sector/Department</th>
 								<th class="text-center">Action</th>
 							</tr>
 						</thead>
@@ -38,22 +36,21 @@
 							<tr>
 								<td>{{ $user->username }}</td>
 								<td>{{ $user->name }}</td>
+								<td>{{ $user->position }}</td>
+								<td>{{ $user->userable->sector->name ?? $user->userable->department->sector->name ?? ($user->type->name == 'Budget Officer'
+									? 'Administration and Finance' : '--') }}</td>
+								<td>{{ $user->userable->department->name ?? ($user->type->name == 'Budget Officer' ? 'Budget Office' : '--') }}</td>
 								<td>{{ $user->type->name }}</td>
-								<td>{{ $user->userable->sector->name ?? $user->userable->department->name ?? '' }}</td>
 								<td class="td-actions text-center">
-									{{-- @can('update', $user)
-									<button type="button" rel="tooltip" title="Edit Budget Year" class="btn btn-warning btn-simple btn-sm btnEditBudgetYear"
-									 data-year-id="{{ $user->id }}">
+									{{-- @can('update', $user) --}}
+									<button type="button" rel="tooltip" title="Edit User" class="btn btn-warning btn-simple btn-sm edit-user-btn" data-user-id="{{ $user->id }}">
 					                    <i class="fa fa-edit"></i>
-													</button>
-									@endcan				 --}}
-
-									{{-- @can('delete', $user) --}}
-									<button type="submit" form="{{ 'del-type-' . $user->id }}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-sm">
+													</button> {{-- @endcan --}} {{-- @can('delete', $user) --}}
+									<button type="submit" form="{{ 'del-type-' . $user->id }}" rel="tooltip" title="Delete User" class="btn btn-danger btn-simple btn-sm">
 										<i class="fa fa-times"></i>
 									</button>
 									<form style="display: none;" id="{{ 'del-type-' . $user->id }}" method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
-											@csrf @method('DELETE')
+										@csrf @method('DELETE')
 									</form>
 									{{-- @endcan --}}
 								</td>
@@ -72,55 +69,14 @@
 @endsection
  
 @section('modals')
-<!-- MODAL FOR ADD ITEM TYPE -->
-<div id="addyear" class="modal fade" role="dialog">
+<!-- MODAL FOR EDIT USER -->
+<div id="edit-user-modal" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 
 			<div class="modal-header" style="background-color: #f4f3ef;">
 				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
-					Add New User</p>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-
-			<div class="modal-body">
-				<form method="POST" action="{{ route('users.store') }}">
-					@csrf
-
-					<div class="form-group">
-						<label for="Status">Sector:</label>
-						<select name="sector_id" class="form-control" id="Status">
-
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="user Name">user Name:</label>
-						<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-					</div><br>
-
-					@if ($errors->create->any())
-					<div class="alert alert-danger" role="alert">
-						@foreach ($errors->create->all() as $error)
-						<p>{{ $error }}</p>
-						@endforeach
-					</div>
-					@endif
-
-					<button type="submit" class="btn btn-success btn-block">Save</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-{{-- <!-- MODAL FOR EDIT BUDGET YEAR -->
-<div id="editbudgetyear" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-
-			<div class="modal-header" style="background-color: #f4f3ef;">
-				<p class="modal-title text-center" style="color:#641E16; font-family:Montserrat; font-size:18px;">
-					Edit Budget Year</p>
+					Edit User</p>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
@@ -128,18 +84,18 @@
 				<form method="POST">
 					@csrf @method('PATCH')
 					<div class="form-group">
-						<label for="Year">Budget Year</label>
-						<input type="number" class="form-control" id="Year" name="budget_year" value="{{ session('year') }}" readonly>
+						<label>Username:</label>
+						<input type="text" class="form-control" placeholder="" value="{{ old('username') }}" name="username">
 					</div><br>
 
 					<div class="form-group">
-						<label for="Amount">Fund 101 Amount</label>
-						<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_101" value="{{ old('fund_101') }}">
+						<label>Full Name:</label>
+						<input type="text" class="form-control" placeholder="" value="{{ old('name') }}" name="name">
 					</div><br>
 
 					<div class="form-group">
-						<label for="Amount">Fund 164 Amount</label>
-						<input type="number" min="0" step=".01" class="form-control" id="Amount" name="fund_164" value="{{ old('fund_164') }}">
+						<label>Position:</label>
+						<input type="text" class="form-control" placeholder="" value="{{ old('position') }}" name="position">
 					</div><br>
 
 					@if ($errors->edit->any())
@@ -155,41 +111,43 @@
 			</div>
 		</div>
 	</div>
-</div> --}}
+</div>
 @endsection
  
-{{-- @section('scripts') 
-@if ($errors->create->any())
+@section('scripts')
 <script>
-	$('#addyear').modal('show')
+	$(document).ready(function(){
+		$("table").DataTable({
+			"order": []
+		});
+	});
 </script>
-@endif
 @if ($errors->edit->any())
 <script>
-	$("#editbudgetyear form").attr('action', "{{ url('/budget_years') . '/' . session('id') }}"); //form action="example.com/budget_years/{id}"
-	$('#editbudgetyear').modal('show')
+	$("#edit-user-modal form").attr('action', "{{ url('/users') . '/' . session('id') . '/admin' }}"); //form action="example.com/budget_years/{id}"
+	$('#edit-user-modal').modal('show')
 </script>
-@endif --}}
-
-{{-- <!-- Show edit budget year modal with appropriate input values -->
+@endif
+<!-- Show edit user modal with appropriate input values -->
 <script>
-	$('.btnEditBudgetYear').click(function(){
-		var id = $(this).attr('data-year-id');
+	$('.edit-user-btn').click(function(){
+		var id = $(this).attr('data-user-id');
 		var url = "{{ url()->current() }}" + "/" + id + "/edit"; //example.com/budget_years/{id}/edit
 		
 		$.ajax({
 			url: url, 
 			dataType: "json"
-		}).done(function(budgetYear){
-			$("#editbudgetyear [role=alert]").remove();
-			$("#editbudgetyear form").attr('action', url.replace("/edit", "")); //form action="example.com/budget_years/{id}"
-			$("#editbudgetyear [name=budget_year]").val(budgetYear.budget_year);
-			$("#editbudgetyear [name=fund_101]").val(budgetYear.fund_101);
-			$("#editbudgetyear [name=fund_164]").val(budgetYear.fund_164);
+		}).done(function(user){
+			$("#edit-user-modal [role=alert]").remove();
+			$("#edit-user-modal form").attr('action', url.replace("/edit", "/admin")); //form action="example.com/budget_years/{id}"
+			$("#edit-user-modal [name=username]").val(user.username);
+			$("#edit-user-modal [name=name]").val(user.name);
+			$("#edit-user-modal [name=position]").val(user.position);
 			
-			$('#editbudgetyear').modal();
+			$('#edit-user-modal').modal();
 		});
 	});
+
 </script>
 
 <!-- Put comma while typing numbers on budget year modal -->
@@ -233,4 +191,4 @@ el.addEventListener('keyup', function (event) {
                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 });
 </script> -->
-@endsection --}}
+@endsection

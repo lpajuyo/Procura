@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Sector;
 use Illuminate\Http\Request;
+use Validator;
 
 class SectorsController extends Controller
 {
@@ -37,7 +38,15 @@ class SectorsController extends Controller
      */
     public function store(Request $request)
     {
-        Sector::create($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' =>'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect('/sectors')->withErrors($validator, 'create')->withInput();
+        }
+        
+        Sector::create($validator->valid());
 
         return back();
     }

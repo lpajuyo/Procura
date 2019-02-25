@@ -51,7 +51,8 @@ class HomeController extends Controller
         $budgetYear = BudgetYear::active()->first();
 
         if($budgetYear){
-            $deptBudget = request()->user()->userable->department->isAllocated($budgetYear)->budget;
+            if(request()->user()->userable->department->isAllocated($budgetYear))
+                $deptBudget = request()->user()->userable->department->isAllocated($budgetYear)->budget;
 
             //purchases made calc (line chart)
             $purchaseRequests = request()->user()->purchase_requests()->approved()->get();
@@ -125,7 +126,8 @@ class HomeController extends Controller
         $budgetYear = BudgetYear::active()->first();
 
         if($budgetYear){
-            $sectorBudget = request()->user()->userable->sector->isAllocated($budgetYear)->budget;
+            if(request()->user()->userable->sector->isAllocated($budgetYear))
+                $sectorBudget = request()->user()->userable->sector->isAllocated($budgetYear)->budget;
 
             //annual budget (bar chart)
             $currentYear = Carbon::now()->year;

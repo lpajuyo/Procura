@@ -15,7 +15,7 @@ class CreateCommonUseItemsTable extends Migration
     {
         Schema::create('common_use_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('item_type_id');
+            $table->unsignedInteger('item_type_id')->nullable();
             $table->string('code');
             $table->string('description');
             $table->string('uom');
