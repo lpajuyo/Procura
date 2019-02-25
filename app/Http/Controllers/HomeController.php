@@ -85,9 +85,11 @@ class HomeController extends Controller
 
             //ppmp percentages
             $projects = request()->user()->projects()->where('budget_year_id', $budgetYear->id)->get();
-            $pendingPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', null)->count(), $projects->count(), 5), 100, 5);
-            $approvedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 1)->count(), $projects->count(), 5), 100, 5);
-            $rejectedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 0)->count(), $projects->count(), 5), 100, 5);
+            if($projects->count() != 0){
+                $pendingPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', null)->count(), $projects->count(), 5), 100, 5);
+                $approvedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 1)->count(), $projects->count(), 5), 100, 5);
+                $rejectedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 0)->count(), $projects->count(), 5), 100, 5);
+            }
         }
 
         return view('user_dashboard', compact('budgetYear', 'deptBudget', 'purchasesMade', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));

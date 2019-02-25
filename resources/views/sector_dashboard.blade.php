@@ -406,9 +406,9 @@ $(document).ready(function() {
 <!-------  BAR CHART -------->
 <script>
   var data = {
-    labels: @json($yearLabels),
-      series: [
-      @json($yearAmounts)
+    labels: @if(isset($yearLabels)) @json($yearLabels) @else [] @endif,
+    series: [
+      @if(isset($yearAmounts)) @json($yearAmounts) @else [] @endif
     ]
   };
 

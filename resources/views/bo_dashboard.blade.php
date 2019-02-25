@@ -408,9 +408,9 @@ $(document).ready(function() {
 <!-------  BAR CHART -------->
 <script>
   var data = {
-    labels: @json($yearLabels),
-      series: [
-      @json($yearAmounts)
+    labels: @if(isset($yearLabels)) @json($yearLabels) @else [] @endif,
+    series: [
+      @if(isset($yearAmounts)) @json($yearAmounts) @else [] @endif
     ]
   };
 
@@ -469,7 +469,7 @@ new Chartist.Pie('.ct-chart-pie', data,{
 <!-------  PROGRESS BAR -------->
 <!-------  APPROVED -------->
 <script>
-  var newvalue = {{ number_format($approvedPercentage) }};
+  var newvalue = {{ isset($approvedPercentage) ? number_format($approvedPercentage) : '0' }};
   var bar = new ProgressBar.Circle(circle_approved, {
   color: '#6bd098',
   strokeWidth: 6,
@@ -505,7 +505,7 @@ bar.animate(newvalue / 100);  // Number from 0.0 to 1.0
 
 <!-------  PENDING -------->
 <script>
-  var newvalue = {{ number_format($pendingPercentage) }};
+  var newvalue = {{ isset($pendingPercentage) ? number_format($pendingPercentage) : '0' }};
   var bar = new ProgressBar.Circle(circle_pending, {
   color: '#fbc658',
   strokeWidth: 6,
@@ -541,7 +541,7 @@ bar.animate(newvalue / 100);
 
 <!-------  REJECTED -------->
 <script>
-  var newvalue = {{ number_format($rejectedPercentage) }};
+  var newvalue = {{ isset($rejectedPercentage) ? number_format($rejectedPercentage) : '0'}};
   var bar = new ProgressBar.Circle(circle_rejected, {
   color: '#ef8157',  
   strokeWidth: 6,
