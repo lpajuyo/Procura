@@ -63,7 +63,7 @@ class ProjectItemsController extends Controller
                 'required', 
                 'array', 
                 function($attr, $val, $fail){
-                    if(!Collection::wrap($val)->sum('quantity') == request()->quantity)
+                    if(Collection::wrap($val)->sum('quantity') != request()->quantity)
                         $fail('Total schedules quantity should be equal to the quantity field.');
                 },
                 function($attr, $val, $fail){
