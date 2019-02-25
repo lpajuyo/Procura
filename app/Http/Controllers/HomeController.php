@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BudgetYear;
 use Carbon\Carbon;
+use App\BudgetProposal;
 
 class HomeController extends Controller
 {
@@ -30,7 +31,8 @@ class HomeController extends Controller
                 return $this->viewUserDashboard();
                 break;
             case "Budget Officer":
-                return view('bo_dashboard');
+                return $this->viewBoDashboard();
+                break;
             case "Sector Head":
                 return view('sector_dashboard');
             case "Admin":
@@ -86,5 +88,30 @@ class HomeController extends Controller
         }
 
         return view('user_dashboard', compact('budgetYear', 'deptBudget', 'purchasesMade', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));
+    }
+
+    public function viewBoDashboard()
+    {
+        $budgetYear = BudgetYear::active()->first();
+
+        if($budgetYear){
+            //annual budget (bar chart)
+            $currentYear = Carbon::now()->year;
+            for($i = $currentYear - 6; $i <= $currentYear; $i++){
+                $yearLabels[] = $i;
+                if(BudgetYear::where('budget_year', $i)->first() != null)
+                    $yearAmounts[] = BudgetYear::where('budget_year', $i)->first()->total();
+                else
+                    $yearAmounts[] = 0;
+            }
+
+            //budget proposals
+            $budgetProposals = BudgetProposal::where('for_year', $budgetYear->budget_year)->get();
+            $pendingPercentage = bcmul(bcdiv($budgetProposals->whereStrict('is_approved', null)->count(), $budgetProposals->count(), 5), 100, 5);
+            $approvedPercentage = bcmul(bcdiv($budgetProposals->whereStrict('is_approved', 1)->count(), $budgetProposals->count(), 5), 100, 5);
+            $rejectedPercentage = bcmul(bcdiv($budgetProposals->whereStrict('is_approved', 0)->count(), $budgetProposals->count(), 5), 100, 5);
+        }
+
+        return view('bo_dashboard', compact('budgetYear', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));
     }
 }

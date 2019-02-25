@@ -72,7 +72,7 @@
             <div class="numbers">
               <p class="card-category">Total Budget</p>
               <p class="card-title">
-                &#8369; {{ (isset($deptBudget)) ? number_format($deptBudget->total, 2) : '--' }}
+                &#8369;{{ (isset($deptBudget)) ? number_format($deptBudget->total, 2) : '--' }}
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@
             <div class="numbers">
               <p class="card-category">Budget Left</p>
               <p class="card-title">
-                  &#8369; {{ (isset($deptBudget)) ? number_format($deptBudget->remaining, 2) : '--' }}
+                  &#8369;{{ (isset($deptBudget)) ? number_format($deptBudget->remaining, 2) : '--' }}
               </p>
             </div>
           </div>
