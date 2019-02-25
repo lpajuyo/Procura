@@ -28,6 +28,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $withCount = ['budget_proposals', 'projects', 'purchase_requests'];
+
     public function type(){
         return $this->belongsTo('App\UserType', 'user_type_id');
     }

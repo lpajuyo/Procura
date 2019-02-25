@@ -17,12 +17,16 @@ class SectorBudget extends Pivot
     public function allocatedDepartments(){
         return $this->belongsToMany('App\Department', 'department_budgets', 'sector_budget_id', 'department_id')
                     ->using('App\DepartmentBudget')
-                    ->withPivot('fund_101', 'fund_164')
+                    ->withPivot('id', 'fund_101', 'fund_164')
                     ->withTimestamps();
     }
 
     public function sector(){
         return $this->belongsTo('App\Sector');
+    }
+
+    public function budget_year(){
+        return $this->belongsTo('App\BudgetYear');
     }
 
     public function getRemainingFund101Attribute(){

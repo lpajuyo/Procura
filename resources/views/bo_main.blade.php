@@ -70,7 +70,7 @@
           <li class="@yield('dashboard-active')">
             <a href="/home">
               <i class="nc-icon nc-layout-11"></i>
-              <p>Welcome</p>
+              <p>Dashboard</p>
             </a>  
           </li>
           @if(Auth::user()->can('viewBudgetProposals', App\BudgetProposal::class) || Auth::user()->can('viewBudgetYears', App\BudgetYear::class) || Auth::user()->can('viewBudgetAlloc'))
@@ -179,7 +179,7 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
 
-              {{-- <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
+              <li class="nav-item btn-rotate dropdown" style="padding: 0px; margin: 0px; left: 0;">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="Notifications">
                   <i class="nc-icon nc-bell-55 navicons"></i>
                   <span class="badge1" data-badge="3"></span>
@@ -209,7 +209,7 @@
                 </div>
               </li>
 
-              <span class="navline"></span> --}}
+              <span class="navline"></span>
 
               <li class="nav-item" style="padding-left: 0px;">
                 <a href="/settings" class="nav-link btn-rotate" href="#" rel="tooltip" title="Settings">
