@@ -30,6 +30,7 @@
   <script src="{{ asset('/js/sweetalert2.js') }}"></script>
   <script src="{{ asset('/pd/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('/pd/js/core/bootstrap.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
   {{-- <!-- <script src="{{'public/js/plugins/perfect-scrollbar.jquery.min.js'}}"></script> --> --}}
   <!--  Google Maps Plugin    -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->

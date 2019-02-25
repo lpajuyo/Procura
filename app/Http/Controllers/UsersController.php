@@ -153,9 +153,26 @@ class UsersController extends Controller
     }
 
     public function updateSignature(Request $request, User $user){
-        $path = Storage::disk('public')->putFile('user_signatures', $request->file('user_image'));
+        // $path = Storage::disk('public')->putFile('user_signatures', $request->file('user_image'));
 
-        $user->update(['user_signature' => $path]);
+        // $user->update(['user_signature' => $path]);
+
+        // dd($request->all());
+        $encoded_image = explode(",", $request->user_signature)[1];
+        $decoded_image = base64_decode($encoded_image);
+
+        if(Auth::user()->user_signature == null){
+            $fileName = Auth::user()->id . '.1' . '.png';
+        }
+        else {
+            $signNumber = explode('.', Auth::user()->user_signature)[1];
+            $fileName = Auth::user()->id . '.' . ++$signNumber . '.png';
+        }
+
+        // dd($fileName);
+
+        Storage::disk('public')->put('user_signatures/'.$fileName, $decoded_image);
+        $user->update(['user_signature' => 'user_signatures/'.$fileName]);
 
         return back();
     }
