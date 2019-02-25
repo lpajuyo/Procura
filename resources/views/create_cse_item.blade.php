@@ -20,9 +20,9 @@
 
 				<!-- <div class="row">
 					<div class="col-lg-12"> -->
-				<form method="POST" action="{{ route('cse_items.store') }}" enctype="multipart/form-data">
+				<form method="POST" action="{{ route('cse_items.storeByFile') }}" enctype="multipart/form-data">
 					@csrf
-					<div class="row" style="padding:0px 30px 5px 30px;">
+					{{-- <div class="row" style="padding:0px 30px 5px 30px;">
 						<div class="col">
 							<div class="form-group">
 								<label for="Item Type">Item Type:</label>
@@ -34,7 +34,7 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> --}}
 
 					<div class="row" style="padding:0px 30px 5px 30px;">
 						<div class="col">
