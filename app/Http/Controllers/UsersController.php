@@ -170,7 +170,8 @@ class UsersController extends Controller
     {
         $this->authorize('administer');
 
-        $user->userable->delete();
+        if($user->userable != null)
+            $user->userable->delete();
 
         $user->delete();
 
