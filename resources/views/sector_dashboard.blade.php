@@ -1,132 +1,129 @@
 @extends('bo_main') 
-
-@section('title', 'Dashboard')
-
-@section('dashboard-active', 'active')
-
-@section('brand')
-  
-  Dashboard
-
+@section('title', 'Dashboard') 
+@section('dashboard-active', 'active') 
+@section('brand') Dashboard
 @endsection
 
+
 @section('content')
-<!--   <div class="row">
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="lnr lnr-calendar-full text-warning"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Budget Year</p>
-                      <p class="card-title">2017
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-refresh"></i>Active Budget Year
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-money-coins text-success"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Total Budget</p>
-                      <p class="card-title">$ 1,345
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-calendar-o"></i> Budget of your Department
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="lnr lnr-cart text-danger"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Budget Left</p>
-                      <p class="card-title">23
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-clock-o"></i> Department's Remaining Budget
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-       <!--  danger: #ef8157
-        warning: #fbc658
-        success: #6bd098 
-        info: #51bcda
-        primary: #51cbce  -->
-
 <div class="card cardmod" style="margin: 0px 0px 0px 10px;">
   <div class="card-body">
 
-      <div class="row" style="padding: 5px;">
+    <div class="row" style="padding: 5px;">
 
-        <div class="col-lg-9">
-            <div class="welcome"> Welcome to Procura! </div>
-            <span class="tagline"> Better Procurement System. Better Workplace.</span>
-        </div>
-
-        <div class="col-lg-3">
-          <div id="fulldate" style="font-size: 15px;"></div>
-          <span id="hour" class="clockbg"></span>
-          <span style="font-size: 30px;">:</span>
-          <span id="minute"class="clockbg2"></span>
-          <span style="font-size: 30px;">:</span>
-          <span id="second" class="clockbg3"></span> &nbsp;
-          <span id="sufx" style="font-size: 23px;" class="text-info"> </span>
-        </div>
-
+      <div class="col-lg-9">
+        <div class="welcome"> Welcome to Procura! </div>
+        <span class="tagline"> Better Procurement System. Better Workplace.</span>
       </div>
+
+      <div class="col-lg-3">
+        <div id="fulldate" style="font-size: 15px;"></div>
+        <span id="hour" class="clockbg"></span>
+        <span style="font-size: 30px;">:</span>
+        <span id="minute" class="clockbg2"></span>
+        <span style="font-size: 30px;">:</span>
+        <span id="second" class="clockbg3"></span> &nbsp;
+        <span id="sufx" style="font-size: 23px;" class="text-info"> </span>
+      </div>
+
+    </div>
 
   </div>
 </div>
 
-<!------------  FIRST ROW --------------->
-
 <div class="row" style="margin: 20px 0px 0px 10px;">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body ">
+          <div class="row">
+            <div class="col-5 col-md-4">
+              <div class="icon-big text-center icon-warning">
+                <i class="lnr lnr-calendar-full text-warning"></i>
+              </div>
+            </div>
+            <div class="col-7 col-md-8">
+              <div class="numbers">
+                <p class="card-category">Budget Year</p>
+                <p class="card-title">{{ $budgetYear->budget_year ?? '--' }}
+                  <p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer ">
+          <hr>
+          <div class="stats">
+            <i class="fa fa-refresh"></i>Active Budget Year
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body ">
+          <div class="row">
+            <div class="col-5 col-md-4">
+              <div class="icon-big text-center icon-warning">
+                <i class="nc-icon nc-money-coins text-success"></i>
+              </div>
+            </div>
+            <div class="col-7 col-md-8">
+              <div class="numbers">
+                <p class="card-category">Total Budget</p>
+                <p class="card-title">
+                    &#8369;{{ (isset($sectorBudget)) ? number_format($sectorBudget->total(), 2) : '--' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer ">
+          <hr>
+          <div class="stats">
+            <i class="fa fa-calendar-o"></i> Budget of your Sector
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-body ">
+          <div class="row">
+            <div class="col-5 col-md-4">
+              <div class="icon-big text-center icon-warning">
+                <i class="lnr lnr-cart text-danger"></i>
+              </div>
+            </div>
+            <div class="col-7 col-md-8">
+              <div class="numbers">
+                <p class="card-category">Budget Left</p>
+                <p class="card-title">
+                    &#8369;{{ (isset($sectorBudget)) ? number_format($sectorBudget->remaining(), 2) : '--' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer ">
+          <hr>
+          <div class="stats">
+            <i class="fa fa-clock-o"></i> Sector's Remaining Budget
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  danger: #ef8157
+          warning: #fbc658
+          success: #6bd098 
+          info: #51bcda
+          primary: #51cbce  -->
+
+{{-- <!------------  FIRST ROW --------------->
+
+<div class="row" style="margin: 5px 0px 0px 10px;">
   <div class="col-lg-4">
 
     <div class="row">
@@ -155,10 +152,10 @@
 
   <div class="col-lg-8 card" style="margin-left: 0px; padding: 25px 10px 5px 5px;">
     <div style="margin: 0px 0px 10px 15px; font-size: 17px;"> Purchases Made </div>
-      <div class="ct-chart-line"></div>
+    <div class="ct-chart-line"></div>
   </div>
 
-</div>
+</div> --}}
 
 
 <!------------  SECOND ROW --------------->
@@ -188,13 +185,13 @@
 
     <div class="row">
       <div class="col-lg-6" style="padding-right: 0px; margin-right: 0px;">
-        <div id="circle_pending" class="mediumbox card"> 
+        <div id="circle_pending" class="mediumbox card">
           <div class="text-warning progresstext2"> Pending </div>
         </div>
       </div>
 
       <div class="col-lg-6" style="padding-right: 0px; margin-right: 0px;">
-        <div id="circle_rejected" class="mediumbox card"> 
+        <div id="circle_rejected" class="mediumbox card">
           <div class="text-danger progresstext3"> Rejected </div>
         </div>
       </div>
@@ -204,7 +201,7 @@
 
 </div>
 
-<!------------  THIRD ROW --------------->
+{{-- <!------------  THIRD ROW --------------->
 
 <div class="row">
   <div class="col-lg-6" style="margin: 5px 0px 0px 0px; padding-left:25px !important;">
@@ -218,13 +215,13 @@
       <div class="card-footer ">
         <hr>
         <div class="legend">
-            <span class="legend-name">
+          <span class="legend-name">
                <i class="fa fa-circle text-primary"></i> Goods
             </span>
-            <span class="legend-name">
+          <span class="legend-name">
                <i class="fa fa-circle text-warning"></i> Infrastructures
             </span>
-            <span class="legend-name">
+          <span class="legend-name">
                <i class="fa fa-circle text-danger"></i> Consultancy
             </span>
         </div>
@@ -233,7 +230,7 @@
     </div>
   </div>
 
-  <div class="col-lg-6"  style="margin: 5px 0px 0px 0px;">
+  <div class="col-lg-6" style="margin: 5px 0px 0px 0px;">
     <div class="card updates" style="border-radius: 5px !important;">
       <div class="card-body" style="margin-bottom: 0px; padding-bottom: 0px;">
         <div style="margin: 2px 6px 15px 6px; font-size: 17px;"> Recent Activity </div>
@@ -246,17 +243,15 @@
       </div>
 
       <div class="card-footer ">
-          <hr>
-          <i class="fa fa-history"></i> Updated 3 minutes ago
+        <hr>
+        <i class="fa fa-history"></i> Updated 3 minutes ago
       </div>
     </div>
   </div>
-  
-</div>
 
-
+</div> --}}
 @endsection
-
+ 
 @section('scripts')
 
 
@@ -264,17 +259,19 @@
   $(document).ready(function() {
     $('.welcome').toggleClass('show');
   });
+
 </script>
 
 <script>
   $(document).ready(function() {
     $('.ppmpicon').toggleClass('ppmpiconshow');
   });
+
 </script>
 
 <!-------  TYPE EFFECT -------->
 <script>
-function typeEffect(element, speed) {
+  function typeEffect(element, speed) {
 var text = $(element).text();
 $(element).html('');
   
@@ -298,12 +295,12 @@ $(document).ready(function() {
     typeEffect($('.tagline'), speed);
   }, 1500);
 });
+
 </script>
 
 
 <!-------  TIME WIDGET -------->
 <script type="text/javascript">
-
   function rtdate(){
     var current = new Date(),
     hours = current.getHours(),
@@ -403,16 +400,31 @@ $(document).ready(function() {
   };
 
   new Chartist.Line('.ct-chart-line', data, options);
+
 </script>
 
 <!-------  BAR CHART -------->
 <script>
-var data = {
-    labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+  var data = {
+    labels: @json($yearLabels),
       series: [
-      [5, 4, 3, 7, 5, 10, 3]
+      @json($yearAmounts)
     ]
   };
+
+  var yLabels = [
+    '',
+    '50k',
+    '100k',
+    '150k',
+    '200k',
+    '250k',
+    '300k',
+    '350k',
+    '400k',
+    '450k',
+    '500k'
+  ];
 
   var options = {
     fullWidth: true,
@@ -422,14 +434,23 @@ var data = {
       showGrid: false,
     },
 
+    axisY:{
+      low: 100000,
+      high: 500000,
+      labelInterpolationFnc: function(value, index) {
+        return yLabels[index];
+      },
+    }
+
   };
 
 new Chartist.Bar('.ct-chart-bar', data, options);
+
 </script>
 
 <!-------  LINE CHART -------->
 <script>
-var data = {
+  var data = {
   series: [40,21,39]
 };
 
@@ -440,13 +461,14 @@ new Chartist.Pie('.ct-chart-pie', data,{
     return Math.round(value / data.series.reduce(sum) * 100) + '%';
   }
 });
+
 </script>
 
 
 <!-------  PROGRESS BAR -------->
 <!-------  APPROVED -------->
 <script>
-  var newvalue = 52;
+  var newvalue = {{ isset($approvedPercentage) ? number_format($approvedPercentage) : '0' }};
   var bar = new ProgressBar.Circle(circle_approved, {
   color: '#6bd098',
   strokeWidth: 6,
@@ -476,12 +498,13 @@ bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 bar.text.style.fontSize = '1.5rem';
 
 bar.animate(newvalue / 100);  // Number from 0.0 to 1.0
+
 </script>
 
 
 <!-------  PENDING -------->
 <script>
-  var newvalue = 29;
+  var newvalue = {{ isset($pendingPercentage) ? number_format($pendingPercentage) : '0' }};
   var bar = new ProgressBar.Circle(circle_pending, {
   color: '#fbc658',
   strokeWidth: 6,
@@ -511,12 +534,13 @@ bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 bar.text.style.fontSize = '1.5rem';
 
 bar.animate(newvalue / 100);
+
 </script>
 
 
 <!-------  REJECTED -------->
 <script>
-  var newvalue = 19;
+  var newvalue = {{ isset($rejectedPercentage) ? number_format($rejectedPercentage) : '0'}};
   var bar = new ProgressBar.Circle(circle_rejected, {
   color: '#ef8157',  
   strokeWidth: 6,
@@ -546,9 +570,8 @@ bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 bar.text.style.fontSize = '1.5rem';
 
 bar.animate(newvalue / 100);
+
 </script>
 
 <!-------  END OF PROGRESS BAR -------->
-
-
 @endsection

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\BudgetYear;
 use Carbon\Carbon;
 use App\BudgetProposal;
+use App\Project;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -34,7 +36,8 @@ class HomeController extends Controller
                 return $this->viewBoDashboard();
                 break;
             case "Sector Head":
-                return view('sector_dashboard');
+                return $this->viewSectorDashboard();
+                break;
             case "Admin":
                 return view('admin_dashboard');
             default:
@@ -113,5 +116,41 @@ class HomeController extends Controller
         }
 
         return view('bo_dashboard', compact('budgetYear', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));
+    }
+
+    public function viewSectorDashboard()
+    {
+        $budgetYear = BudgetYear::active()->first();
+
+        if($budgetYear){
+            $sectorBudget = request()->user()->userable->sector->isAllocated($budgetYear)->budget;
+
+            //annual budget (bar chart)
+            $currentYear = Carbon::now()->year;
+            for($i = $currentYear - 6; $i <= $currentYear; $i++){
+                $yearLabels[] = $i;
+                if(BudgetYear::where('budget_year', $i)->first() != null){
+                    if(request()->user()->userable->sector->isAllocated(BudgetYear::where('budget_year', $i)->first()))
+                        $yearAmounts[] = request()->user()->userable->sector->isAllocated(BudgetYear::where('budget_year', $i)->first())->budget->total();
+                    else
+                        $yearAmounts[] = 0;
+                }
+                else
+                    $yearAmounts[] = 0;
+            }
+
+            //ppmp percentages
+            $projects = Project::all();
+            $projects = $projects->filter(function($project){
+                return $project->approver->id == Auth::user()->id;
+            });
+            if($projects->count() != 0){
+                $pendingPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', null)->count(), $projects->count(), 5), 100, 5);
+                $approvedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 1)->count(), $projects->count(), 5), 100, 5);
+                $rejectedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 0)->count(), $projects->count(), 5), 100, 5);
+            }
+        }
+
+        return view('sector_dashboard', compact('budgetYear', 'sectorBudget', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));
     }
 }
