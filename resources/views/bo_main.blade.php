@@ -242,6 +242,7 @@
 <!-- ALLLLLLLLLLL MODALSSSSSSSSSS -->
 
 @yield('modals')
+@can('administer')
 <div id="pr-approver-modal" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -262,7 +263,7 @@
 					<div class="form-group">
             <label for="Users">Users:</label>
             <select class="form-control" name="pr_approver_id">
-              @foreach (App\User::all()->keyBy('id')->forget(1)->forget(Setting::get('pr_approver_id', 8)) as $user)
+              @foreach (App\User::all()->keyBy('id')->forget(1)->forget(Setting::get('pr_approver_id', 8))->filter(function($user, $key){ return $user->type->name != "Department Head"; }) as $user)
               <option value="{{ $user->id }}">{{ $user->name . ', ' . $user->position}}</option>
               @endforeach
             </select>
@@ -274,6 +275,7 @@
 		</div>
 	</div>
 </div>
+@endcan
 
   <script>
     $(document).ready(function() {
