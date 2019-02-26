@@ -113,9 +113,11 @@ class HomeController extends Controller
 
             //budget proposals
             $budgetProposals = BudgetProposal::where('for_year', $budgetYear->budget_year)->get();
+            if($budgetProposals->count() != 0){
             $pendingPercentage = bcmul(bcdiv($budgetProposals->whereStrict('is_approved', null)->count(), $budgetProposals->count(), 5), 100, 5);
             $approvedPercentage = bcmul(bcdiv($budgetProposals->whereStrict('is_approved', 1)->count(), $budgetProposals->count(), 5), 100, 5);
             $rejectedPercentage = bcmul(bcdiv($budgetProposals->whereStrict('is_approved', 0)->count(), $budgetProposals->count(), 5), 100, 5);
+            }
         }
 
         return view('bo_dashboard', compact('budgetYear', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));
