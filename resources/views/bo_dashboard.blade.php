@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<div class="row" style="margin: 20px 0px 0px 10px;">
+<div class="row" style="margin: 20px 0px 0px 0px;">
   <div class="col-lg-4 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body ">
