@@ -121,7 +121,7 @@
 
 {{-- <!------------  FIRST ROW --------------->
 
-<div class="row" style="margin: 20px 0px 0px 10px;">
+<div class="row" style="margin: 20px 0px 0px 0px;">
   <div class="col-lg-4">
 
     <div class="row">

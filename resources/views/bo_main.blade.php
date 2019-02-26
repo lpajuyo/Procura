@@ -59,7 +59,7 @@
     -->
       <div class="logo">
         <div class="user-account">
-          <img src="{{ asset('storage/'.Auth::user()->user_image) }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture">
+          <img src="{{ asset('storage/'.Auth::user()->user_image) }}" class="img-responsive rounded-circle user-photo" alt="User Profile Picture" style="height: 180px; width: 180px;">
           <br>
           <h6 class="user-name" style="margin-bottom: 0px; padding-bottom: 0px; margin-top: 10px; padding-top: 10px;"> 
             <strong> {{ Auth::user()->name }} </strong> </h6>  
