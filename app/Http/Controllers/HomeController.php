@@ -19,6 +19,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        error_reporting(0);
     }
 
     /**
@@ -40,6 +41,8 @@ class HomeController extends Controller
                 break;
             case "Admin":
                 return view('admin_dashboard');
+            case "BAC Secretariat":
+                return view('bac_dashboard');
             default:
                 return view('user_dashboard');
         }
@@ -48,11 +51,14 @@ class HomeController extends Controller
 
     public function viewUserDashboard()
     {
+        // error_reporting(0);
         $budgetYear = BudgetYear::active()->first();
 
         if($budgetYear){
             if(request()->user()->userable->department->isAllocated($budgetYear))
                 $deptBudget = request()->user()->userable->department->isAllocated($budgetYear)->budget;
+            else
+                $deptBudget = null;
 
             //purchases made calc (line chart)
             $purchaseRequests = request()->user()->purchase_requests()->approved()->get();
@@ -91,6 +97,10 @@ class HomeController extends Controller
                 $approvedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 1)->count(), $projects->count(), 5), 100, 5);
                 $rejectedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 0)->count(), $projects->count(), 5), 100, 5);
             }
+            else
+                $pendingPercentage = null;
+                $approvedPercentage = null;
+                $rejectedPercentage = null;
         }
 
         return view('user_dashboard', compact('budgetYear', 'deptBudget', 'purchasesMade', 'yearLabels', 'yearAmounts', 'pendingPercentage', 'approvedPercentage', 'rejectedPercentage'));
@@ -133,7 +143,7 @@ class HomeController extends Controller
 
             //annual budget (bar chart)
             $currentYear = Carbon::now()->year;
-            for($i = $currentYear - 6; $i <= $currentYear; $i++){
+            for($i = $currentYear; $i <= $currentYear + 6; $i++){
                 $yearLabels[] = $i;
                 if(BudgetYear::where('budget_year', $i)->first() != null){
                     if(request()->user()->userable->sector->isAllocated(BudgetYear::where('budget_year', $i)->first()))
@@ -146,7 +156,7 @@ class HomeController extends Controller
             }
 
             //ppmp percentages
-            $projects = Project::all();
+            $projects = Project::where('budget_year_id', $budgetYear->id)->where('submitted_at', '!=', null)->get();
             $projects = $projects->filter(function($project){
                 return $project->approver->id == Auth::user()->id;
             });
@@ -154,6 +164,7 @@ class HomeController extends Controller
                 $pendingPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', null)->count(), $projects->count(), 5), 100, 5);
                 $approvedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 1)->count(), $projects->count(), 5), 100, 5);
                 $rejectedPercentage = bcmul(bcdiv($projects->whereStrict('is_approved', 0)->count(), $projects->count(), 5), 100, 5);
+
             }
         }
 

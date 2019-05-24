@@ -58,7 +58,7 @@ class ProjectItemsController extends Controller
             'uom' => 'required|string', // exists? || in:array?
             'unit_cost' => 'bail|required|numeric|min:1',  
             'estimated_budget' => 'bail|required|numeric|min:1|gte:unit_cost', //between 0 and dept budget
-            'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
+            'procurement_mode' => 'required|string',   //exists:procurement_modes?
             'schedules' => [
                 'required', 
                 'array', 
@@ -140,7 +140,7 @@ class ProjectItemsController extends Controller
             'uom' => 'required|string', // exists? || in:array?
             'unit_cost' => 'bail|required|numeric|min:1',  
             'estimated_budget' => 'bail|required|numeric|min:1|gte:unit_cost', //between 0 and dept budget
-            'procurement_mode' => 'nullable|string',   //exists:procurement_modes?
+            'procurement_mode' => 'required|string',   //exists:procurement_modes?
             'schedules' => [
                 'required', 
                 'array', 

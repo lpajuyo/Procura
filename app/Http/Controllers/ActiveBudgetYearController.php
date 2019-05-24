@@ -14,6 +14,7 @@ class ActiveBudgetYearController extends Controller
 {
     public function __invoke(BudgetYear $budgetYear)
     {
+        // error_reporting(0);     
         $this->authorize('activate', $budgetYear);
 
         $budgetYear->activate();
@@ -22,12 +23,12 @@ class ActiveBudgetYearController extends Controller
 
         Notification::send(User::where('id', '!=', request()->user()->id)->get(), new BudgetYearActivated());
 
-        foreach($budgetYear->allocatedSectors as $sector){
-            Notification::send($sector->head->user, new SectorBudgetAllocated());
+        foreach($budgetYear->allocatedSectors()->has('head')->get() as $sector){
+                Notification::send($sector->head->user, new SectorBudgetAllocated());
         }
 
-        foreach($budgetYear->departmentBudgets as $deptBudget){
-            Notification::send($deptBudget->department->head->user, new DepartmentBudgetAllocated());
+        foreach($budgetYear->departmentBudgets()->has('department.head')->get() as $deptBudget){
+                Notification::send($deptBudget->department->head->user, new DepartmentBudgetAllocated());
         }
 
         return redirect()->route('budget_years.index');
